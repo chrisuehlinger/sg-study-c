@@ -21,16 +21,22 @@
       dataType: 'application/json',
       beforeSend: function() {
         console.log("Submitting");
+        document.getElementById('recovery-submit').disabled = true;
+        document.getElementById('recovery-email-input').disabled = true;
         return $('#recovery-message').text("Submitting...");
       },
       success: function(data) {
         var response;
         console.log("Received");
         response = JSON.parse(data);
+        document.getElementById('recovery-submit').disabled = false;
+        document.getElementById('recovery-email-input').disabled = false;
         return $('#recovery-message').text(response.message);
       },
       error: function() {
         console.log("Error");
+        document.getElementById('recovery-submit').disabled = false;
+        document.getElementById('recovery-email-input').disabled = false;
         return $('#recovery-message').text("Site Error: " + textStatus + " - " + errorThrown);
       }
     });

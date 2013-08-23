@@ -41,7 +41,8 @@
         type: 'POST',
         data: {
           'action': 'check',
-          'code': myCodeMirror.getValue()
+          'code': myCodeMirror.getValue(),
+          'input': $('#input').text()
         },
         dataType: 'application/json',
         beforeSend: beforeSubmit,
@@ -53,6 +54,9 @@
   });
 
   beforeSubmit = function() {
+    document.getElementById('submit-test').disabled = true;
+    document.getElementById('submit-check').disabled = true;
+    document.getElementById('input').disabled = true;
     $('#output').hide();
     $('#cmpinfo').hide();
     return $('#message').text("Submitting...");
@@ -69,10 +73,16 @@
       $('#output').show();
       $('#output').find('div.code').html(response.output);
     }
+    document.getElementById('submit-test').disabled = false;
+    document.getElementById('submit-check').disabled = false;
+    document.getElementById('input').disabled = false;
     return $('#message').html(response.message);
   };
 
   receiveError = function(jqXHR, textStatus, errorThrown) {
+    document.getElementById('submit-test').disabled = false;
+    document.getElementById('submit-check').disabled = false;
+    document.getElementById('input').disabled = false;
     return $('#message').text("Site Error: " + textStatus + " - " + errorThrown);
   };
 

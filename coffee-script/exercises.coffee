@@ -31,7 +31,7 @@ $(document).ready ->
     request = $.ajax 
       url: document.URL
       type: 'POST'
-      data: {'action':'check', 'code': myCodeMirror.getValue()}
+      data: {'action':'check', 'code': myCodeMirror.getValue(), 'input':$('#input').text() }
       dataType: 'application/json'
       beforeSend: beforeSubmit
       success: receiveResponse
@@ -41,6 +41,9 @@ $(document).ready ->
 
 #AJAX methods
 beforeSubmit = ->
+  document.getElementById('submit-test').disabled = true
+  document.getElementById('submit-check').disabled = true
+  document.getElementById('input').disabled = true
   $('#output').hide()
   $('#cmpinfo').hide()
   $('#message').text "Submitting..."
@@ -57,9 +60,15 @@ receiveResponse = (data) ->
   if response.output?
     $('#output').show()
     $('#output').find('div.code').html response.output 
+  document.getElementById('submit-test').disabled = false
+  document.getElementById('submit-check').disabled = false
+  document.getElementById('input').disabled = false
   $('#message').html response.message 
 
 receiveError = (jqXHR, textStatus, errorThrown) ->
+  document.getElementById('submit-test').disabled = false
+  document.getElementById('submit-check').disabled = false
+  document.getElementById('input').disabled = false
   $('#message').text "Site Error: #{textStatus} - #{errorThrown}"
 
 highlightLine = (lineNumber) ->

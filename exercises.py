@@ -107,20 +107,22 @@ class ExerciseChecker(utils.Model):
 		response = dict()
 		for i in self.inputs:
 			response = client.submit(submission, i)
-			expected_output = self.outputs[self.inputs.index(i)]
+			expected_output = string.replace(self.outputs[self.inputs.index(i)], '\n', '')
 
 			if response['error'] != "OK" or int(response['result']) != 15 or response['output'] is None:
 				passed = False
 				message = "Sorry, try again.\n\n" + response['error_message']
 				break
-			elif response['output'] != expected_output:
-				passed = False
-				message = "Sorry, try again.\n\n'" + response['output'] + "'\n\nis not \n'" + expected_output +"'"
-				#differ = difflib.HtmlDiff()
-				#message = message + differ.make_table(response.output, exercise.valid_output)
-				break
 			else:
-				message = response['output']
+				student_output = string.replace(response['output'], '\n', '')
+				if student_output != expected_output:
+					passed = False
+					message = "Sorry, try again.\n\n'" + response['output'] + "'\n\nis not \n'" + expected_output +"'"
+					#differ = difflib.HtmlDiff()
+					#message = message + differ.make_table(response.output, exercise.valid_output)
+					break
+				else:
+					message = response['output']
 
 		return {'passed':passed, 'message':message, 'response':response}
 
