@@ -88,7 +88,7 @@ class User(utils.Model):
 				user.number = u['number']
 				user.put()
 
-class Suggestion(db.Model):
+class Suggestion(utils.Model):
 	content = db.StringProperty(required=True)
 	submitter = db.ReferenceProperty(User)
 	page = db.StringProperty()
@@ -135,6 +135,7 @@ class UserHandler(utils.Handler):
 		self.user_post(*args)
 
 	def render_with_user(self,template_name, template_values={}):
+		logging.info('User: "%s"' % self.username)
 		template_values['logged_in_username'] = self.username
 		template_values['isAdmin'] = self.isAdmin
 		self.render(template_name, template_values)
@@ -143,20 +144,12 @@ class AdminHandler(UserHandler):
 	user = None
 
 	def user_get(self, *args):
-<<<<<<< HEAD
-		user = User.query().filter('username = ', self.username).get()
-=======
->>>>>>> bugfix
 		if self.isAdmin:
 			self.admin_get(*args)
 		else:
 			self.redirect('/')
 
 	def user_post(self, *args):
-<<<<<<< HEAD
-		user = User.query().filter('username = ', self.username).get()
-=======
->>>>>>> bugfix
 		if self.isAdmin:
 			self.admin_post(*args)
 		else:

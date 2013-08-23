@@ -39,9 +39,9 @@
 			{% endif %}
 			<a href="/settings">settings</a>
 			|
-			<a href="/user/{{username}}">my page</a>
+			<a href="/user/{{logged_in_username}}">my page</a>
 			|
-			{{username}} (<a href="/logout" class="login-link">logout</a>)
+			{{logged_in_username}} (<a href="/logout" class="login-link">logout</a>)
 		{% else %}
 			<a href="/signup" class="login-link">signup</a>
 			|

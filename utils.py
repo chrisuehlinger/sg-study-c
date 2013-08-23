@@ -56,8 +56,8 @@ def check_secure_val(h):
 			return val
 
 def render_str(template_name, template_values={}):
-		template = jinja_environment.get_template(template_name)
-		return template.render(template_values)
+	template = jinja_environment.get_template(template_name)
+	return template.render(template_values)
 
 def remove_comments(code):
 	return re.sub(r'(/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/)|(//.*)', '', code, flags=re.MULTILINE)

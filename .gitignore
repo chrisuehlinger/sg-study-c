@@ -1,3 +1,5 @@
+secret.txt
 issuetracker.txt
 *.pyc
 *~
+*.sh
