@@ -143,14 +143,20 @@ class AdminHandler(UserHandler):
 	user = None
 
 	def user_get(self, *args):
+<<<<<<< HEAD
 		user = User.query().filter('username = ', self.username).get()
+=======
+>>>>>>> bugfix
 		if self.isAdmin:
 			self.admin_get(*args)
 		else:
 			self.redirect('/')
 
 	def user_post(self, *args):
+<<<<<<< HEAD
 		user = User.query().filter('username = ', self.username).get()
+=======
+>>>>>>> bugfix
 		if self.isAdmin:
 			self.admin_post(*args)
 		else:
@@ -223,5 +229,6 @@ class AdminPageHandler(AdminHandler):
 		user_list = User.query()
 		exercise_list = db.Query(Exercise)
 		suggestion_list = db.Query(Suggestion).order("-posted_date")
-		self.render_with_user("adminpage.html", {'page':page, 'user':self.user, 'user_list':user_list, 'exercise_list':exercise_list, 'suggestion_list':suggestion_list})
+		current_user = db.Query(User).filter("username = ", self.username).get()
+		self.render_with_user("adminpage.html", {'page':page, 'user':current_user, 'user_list':user_list, 'exercise_list':exercise_list, 'suggestion_list':suggestion_list})
 
