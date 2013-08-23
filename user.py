@@ -211,7 +211,7 @@ class UserPageHandler(UserHandler):
 		if user and args[0] and ( user.username == args[0] or user.admin_priv):
 			page = {'url':'/user/%s' % user.username, 'topic_name':'{0} - M5/{1} #{2}'.format(user.username, user.room, user.number) }
 
-			exercise_list = db.Query(Exercise)
+			exercise_list = Exercise.query()
 			exercises_completed = list()
 			for e in exercise_list:
 				if e.key() in user.exercises_completed:
@@ -227,8 +227,8 @@ class AdminPageHandler(AdminHandler):
 	def admin_get(self, *args):
 		page = {'url':'/admin', 'topic_name':'Admin Page'}
 		user_list = User.query()
-		exercise_list = db.Query(Exercise)
-		suggestion_list = db.Query(Suggestion).order("-posted_date")
-		current_user = db.Query(User).filter("username = ", self.username).get()
+		exercise_list = Exercise.query()
+		suggestion_list = Suggestion.query().order("-posted_date")
+		current_user = User.query().filter("username = ", self.username).get()
 		self.render_with_user("adminpage.html", {'page':page, 'user':current_user, 'user_list':user_list, 'exercise_list':exercise_list, 'suggestion_list':suggestion_list})
 
