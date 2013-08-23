@@ -10,21 +10,7 @@ from google.appengine.ext.webapp import blobstore_handlers
 from exercises import Exercise, ExerciseChecker
 from user import User
 import user
-
-class IdeoneAccountHandler(user.AdminHandler):
-	def admin_get(self):
-		page = {'url':'ideone', 'topic_name':"IdeoneAccount"}
-		self.render_with_user("ideoneaccount.html", {'page':page})
-
-	def admin_post(self):
-		logging.info("Adding account.")
-		account = IdeoneAccount(user=self.request.get('user'),
-								password=self.request.get('pass'),
-								remaining=int(self.request.get('remaining')),
-								next_update=datetime(datetime.now().year, datetime.now().month+1, 1))
-		account.put()
-		page = {'url':'ideone', 'topic_name':"IdeoneAccount"}
-		self.render_with_user("ideoneaccount.html", {'page':page})
+from ideoneclient import IdeoneClient
 
 class FlowchartUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 	def post(self):

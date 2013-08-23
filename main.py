@@ -64,7 +64,6 @@ app = utils.webapp2.WSGIApplication(
 		('/upload', exercisehandlers.FlowchartUploadHandler),
 		('/serve/([^/]+)?', exercisehandlers.FlowchartServeHandler),
 		('/addexercise', exercisehandlers.AddExerciseHandler),
-		('/ideone', exercisehandlers.IdeoneAccountHandler),
 
 		# Exercise Pages
 		('/exercises/?([a-zA-Z0-9_]+)?', exercisehandlers.ExerciseHandler),
@@ -82,7 +81,6 @@ app = utils.webapp2.WSGIApplication(
 
 exercises.Exercise.warmup()
 user.User.warmup()
-ideoneclient.IdeoneAccount.warmup()
 
 def main():
  	run_wsgi_app(application) 

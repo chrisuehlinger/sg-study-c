@@ -30,56 +30,18 @@ resultCodes = {
 '20': "internal error - some problem occurred on ideone.com; try to submit the paste again and if that fails too, then please contact us."
 }
 
-accountList = [ {'user': 'sgstudyingc', 'pass': 'sg1234', 'remaining':1000},
-				{'user': 'samgoody', 'pass': 'sg1234', 'remaining':1000},
-				{'user': 'SpanishGalleon', 'pass': 'sg1234', 'remaining':1000},
-				{'user': 'SaladGreens', 'pass': 'sg1234', 'remaining':1000},
-				{'user': 'saulgoodman', 'pass': 'sg1234', 'remaining':1000},
-				{'user': 'SelfishGorillas', 'pass': 'sg1234', 'remaining':1000},
-				{'user': 'StandingGuard', 'pass': 'sg1234', 'remaining':1000}]	
-
-class IdeoneAccount(db.Model):
-	user=db.StringProperty(required=True)
-	password=db.StringProperty(required=True)
-	remaining=db.IntegerProperty(default=1000)
-	next_update=db.DateTimeProperty()
-
-	@classmethod
-	def warmup(cls):
-		if db.Query(IdeoneAccount).count() == 0:
-			logging.info("Warming up Ideone Accounts")
-			for a in accountList:
-				account = IdeoneAccount(user=a['user'],
-										password=a['pass'],
-										remaining=a['remaining'],
-										next_update=datetime(datetime.now().year, datetime.now().month+1, 1))
-				account.put()
-
 class IdeoneClient(object):
-	credentials = None
+	credentials = {'user': 'sgstudyingc', 'pass': 'sg1234', 'remaining':1000}
 	_instance = None
 
 	def __new__(cls, *args, **kwargs):
 		if not cls._instance:
 			cls._instance = super(IdeoneClient, cls).__new__(cls, *args, **kwargs)
 		self = cls._instance
-		self.roundRobin()
 		return cls._instance
 
-	def roundRobin(self):
-		self.credentials = db.Query(IdeoneAccount).order('-remaining').get()
-		if not self.credentials.next_update or self.credentials.next_update <= datetime.now():
-			logging.info("Doing monthly refresh of Ideone Accounts")
-			next_update = datetime(datetime.now().year, datetime.now().month+1, 1)
-			accounts = db.Query(IdeoneAccount)
-			for a in accounts:
-				a.next_update = next_update
-				a.remaining = 1000
-				a.put()
-
-
 	def SOAPRequest(self, operation, input_parameters={}):
-		parameters = dict({'user':self.credentials.user, 'pass':self.credentials.password}.items() + input_parameters.items())
+		parameters = dict(self.credentials.items() + input_parameters.items())
 		# for k in parameters.keys():
 		# 	logging.info("Paramenters - " + repr(k) + ": " + repr(parameters[k]))
 
@@ -113,8 +75,6 @@ class IdeoneClient(object):
 
 	def submit(self, program, the_input=""):
 		#self.SOAPRequest("testFunction")
-		self.credentials.remaining -= 1
-		self.credentials.put()
 		parameters = {	'code': program,
 						'input':the_input}
 		response = self.SOAPRequest("createSubmission", parameters)
