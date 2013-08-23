@@ -1,0 +1,8 @@
+{% extends "soap/soap.xml" %}
+{% block body %}
+<ns1:getSubmissionStatus xmlns:ns1="http://ideone.com/api/1/service" SOAP-ENC:root="1">
+<v1 xsi:type="xsd:string">{{user}}</v1>
+<v2 xsi:type="xsd:string">{{pass}}</v2>
+<v3 xsi:type="xsd:string">{{link}}</v3>
+</ns1:getSubmissionStatus>
+{% endblock %}

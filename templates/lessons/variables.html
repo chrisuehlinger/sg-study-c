@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<section>
+<p>Our programs use <span class="keyword">Variables</span> to remember information.</p>
+</section>
+
+<section>
+<h2>Data Types</h2>
+
+<p>There are four <span class="keyword">types</span> of Variables that we use very often:</p>
+<ul>
+<li><span class="keyword">Integers</span> (int) - Numbers with no decimal point.</li>
+<li><span class="keyword">Floating-Point Numbers</span> (float) - Numbers that have a decimal point.</li>
+<li><span class="keyword">Characters</span> (char) - A character can be a letter, a digit or a punctuation mark.</li>
+<li><span class="keyword">Strings</span> (char[]) - Many characters (Strings are really just Arrays of Characters). A String is the best way to store words or text.</li>
+</ul>
+
+<p>These are the types we will use most often. There are many other types that can be useful. For example, int can only hold 16-bits, so it can only store a number between -32767 and +32767. If we want to store bigger numbers, there are some other types we can use:</p>
+<ul>
+	<li>unsigned - 16-bit - This is an int that can store numbers from 0 to 65535 ("unsigned" means there is no negative sign).</li>
+	<li>long - 32-bit - This is an int that can store numbers from -2147483647 to +2147483647.</li>
+	<li>long long - 64-bit - This is an int that can store numbers from -1.8446744*10^19 to 1.8446744*10^19. You rarely need to use this.</li>
+	<li>double - 64-bit - This is a float with "double precision". It is good for storing numbers with many decimal places, like pi.</li>
+	<li>wchar_t - - This is a "wide character". It is used to store UNICODE characters, which we'll learn about later.</li>
+</ul>
+</section>
+
+<section>
+<h2>Assignment</h2>
+<p>When we want to store something in a Variable, we can use the <span class="keyword">Assignment Operator</span> ‘=’ like this:</p>
+
+<div class="code">int age = 23;
+float tax_rate = 1.34;
+char grade = ‘A’;
+char name[1000] = “Chris”;
+</div>
+</section>
+
+{% endblock %}

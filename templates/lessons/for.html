@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+<section>
+<p>A while loop is good when the loop must run until a condition is no longer true. If we want to have a loop that counts numbers, there is a much better kind of loop, a <span class="keyword">for loop</span>.</p>
+
+<p>The flowchart for a while loop and a for loop both look the same. However, the code looks different. Here is a while loop and a for loop that both do the same thing:</p>
+
+<div class="code">int i=0;
+while(i &lt;= 100)
+{ 
+	printf(&quot;%d&quot;, i); 
+	i++; 
+}
+</div>
+
+<div class="code">int i;
+for(i=0; i&lt;=100; i++)
+{  
+	printf(&quot;%d&quot;, i); 
+}</div>
+
+<p>A for loop has 3 parts:</p>
+
+<div class="code">for(initializer; condition; iterator)</div>
+
+<ul>
+<li>The <span class="keyword">initializer</span> runs once, before the loop runs the first time.</li>
+<li>The <span class="keyword">iterator</span> runs after every time the loop code runs. </li>
+<li>The <span class="keyword">condition</span> is checked before the next time the loop code runs.</li>
+</ul>
+
+<p>For loops are great for working with Arrays and reading from files. </p>
+
+</section>
+<section>
+<h2>Infinite For Loops</h2>
+<p>If you aren't careful, you might make an infinite for loop by accident:</p>
+
+<div class="code">int i;
+for(i=10; i&gt;0; i++)
+{  
+	printf(&quot;%d&quot;, i); 
+}</div>
+
+<p>The variable i begins as 10 and only gets bigger--it will never be less than 0.</p>
+</section>
+{% endblock %}

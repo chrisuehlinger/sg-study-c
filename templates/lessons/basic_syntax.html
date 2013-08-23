@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section>
+<h2>The word “Syntax”</h2>
+
+<p><span class="keyword">Syntax</span> is a word we use to talk about “the correct way to write something”. If you write something incorrectly, you will have a “syntax error”. Here are some common pieces of syntax:</p>
+
+<ul>
+<li>; - Semicolon - This comes at the end of every statement in our code.</li>
+<li>( ) - Parentheses. These are used when we write functions or certain kinds of statements (like if-else and loops)</li>
+<li>[ ] - Square Brackets (or just Brackets) - These are used when talking about Arrays.</li>
+<li>{ } - Curly Braces. These are used to talk about a piece of code. They usually mean something like “This piece of code is part of this function”.</li>
+</ul>
+</section>
+
+<section>
+<h2>Including Libraries</h2>
+<p>You can use <span class="code">#include&lt;&gt;</span> to get code from <span class="keyword">libraries</span> by including their <span class="keyword">Header File</span> (.h). These libraries may have functions that can help you. Here are some good ones:</p>
+
+<ul>
+<li><span class="code">stdlib.h</span> - Standard Library. This has some basic functions, and is usually a good idea to include.</li>
+<li><span class="code">stdio.h</span> - Standard Input/Output. This has functions for normal I/O and File I/O.</li>
+<li><span class="code">string.h</span> - Every function involving strings is in here.</li>
+<li><span class="code">math.h</span> - Useful math functions. This also has the Random number functions rand() and srand()</li>
+<li><span class="code">time.h</span> - Useful functions that deal with time.</li>
+</ul>
+
+<p>You can also include your own header files, like this:</p>
+
+<div class="code">#include”mycode.h”
+</div>
+</section>
+
+<section>
+<h2>main()</h2>
+<p>Every program must have a <span class="keyword">main() function</span>. A good way to write one is like this:</p>
+
+<div class="code">int main()
+{
+	return 0;
+}
+</div>
+</section>
+
+<section>
+<h2>Comments</h2>
+<p>You can explain what a piece of code does using <span class="keyword">Comments</span>. There are two ways to make comments:</p>
+
+<div class="code">//Single line comments like this
+
+/* ...or you can make a Multi-Line Comment
+   using slashes and stars like this */
+</div>
+ 
+<p>Comments are removed before the code is compiled. They are useful for taking out a piece of code to see how your program will work without it.</p>
+
+<div class="code">//The following code is commented out. It will do nothing.
+
+/* for(i=0; i &lt; 100; i++)
+   {
+	printf(“This is the number %d.\n”, i);
+   }
+*/
+</div>
+</section>
+
+<section>
+<h2>Common errors</h2>
+
+<ul>
+<li>Remember to end every statement with a Semicolon “;”</li>
+<li>If you forget a semi-colon, Dev-C++ won’t notice the Error until the next line of code.</li>
+<li>“Everything that has a beginning, must have an end.” If you have an open Curly Brace ‘{‘ with no close Curly Brace ‘}’ you will get an error.</li>
+<li>95% of all errors are spelling mistakes. If you get an error, check that you have spelled the variable names correctly.</li>
+</ul>
+</section>
+
+{% endblock %}

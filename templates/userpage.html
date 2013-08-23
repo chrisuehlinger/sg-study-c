@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<section>
+<h3>Completed Exercises</h3>
+<ul>
+	{% for e in exercises_completed %}
+	<li><a href="/exercises/{{e.url}}">{{e.name}}</a></li>
+	{% endfor %}
+</ul>
+</section>
+{% endblock %}

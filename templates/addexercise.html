@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section>
+	<h2>Add an Exercise</h2>
+	<form action="{{upload_url}}" method="POST" enctype="multipart/form-data">
+		<label>Name:<input type="text" name="name" value="HelloWorld"></label><br>
+		<label>URL:<input type="text" name="url" value="HelloWorld"</label><br>
+		<label>Description:<br><textarea name="description">Write "Hello World!"</textarea></label><br>
+		<div><label>Flowchart:</label></div>
+          <div><input type="file" name="file"/></div>
+		<label>Starting Code:<br>
+		<textarea class="code" name="start_code" contenteditable="true">#include&lt;stdio.h&gt;
+int main()
+{
+
+	return 0;
+}</textarea>
+		</label><br>
+		<label>Checking Method:<br>
+			{% for m in test_methods %}
+			<input type="checkbox" name="{{m}}" value="{{m}}">{{m}}<br>
+			{% endfor %}
+	</label><br>
+		<label>Test Input: (separate with semicolons)<br>
+			<textarea class="code" name="test_input">none</textarea>
+		</label><br>
+		<label>Expected Output: (separate with semicolons)<br>
+			<textarea class="code" name="output">Hello World!</textarea>
+		</label><br>
+		<label>Keywords: (separate with semicolons)<br>
+			<textarea name="keywords"></textarea>
+		</label><br>
+		<input type="submit">
+	</form>
+</section>
+
+
+{% endblock %}

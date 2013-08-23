@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<div>Already have an account? <a href="/login">Login</a></div>
+<br>
+<form method="post" class="auth-form">
+	<label>
+		Username:
+		<input type="text" name="username" value={{username}}>
+		<div class="error">{{usernameerror}}</div>
+	</label>
+
+	<label>
+		Password:
+		<input type="password" name="password" value={{password}}>
+		<div class="error">{{passworderror}}</div>
+	</label>
+
+	<label>
+		Verify Password:
+		<input type="password" name="verify" value={{verify}}>
+		<div class="error">{{verifyerror}}</div>
+	</label>
+
+	<label>
+		Email (Optional):
+		<input type="text" name="email" value={{email}}>
+		<div class="error">{{emailerror}}</div>
+	</label>
+
+	<label>
+		Room:
+		<input type="text" name="room" maxlength="1" value={{room}}>
+		<div class="error">{{roomerror}}</div>
+	</label>
+
+	<label>
+		Number:
+		<input type="text" name="number" maxlength="2" value={{number}}>
+		<div class="error">{{numbererror}}</div>
+	</label>
+	<br>
+	<br>
+	<input type="submit">
+</form>
+{% endblock %}

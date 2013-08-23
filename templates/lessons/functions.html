@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section>
+<h2>What is a Function</h2>
+
+<p>A <span class="keyword">Function</span> is a piece of code that does one particular job. A Function is like a small program. We have used many Functions before:</p>
+<ul>
+<li>printf(), scanf(), getchar() and getline() - I/O</li>
+<li>strlen() and strcmp() - Strings</li>
+<li>atoi(), atof() - Change types</li>
+<li>rand() - Random Numbers</li>
+</ul>
+
+<p>You've probably seen functions in Math class, they're written like this:</p>
+<ul>
+<li>f(n) = 2n + 6</li>
+<li>f(0) = 2*0 + 6 = 6</li>
+<li>f(4) = 2*4 + 6 = 14</li>
+</ul>
+
+<p>If this function was in our program, the computer would think about it like this:</p>
+
+<div class="code">int number = f(4);
+int number = 2*4 + 6;
+int number = 14;
+</div>
+</section>
+
+<section>
+<h2>Parts of a Function</h2>
+
+<div class="code">ReturnType function_name(parameters)
+{ 
+	return ReturnValue;
+}
+</div>
+
+<ul>
+	<li>The first line of this code is called the function's <span class="keyword">Prototype</span>.</li>
+	<li>A function takes <span class="keyword">Parameters</span> as input.</li>
+	<li>A function gives a <span class="keyword">Return Value</span> as output.</li>
+	<li>The Return Value must be of the <span class="keyword">Return Type</span>.</li>
+</ul>
+
+<p>After the return statement, the function is done, and will do nothing more.</p>
+</section>
+
+<section>
+<h2>Examples of Functions</h2>
+
+<p>If a function has no Return Value, its Return type is <span class="keyword">void</span>:</p>
+
+<div class="code">void this_does_nothing()
+{  
+	printf(&quot;This function does nothing.\n&quot;);
+}</div>
+
+<p>Here are a couple of functions that have return values, but no parameters:</p>
+
+<div class="code">float this_returns_pi()
+{  
+	return 3.14159268;
+}
+
+int this_returns_twelve()
+{  
+	return 20 - 8; 
+}</div>
+
+<p>Finally, this function has a return value and parameters:</p>
+<div class="code">int add(int n1, int n2)
+{  
+	int sum = n1 + n2;  
+	return sum; 
+}</div>
+</section>
+
+<section>
+<h2>Local Variables and Scope</h2>
+<p>A <span class="keyword">Local Variable</span> is a variable created inside of a function. A Local Variable can only be used inside the function where it is created. In this function, sum and avg are local variables:</p>
+
+<div class="code">float average(float n1, float n2, float n3)
+{  
+	float sum = n1 + n2 + n3;  
+	float avg = sum / 3;  
+	return avg;
+}</div>
+
+<p>A function's <span class="keyword">Scope</span> is the group of variables and functions that it knows about. A function only knows about:</p>
+<ul>
+<li>Its Parameters</li>
+<li>Its Local Variables</li>
+</ul>
+<p>For example: If you create a variable in main(), you cannot use it in average(), unless you give it as a Parameter. A function only knows about other functions if they are before it in the code.</p>
+</section>
+
+<section>
+<h2>Recursion</h2>
+<p>Sometimes, you can solve a problem by having a function call itself. This method of solving a problem is called <span class="keyword">Recursion</span>. Let's look at how we can do that with Factorials:</p>
+<ul>
+<li>5! = 5 * 4 * 3 * 2 * 1</li>
+<li>5! = 5 * (4 * 3 * 2 * 1) </li>
+<li>5! = 5 * 4! </li>
+<li>4! = 4 * 3! </li>
+<li>3! = 3 * 2! </li>
+<li>2! = 2 * 1! </li>
+<li>1! = 1</li>
+</ul>
+
+<p>Now there are two cases for any number n:
+<ul>
+<li>If n>1, n! = n * (n-1)!</li>
+<li>If n=1, n! = 1</li>
+</ul>
+<p>This means, we can write the function like this:</p>
+
+<div class="code">int factorial(int n) 
+{  
+	if(n > 1)  
+		return n * factorial(n-1);  
+	else 
+		return 1; 
+}</div>
+
+<p>Recursion is also perfect for computing sequences like The Fibonacci Numbers:</p>
+
+<div class="code">int fibonacci(int n) 
+{  
+	if(n > 2)  
+		return fibonacci(n-2) + fibonacci(n-1);  
+	else  
+		return 1; 
+} </div>
+
+</section>
+{% endblock %}
