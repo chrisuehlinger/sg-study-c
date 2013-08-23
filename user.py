@@ -5,6 +5,7 @@ import hashlib
 import random
 import string
 from exercises import Exercise
+import re
 
 warmups = [{ 'username':'chris',
 			 'password':'1234',
@@ -18,6 +19,16 @@ warmups = [{ 'username':'chris',
 				'admin':False,
 				'room':3,
 				'number':42}]
+
+PASS_RE = re.compile(r"^.{3,20}$")
+def valid_password(password):
+	return PASS_RE.match(password)
+
+def verify_password(password, verify):
+	if password and verify and password == verify:
+		return True
+	else:
+		return False
 
 def make_salt():
 	return ''.join(random.choice(string.letters) for x in xrange(5))
@@ -140,9 +151,52 @@ class AdminHandler(UserHandler):
 			self.redirect('/')
 
 	def user_post(self, *args):
-		user = db.Query(User).filter('username = ', username).get()
+		user = db.Query(User).filter('username = ', self.username).get()
 		if self.isAdmin:
 			self.admin_post(*args)
+		else:
+			self.redirect('/')
+
+class SettingsHandler(UserHandler):
+	def user_get(self):
+		if self.username:
+			page = {'url':'settings', 'topic_name':'Settings'}
+			self.render_with_user("settings.html", {'page':page})
+		else:
+			self.redirect('/')
+
+	def user_post(self):
+		user = db.Query(User).filter('username = ', self.username).get()
+		page = {'url':'settings', 'topic_name':'Settings'}
+		if user:
+			old_password = user.valid_pw(user.username, self.request.get('old_password'))
+			new_password = valid_password(self.request.get('new_password'))
+			confirm_password = verify_password(self.request.get('new_password'), self.request.get('confirm_password'))
+
+			if not (old_password and new_password and confirm_password):
+				old_error=''
+				if not old_password:
+					old_error='Password incorrect.'
+
+				new_error=''
+				if not new_password:
+					new_error='Invalid password.'
+
+				confirm_error=''
+				if not confirm_password:
+					confirm_error='Passwords do not match'
+
+				self.render_with_user("settings.html", {'page':page,
+														'old_password':self.request.get('old_password'),
+														'new_password':self.request.get('new_password'),
+														'confirm_password':self.request.get('confirm_password'),
+														'old_error':old_error,
+														'new_error':new_error,
+														'confirm_error':confirm_error})
+			else:
+				user.password = make_pw_hash(user.username, self.request.get('new_password'))
+				user.put()
+				self.render_with_user("settings.html", {'page':page, 'message':'Success!'})
 		else:
 			self.redirect('/')
 

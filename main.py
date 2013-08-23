@@ -59,6 +59,7 @@ app = utils.webapp2.WSGIApplication(
 		# User pages
 		('/user/([a-zA-Z0-9_]+)?', user.UserPageHandler),
 		('/admin', user.AdminPageHandler),
+		('/settings', user.SettingsHandler),
 
 		# Adding new exercises and Ideone Accounts
 		('/upload', exercisehandlers.FlowchartUploadHandler),
