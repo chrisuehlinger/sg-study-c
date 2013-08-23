@@ -26,41 +26,6 @@ import user
 from user import User
 import mail
 
-"""
-TODO:
-
--Refactor all these handlers
--Settings page
-	-Change Password
-	-Change CSS style
-	-Change CodeMirror style
-	-Change CodeMirror Add-ons
--Disable editing and submitting while AJAX is working
--Randomly generated Quizes
--Implement CodeMirror across the site
--Check out what my fetch requests look like
-
-Design:
--Sassy-fy the CSS
--Make everything RESPONSIVO
--Make it look like http://philipwalton.com/
-
-Content:
--Add section about typecasting
--Finish section about errors
--Clean up "What's next" section
--NCURSES section
--Cover nested for loops
-
-Exercises:
--Remove newlines when testing outputs
--Highlight errors (special semicolon error)
--Make sure number of inputs and outputs is the same
--Implement the following testing modes:
-	-Insert submission into larger piece of code to test function
-	-Find some way to test File I/O
-"""
-
 class LessonHandler(user.UserHandler):
 	def user_get(self, *args):
 		if args[0] is None:
