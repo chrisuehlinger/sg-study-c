@@ -61,7 +61,7 @@ You can drive a car.''',
 }
 ]
 
-class ExerciseChecker(db.Model):
+class ExerciseChecker(utils.Model):
 	test_methods = db.ListProperty(str)
 	outside_code = db.ListProperty(db.Text)
 	inputs = db.ListProperty(db.Text)
@@ -146,7 +146,7 @@ class ExerciseChecker(db.Model):
 					message= "This program has the same output every time, it is not random."
 		return {'passed':passed, 'message':message, 'response':response}
 
-class Exercise(db.Model):
+class Exercise(utils.Model):
 	name = db.StringProperty(required=True)
 	url = db.StringProperty(required=True)
 	description = db.TextProperty(required=True)

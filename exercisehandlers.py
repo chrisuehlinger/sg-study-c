@@ -62,11 +62,11 @@ class ExerciseHandler(user.UserHandler):
 	def user_get(self, *args):
 		pagename = args[0]
 		if pagename is None:
-			exercise_list = db.Query(Exercise).order('name')
+			exercise_list = Exercise.query().order('name')
 			page = {'url':'exercises', 'topic_name':'Practice Exercises'}
 			self.render_with_user("exerciseindex.html", {'page':page, 'exercises':exercise_list})
 		else:
-			exercise = db.Query(Exercise).filter("url = ",pagename).get()
+			exercise = Exercise.query().filter("url = ",pagename).get()
 			if exercise is None:
 				self.write("No Exercise named '%s'" % pagename)
 			else:
@@ -85,10 +85,10 @@ class ExerciseHandler(user.UserHandler):
 
 		response = dict()
 		if action == 'check':
-			exercise = db.Query(Exercise).filter("url = ",pagename).get()
+			exercise = Exercise.query().filter("url = ",pagename).get()
 			response = exercise.checker.checkWork(submission)
 			if response['passed']:
-				user = db.Query(User).filter('username = ', self.username).get()
+				user = User.query().filter('username = ', self.username).get()
 				if not exercise.key() in user.exercises_completed:
 					user.exercises_completed.append(exercise.key())
 					user.put()

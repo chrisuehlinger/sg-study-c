@@ -146,7 +146,7 @@ class LoginHandler(utils.Handler):
 		input_password = self.request.get("password")
 
 		if valid_username(input_username) and valid_password(input_password):
-			the_user = db.Query(User).filter('username = ',input_username).get()
+			the_user = User.query().filter('username = ',input_username).get()
 			if the_user and the_user.valid_pw(input_username, input_password):
 					valid=True
 					self.set_secure_cookie("username", input_username)
@@ -182,7 +182,7 @@ class PasswordRecoveryHandler(utils.Handler):
 	def post(self):
 		email = self.request.get('email')
 		user = None
-		user_list = db.Query(User)
+		user_list = User.query()
 		for u in user_list:
 			if u.email == email:
 				user = u

@@ -84,3 +84,8 @@ class Handler(webapp2.RequestHandler):
 	def delete_cookie(self, name):
 		self.response.headers.add_header("Set-Cookie", str("%s=; Path=/" % name))
 
+class Model(db.Model):
+	@classmethod
+	def query(cls):
+		logging.info("DB Query - %s" % cls)
+		return db.Query(cls)

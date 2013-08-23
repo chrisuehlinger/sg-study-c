@@ -37,7 +37,7 @@ def make_pw_hash(name, pw, salt=make_salt()):
 	h = hashlib.sha256(name + pw + salt).hexdigest()
 	return '%s,%s' % (h, salt)
 
-class User(db.Model):
+class User(utils.Model):
 	username=db.StringProperty(required=True)
 	password=db.StringProperty(required=True)
 	email=db.StringProperty()
@@ -59,14 +59,13 @@ class User(db.Model):
 
 	@classmethod
 	def username_free(cls, username):
-		q = db.GqlQuery("SELECT * FROM User WHERE username= '%s'" % username)
-		if q.count()==0:
+		if not User.query().filter('username = ', username).count():
 			return True
 
 	@classmethod
 	def unique_student(cls, room, number):
 		unique = True
-		user_list = db.Query(User)
+		user_list = User.query()
 		for u in user_list:
 			if u.room == int(room) and u.number == int(number):
 				return False
@@ -80,7 +79,7 @@ class User(db.Model):
 
 	@classmethod
 	def warmup(cls):
-		if db.Query(User).count() == 0:
+		if User.query().count() == 0:
 			logging.info("Warming up Users")
 			for u in warmups:
 				user = User.register(u['username'], u['password'], u['email'])
@@ -106,7 +105,7 @@ class SuggestionHandler(utils.Handler):
 		user = None
 		username = self.get_cookie("username")
 		if username:
-			user = db.Query(User).filter('username = ', username).get()
+			user = User.query().filter('username = ', username).get()
 
 		suggestionText = self.request.get('suggestion')
 		if suggestionText:
@@ -144,14 +143,14 @@ class AdminHandler(UserHandler):
 	user = None
 
 	def user_get(self, *args):
-		user = db.Query(User).filter('username = ', self.username).get()
+		user = User.query().filter('username = ', self.username).get()
 		if self.isAdmin:
 			self.admin_get(*args)
 		else:
 			self.redirect('/')
 
 	def user_post(self, *args):
-		user = db.Query(User).filter('username = ', self.username).get()
+		user = User.query().filter('username = ', self.username).get()
 		if self.isAdmin:
 			self.admin_post(*args)
 		else:
@@ -166,7 +165,7 @@ class SettingsHandler(UserHandler):
 			self.redirect('/')
 
 	def user_post(self):
-		user = db.Query(User).filter('username = ', self.username).get()
+		user = User.query().filter('username = ', self.username).get()
 		page = {'url':'settings', 'topic_name':'Settings'}
 		if user:
 			old_password = user.valid_pw(user.username, self.request.get('old_password'))
@@ -202,7 +201,7 @@ class SettingsHandler(UserHandler):
 
 class UserPageHandler(UserHandler):
 	def user_get(self, *args):
-		user = db.Query(User).filter('username = ', self.username).get()
+		user = User.query().filter('username = ', self.username).get()
 		if user and args[0] and ( user.username == args[0] or user.admin_priv):
 			page = {'url':'/user/%s' % user.username, 'topic_name':'{0} - M5/{1} #{2}'.format(user.username, user.room, user.number) }
 
@@ -221,7 +220,7 @@ class UserPageHandler(UserHandler):
 class AdminPageHandler(AdminHandler):
 	def admin_get(self, *args):
 		page = {'url':'/admin', 'topic_name':'Admin Page'}
-		user_list = db.Query(User)
+		user_list = User.query()
 		exercise_list = db.Query(Exercise)
 		suggestion_list = db.Query(Suggestion).order("-posted_date")
 		self.render_with_user("adminpage.html", {'page':page, 'user':self.user, 'user_list':user_list, 'exercise_list':exercise_list, 'suggestion_list':suggestion_list})
