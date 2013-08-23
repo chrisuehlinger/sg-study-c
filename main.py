@@ -29,6 +29,7 @@ import mail
 """
 TODO:
 
+-Refactor all these handlers
 -Settings page
 	-Change Password
 	-Change CSS style
