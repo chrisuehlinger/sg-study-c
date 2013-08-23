@@ -119,6 +119,8 @@ class SignupHandler(utils.Handler):
 										"password": input_password,
 										"verify": input_verify,
 										"email": input_email,
+										"room": input_room,
+										"number": input_number,
 										"usernameerror": username_error,
 										"passworderror": password_error,
 										"verifyerror": verify_error,
