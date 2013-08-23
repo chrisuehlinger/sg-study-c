@@ -135,7 +135,7 @@ class UserHandler(utils.Handler):
 		self.user_post(*args)
 
 	def render_with_user(self,template_name, template_values={}):
-		template_values['username'] = self.username
+		template_values['logged_in_username'] = self.username
 		template_values['isAdmin'] = self.isAdmin
 		self.render(template_name, template_values)
 
