@@ -12,6 +12,32 @@ import json
 styles = {'old_reliable':'Old Reliable',
 		  'the_new_style':'The NEW Style'}
 
+codemirror_themes = [
+'3024-day',
+'3024-night',
+'ambiance-mobile',
+'ambiance',
+'base16-dark',
+'base16-light',
+'blackboard',
+'cobalt',
+'eclipse',
+'elegant',
+'erlang-dark',
+'lesser-dark',
+'midnight',
+'monokai',
+'neat',
+'night',
+'rubyblue',
+'solarized',
+'tomorrow-night-eighties',
+'twilight',
+'vibrant-ink',
+'xq-dark',
+'xq-light'
+]
+
 index = [	{'group':'The Basics', 'topics': [	#{'url':"whatis", 'topic_name':"What is C?"},
 												{'url':"basic_syntax", 'topic_name':"Basic Syntax"},
 												{'url':"math", 'topic_name':"Basic Math in C"},
@@ -67,6 +93,7 @@ def remove_comments(code):
 
 class Handler(webapp2.RequestHandler):
 	stylesheet = 'old_reliable'
+	codemirror_theme = 'night'
 
 	def write(self,output=""):
 		self.response.out.write(output)

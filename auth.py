@@ -127,7 +127,8 @@ class SignupHandler(utils.Handler):
 										"emailerror": email_error,
 										'roomerror':room_error,
 										'numbererror':number_error,										
-										'groups':utils.index, "page":page})
+										'groups':utils.index, 
+										"page":page})
 		else:
 			new_user = User.register(input_username, input_password, input_email)
 			new_user.room = int(input_room)
@@ -135,6 +136,7 @@ class SignupHandler(utils.Handler):
 			new_user.put()
 			self.set_secure_cookie("username", input_username)
 			self.set_secure_cookie("css", new_user.pref_css)
+			self.set_secure_cookie('cm_theme', new_user.pref_codemirror_css)
 			self.redirect('/')
 
 class LoginHandler(utils.Handler):
@@ -154,6 +156,7 @@ class LoginHandler(utils.Handler):
 					valid=True
 					self.set_secure_cookie("username", input_username)
 					self.set_secure_cookie("css", the_user.pref_css)
+					self.set_secure_cookie('cm_theme', the_user.pref_codemirror_css)
 					if the_user.admin_priv:
 						self.redirect('/admin')
 						self.set_secure_cookie("admin", "yes")
@@ -162,13 +165,17 @@ class LoginHandler(utils.Handler):
 					
 		if not valid:
 			error = "Invalid username or password"
-			self.render("login.html", {'username':input_username, 'password':input_password, 'error': error, "page":page})
+			self.render("login.html", {'username':input_username, 
+										'password':input_password, 
+										'error': error, 
+										"page":page})
 
 class LogoutHandler(utils.Handler):
 	def get(self):
 		self.delete_cookie("username")
 		self.delete_cookie("admin")
 		self.delete_cookie("css")
+		self.delete_cookie('cm_theme')
 		self.redirect('/')
 
 class WelcomeHandler(utils.Handler):

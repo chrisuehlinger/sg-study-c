@@ -23,6 +23,7 @@
 		%h2 Look and Feel
 		%form{action:"/settings", method:"POST"}
 			%input{type:'hidden', name:'form_id', value:'css'}
+
 			%label Style:
 				%select{name:"style"}
 					-for k in styles.keys()
@@ -30,4 +31,13 @@
 							%option{value:"={k}", selected:"selected"}= styles[k]
 						-else
 							%option{value:"={k}"}= styles[k]
+
+			%label CodeMirror Theme:
+				%select{name:'cm_theme'}
+					-for t in themes
+						-if t == codemirror_theme
+							%option{value:"={t}", selected:"selected"}= t
+						-else
+							%option{value:"={t}"}= t
+
 			%input{type:'submit', value:'Submit'}

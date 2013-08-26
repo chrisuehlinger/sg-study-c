@@ -1,9 +1,10 @@
 myCodeMirror = {}
 
 $(document).ready -> 
-  myTextArea = document.getElementById 'editor' 
+  myTextArea = document.getElementById 'editor'
+  codeMirrorTheme = $('meta[name="CodeMirrorTheme"]').attr 'content'
   codeMirrorConfig = 
-    'theme':'night'
+    'theme':codeMirrorTheme
     'lineNumbers':true
     'mode':'clike'
     'value':$('#editor').text()

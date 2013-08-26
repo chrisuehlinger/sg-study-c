@@ -5,10 +5,11 @@
   myCodeMirror = {};
 
   $(document).ready(function() {
-    var codeMirrorConfig, myTextArea;
+    var codeMirrorConfig, codeMirrorTheme, myTextArea;
     myTextArea = document.getElementById('editor');
+    codeMirrorTheme = $('meta[name="CodeMirrorTheme"]').attr('content');
     codeMirrorConfig = {
-      'theme': 'night',
+      'theme': codeMirrorTheme,
       'lineNumbers': true,
       'mode': 'clike',
       'value': $('#editor').text(),

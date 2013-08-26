@@ -25,12 +25,25 @@
 		<h2>Look and Feel</h2>
 		<form action='/settings' method='POST'>
 			<input type='hidden' name='form_id' value='css' />
+
 			<label>Style:				<select name='style'>
 					{% for k in styles.keys() %}
 						{% if k == stylesheet %}
 							<option selected='selected' value='{{ k }}'>{{ styles[k] }}</option>
 						{% else %}
 							<option value='{{ k }}'>{{ styles[k] }}</option>
+
+						{% endif %}
+					{% endfor %}
+				</select>
+</label>
+			<label>CodeMirror Theme:				<select name='cm_theme'>
+					{% for t in themes %}
+						{% if t == codemirror_theme %}
+							<option selected='selected' value='{{ t }}'>{{ t }}</option>
+						{% else %}
+							<option value='{{ t }}'>{{ t }}</option>
+
 						{% endif %}
 					{% endfor %}
 				</select>

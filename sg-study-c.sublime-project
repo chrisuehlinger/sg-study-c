@@ -33,11 +33,14 @@
 			"path": "static/js"
 		},
 		{
-			"name": "CoffeeScript",
-			"path": "coffee-script"
+			"path": "Haml"
 		},
 		{
-			"path": "Haml"
+			"path": "Sass"
+		},
+		{
+			"name": "CoffeeScript",
+			"path": "coffee-script"
 		}
 	]
 }

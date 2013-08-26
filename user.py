@@ -132,19 +132,30 @@ class UserHandler(utils.Handler):
 
 	def get(self, *args):
 		self.username = self.get_cookie("username")
+
 		if self.get_cookie("admin") == "yes":
 			self.isAdmin = True
+
 		if self.get_cookie("css"):
 			self.stylesheet = self.get_cookie("css")
-			logging.info(self.stylesheet)
+
+		if self.get_cookie('cm_theme'):
+			self.codemirror_theme = self.get_cookie('cm_theme')
+
 		self.user_get(*args)
 
 	def post(self, *args):
 		self.username = self.get_cookie("username")
+
 		if self.get_cookie("admin") == "yes":
 			self.isAdmin = True
+
 		if self.get_cookie("css"):
 			self.stylesheet = self.get_cookie("css")
+
+		if self.get_cookie('cm_theme'):
+			self.codemirror_theme = self.get_cookie('cm_theme')
+			
 		self.user_post(*args)
 
 	def render_with_user(self,template_name, template_values={}):
@@ -152,7 +163,7 @@ class UserHandler(utils.Handler):
 		template_values['logged_in_username'] = self.username
 		template_values['isAdmin'] = self.isAdmin
 		template_values['stylesheet'] = self.stylesheet
-		logging.info(self.stylesheet)
+		template_values['codemirror_theme'] = self.codemirror_theme
 		self.render(template_name, template_values)
 
 class AdminHandler(UserHandler):
@@ -175,7 +186,8 @@ class SettingsHandler(UserHandler):
 		if self.username:
 			page = {'url':'settings', 'topic_name':'Settings'}
 			self.render_with_user("settings.html", {'page':page,
-													'styles':utils.styles})
+													'styles':utils.styles,
+													'themes':utils.codemirror_themes})
 		else:
 			self.redirect('/')
 
@@ -192,14 +204,23 @@ class SettingsHandler(UserHandler):
 
 	def change_css(self, user):
 		page = {'url':'settings', 'topic_name':'Settings'}
+
 		new_css = self.request.get('style')
 		self.set_secure_cookie("css", new_css)
 		user.pref_css = new_css
-		user.put()
 		self.stylesheet = new_css
+
+		new_theme = self.request.get('cm_theme')
+		self.set_secure_cookie('cm_theme', new_theme)
+		user.pref_codemirror_css = new_theme
+		self.codemirror_theme = new_theme
+
+		user.put()
+		
 		logging.info(new_css)
 		self.render_with_user("settings.html", {'page':page,
-												'styles':utils.styles})
+												'styles':utils.styles,
+												'themes':utils.codemirror_themes})
 
 	def change_password(self, user):
 		page = {'url':'settings', 'topic_name':'Settings'}
@@ -222,6 +243,7 @@ class SettingsHandler(UserHandler):
 
 			self.render_with_user("settings.html", {'page':page,
 													'styles':utils.styles,
+													'themes':utils.codemirror_themes,
 													'old_password':self.request.get('old_password'),
 													'new_password':self.request.get('new_password'),
 													'confirm_password':self.request.get('confirm_password'),
@@ -233,6 +255,7 @@ class SettingsHandler(UserHandler):
 			user.put()
 			self.render_with_user("settings.html", {'page':page, 
 													'styles':utils.styles,
+													'themes':utils.codemirror_themes,
 													'message':'Success!'})
 
 class UserPageHandler(UserHandler):
