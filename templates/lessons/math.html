@@ -1,32 +1,22 @@
 {% extends "base.html" %}
 {% block content %}
-
-<section>
+	<section>
 <h2>Basic Math Operators</h2>
-
 <p>Math in C looks a lot like the math you use everyday. You can use the operators +, -, * and / to solve math problems. The result of a math equation can be assigned to a variable or passed to a function:</p>
-
-<div class="code">int result = (2+4)*3/4;
+<pre><code>int result = (2+4)*3/4;
 int age = 22;
 printf("Half your age is : %d.\n", age/2);
-</div>
-
-<p>The <span class="keyword">Modulus operator</span> "%" can be used to calculate the Remainder of a division equation.</p>
-
-<div class="code">14 / 10 == 1 		14 % 10 == 4
-24 / 10 == 2 		24 % 10 == 4
-2764 / 10 == 276 	2764 % 10 == 4
-</div>
-
-<p>The <span class="keyword">Increment operator</span> "++" can be used to add one to a variable. The <span class="keyword">Decrement operator</span> "--" is the opposite, it subtracts one from a variable</p>
-
-<div class="code">int age = 22;
+</code></pre>
+<p>The <em>Modulo operator</em> "%" can be used to calculate the Remainder of a division equation.</p>
+<pre><code>14 / 10 == 1        14 % 10 == 4
+24 / 10 == 2        24 % 10 == 4
+2764 / 10 == 276    2764 % 10 == 4
+</code></pre>
+<p>The <em>Increment operator</em> "++" can be used to add one to a variable. The <em>Decrement operator</em> "--" is the opposite, it subtracts one from a variable</p>
+<pre><code>int age = 22;
 age++;
 age == 23
 age--;
 age == 22
-</div>
-
-</section>
-
+</code></pre>	</section>
 {% endblock %}

@@ -1,0 +1,46 @@
+-extends "base.html"
+-block content
+	%section
+		:markdown
+			Sometimes, a long chain of `if`-`else`-`if` statements is not the best way to solve a problem. We saw this with the necktie problem:
+
+			I have one necktie for each day of the week. I need a program to tell me which tie to wear each day.
+
+			Here is how we could solve the problem using `if`-`else`-`if` statements:
+
+				day = getchar();
+				if(day == 'M')
+					printf("Today you should wear a Yellow tie!");
+				else if(day == 'T')
+					printf("Today you should wear a Pink tie!");
+				else if(day == 'W')
+					printf("Today you should wear a Green tie!");
+				else if(day == 'R')
+					printf("Today you should wear an Orange tie!");
+				else if(day == 'F')
+					printf("Today you should wear a Blue tie!");
+				else
+					printf("Today you should wear No tie!");
+
+			When we have to answer a question with Two possible answers (True or False, Yes or No, Right or Wrong, etc.) `if`-`else` statements are a good idea. Sometimes we even need to have many `if` statements. However, sometimes it is easier to write a *`switch-case` statement* to help solve the problem:
+
+				day = getchar();
+				printf("Today you should wear ");
+				switch(day)
+				{ 
+					case 'm': 
+					case 'M': printf("a Yellow "); break; 
+					case 't': 
+					case 'T': printf("a Pink "); break;  
+					case 'w':  
+					case 'W': printf("a Green "); break;  
+					case 'r':  
+					case 'R': printf("an Orange "); break;  
+					case 'f':  
+					case 'F': printf("a Blue "); break;  
+					default: printf("No "); break; 
+				} 
+				printf("Tie! Have a nice day!");
+
+
+			A *`switch` statement* takes a variable as input (although Strings will not work, because they are Arrays) and uses it to choose which `case` statement to run. It runs the code starting at the *`case` statement* and ending at the next *`break` statement*. If none of the `case` statements are correct, it will run the code the comes after the *`default` statement*.</p>

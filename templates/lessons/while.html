@@ -1,45 +1,37 @@
 {% extends "base.html" %}
 {% block content %}
-<section>
-<p>Often, we need to make our program do the same thing many times. We can use <span class="keyword">loops</span> to make our programs perform repetitive tasks, and save ourselves time. <span class="keyword">while statements</span> are conditional statements, just like if-else statements. </p>
-
-<div class="code">while(pin != MYPIN) 
+	<section>
+<p>Often, we need to make our program do the same thing many times. We can use <em>loops</em> to make our programs perform repetitive tasks, and save ourselves time. <em><code>while</code> statements</em> are conditional statements, just like <code>if</code>-<code>else</code> statements.</p>
+<pre><code>while(pin != MYPIN)
 {
-	printf(&ldquo;Sorry, that number is wrong, please try again: &ldquo;);  
-	scanf(&ldquo;%d&rdquo;, &amp;pin); 
-}</div>
-
-<p>The difference between &quot;if-else&quot; and &quot;while&quot; is that after the code inside the &quot;while&quot; statement runs, it checks if the condition is still true. If it is, it will run again.</p>
-
+    printf("Sorry, that number is wrong, please try again: ");
+    scanf("%d", &amp;pin);
+}
+</code></pre>
+<p>The difference between <code>if</code>-<code>else</code> and <code>while</code> is that after the code inside the <code>while</code> statement runs, it checks if the condition is still true. If it is, it will run again.</p>
 <p>However, if the condition is false the first time the while statement is checked, the code inside the loop will never run. Look at this code:</p>
-
-<div class="code">int n=11; 
-while(n &lt; 10) 
+<pre><code>int n=11;
+while(n &lt; 10)
 {
-	printf(&ldquo;%d\n&rdquo;, n);
-	n++; 
-}</div>
-
-<p>If we want our loop to run one time before we look at the condition, we can use the <span class="keyword">do-while loop</span>, like this:</p>
-
-<div class="code">do
-{  
-	printf(&ldquo;%d\n&rdquo;, n);  
-	n++; 
-}while(n &lt; 10); </div>
-
-</section>
-
-<section>
+    printf("%d\n", n);
+    n++;
+}
+</code></pre>
+<p>If we want our loop to run one time before we look at the condition, we can use the <em>do-while loop</em>, like this:</p>
+<pre><code>do
+{
+    printf("%d\n", n);
+    n++;
+}while(n &lt; 10);
+</code></pre>	</section>
+	<section>
 <h2>Infinite Loops</h2>
-<p>Some loops will run forever, these are called <span class="keyword">Infinite loops</span>. You must be very careful to avoid creating an Infinite loop in your program:</p>
-
-<div class="code">printf("Forever ");
+<p>Some loops will run forever, these are called <em>Infinite loops</em>. You must be very careful to avoid creating an Infinite loop in your program:</p>
+<pre><code>printf("Forever ");
 while(7==7) //This will always be TRUE
 {
-	printf(" and ever");
+    printf(" and ever");
 }
 printf("."); //This line will never run.
-</div>
-</section>
+</code></pre>	</section>
 {% endblock %}

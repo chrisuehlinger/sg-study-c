@@ -1,0 +1,116 @@
+-extends "base.html"
+-block content
+	%section
+		:markdown
+			The word “Syntax”
+			-----------------
+
+			*Syntax* is a word we use to talk about “the correct way to write something”. If you write something incorrectly, you will have a “syntax error”. Here are some common pieces of syntax:
+
+			- ; - Semicolon - This comes at the end of every statement in our code.
+			- ( ) - Parentheses. These are used when we write functions or certain kinds of statements (like if-else and loops)
+			- [ ] - Square Brackets (or just Brackets) - These are used when talking about Arrays.
+			- { } - Curly Braces. These are used to talk about a piece of code. They usually mean something like “This piece of code is part of this function”.
+
+	%section
+		:markdown
+			Keywords
+			--------
+			There are some words that C considers to be "special". When you type them in a coding program, they will usually turn a different color. These words are called *Keywords*, they are words that are always used for one purpose. This is important, because you cannot use a Keyword as a name for a variable, or anything else. Here is a list of all the keywords in C:
+
+		%table
+			%tr
+				%td auto
+				%td _Bool
+				%td break
+				%td case
+				%td char
+				%td _Complex
+				%td const
+				%td continue
+				%td default
+				%td do
+			%tr
+				%td double
+				%td else
+				%td enum
+				%td extern
+				%td float
+				%td for
+				%td goto
+				%td if
+				%td _Imaginary
+				%td inline
+			%tr
+				%td int
+				%td long
+				%td register
+				%td restrict
+				%td return
+				%td short
+				%td signed
+				%td sizeof
+				%td static
+				%td struct
+			%tr
+				%td switch
+				%td typedef
+				%td union
+				%td unsigned
+				%td void
+				%td volatile
+				%td while
+				%td{colspan:3}
+
+	%section
+		:markdown
+			Including Libraries
+			-------------------
+
+			You can use `#include<>` to get code from *libraries* by including their *Header File* (.h). These libraries may have functions that can help you. Here are some good ones:
+
+			- `stdlib.h` - Standard Library. This has some basic functions, and is usually a good idea to include.
+			- `stdio.h` - Standard Input/Output. This has functions for normal I/O and File I/O.
+			- `string.h` - Every function involving strings is in here.
+			- `math.h` - Useful math functions. This also has the Random number functions rand() and srand()
+			- `time.h` - Useful functions that deal with time.
+
+			You can also include your own header files, like this:
+
+				#include”mycode.h”
+
+
+	%section
+		:markdown
+			`main()`
+			------
+
+			Every program must have a *`main()` function*. When you run your program, the computer starts at the beginning of the `main()` function and stops at the `return` statement. A good way to write one is like this:
+
+				int main()
+				{
+					return 0;
+				}
+
+	%section
+		:markdown
+			Comments
+			--------
+
+			You can explain what a piece of code does using *Comments*. There are two ways to make comments:</p>
+
+				//Single line comments like this
+
+				/* ...or you can make a Multi-Line Comment
+				   using slashes and stars like this */
+
+ 
+			Comments are removed before the code is compiled. They are useful for taking out a piece of code to see how your program will work without it.
+
+				//The following code is commented out. It will do nothing.
+
+				/* for(i=0; i &lt; 100; i++)
+				   {
+					printf(“This is the number %d.\n”, i);
+				   }
+				*/

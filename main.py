@@ -24,7 +24,7 @@ import ideoneclient
 import auth
 import user
 from user import User
-import mail
+import datetime, time
 
 class LessonHandler(user.UserHandler):
 	def user_get(self, *args):
@@ -38,7 +38,11 @@ class LessonHandler(user.UserHandler):
 						page = topic
 
 			if page:
-				self.render_with_user("lessons/" + args[0] + ".html", {'page':page})
+				now = datetime.datetime.now()
+				now_stamp = int(time.mktime(now.timetuple()))
+				self.render_with_user("lessons/" + args[0] + ".html", { 'page':page, 
+																		'curr_time-formatted': now, 
+																		'curr_timestamp': now_stamp})
 			else:
 				page = {'url':'404', 'topic_name':"Error 404"}
 				self.render_with_user("404.html", {'page': page})

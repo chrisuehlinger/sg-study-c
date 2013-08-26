@@ -1,0 +1,61 @@
+- extends "base.html"
+- block content
+	%section
+		:markdown
+			Every day we use programs that deal with time. Sometimes we need to know what time it is, or what day it is, or how long it takes to do something. C has many functions to help us talk about time, you can use them by adding `#include<time.h>` to the beginning of your code.
+
+	%section
+		:markdown
+			What time is it?
+			---------------
+		
+			First, let's look at how we can ask our program for the current time:
+
+				include<time.h>
+
+				int main()
+				{
+					time_t current_time = time(NULL);
+				}
+
+			Note that `time_t` is really just an `int` with a different name. We'll talk about how the computer thinks about time later. Also `time(NULL)` returns the current time.
+
+			Right now, let's try and figure out how long it takes for something to happen. Let's ask the user a question, and then tell them how long it took to answer:
+
+				char answer[1000];
+				time_t start_time, end_time;
+				long int how_long;
+				
+				start_time = time(NULL);
+				printf("What is the capital of Botswana?")
+
+				//fgets won't run until they answer, so the program will wait here
+
+				fgets(answer, 1000, stdin);
+				end_time = time(NULL);
+
+				how_long = end_time - start_time;
+				printf("It took you %d seconds to look that up!", how_long);
+
+	%section
+		:markdown
+			Formatting Time
+			---------------
+
+			If I ask you for the date and time right now, you will look at your calendar, then look at your watch and say:
+
+			"Right now it is {{curr_time_formatted}}."
+
+			However, if I ask the computer the same question it will answer: 
+
+			"Right now it is {{curr_timestamp}}."
+
+			This is the number of seconds since Midnight on January 1, 1970 (That's around the time people started using computers to store dates and times). This number is called a *timestamp* and it is how the computer thinks about time.
+
+			If we want to print out the time in a way that makes sense to use, we have format it first. The `ctime()` function is a good way to do that:
+
+				time_t current_time = time(NULL);
+				char c_time_string[1000] = ctime(&current_time);
+				printf("Current time is %s", c_time_string);
+
+			If you want to know more about formatting time or time functions in general, [the Wikipedia page](http://en.wikipedia.org/wiki/C_date_and_time_functions) has a pretty good list.

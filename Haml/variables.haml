@@ -1,0 +1,69 @@
+-extends "base.html"
+-block content
+	%section
+		:markdown
+			Our programs use *Variables* to remember information.
+
+	%section
+		:markdown
+			Data Types
+			----------
+
+			There are four *types* of Variables that we use very often:
+
+			- *Integers* (`int`) - Numbers with no decimal point.
+			- *Floating-Point Numbers* (`float`) - Numbers that have a decimal point.
+			- *Characters* (`char`) - A character can be a letter, a digit or a punctuation mark.
+			- *Strings* (`char[]`) - Many characters (Strings are really just Arrays of Characters). A String is the best way to store words or text.
+
+			These are the types we will use most often. There are many other types that can be useful. For example, int can only hold 16-bits, so it can only store a number between -32767 and +32767. If we want to store bigger numbers, there are some other types we can use:
+
+			- `unsigned` - 16-bit - This is an int that can store numbers from 0 to 65535 ("unsigned" means there is no negative sign).
+			- `long` - 32-bit - This is an int that can store numbers from -2147483647 to +2147483647.
+			- `long long` - 64-bit - This is an int that can store numbers from -1.8446744 * 10^19 to 1.8446744 * 10^19. You rarely need to use this.
+			- `double` - 64-bit - This is a float with "double precision". It is good for storing numbers with many decimal places, like pi.
+			- `wchar_t` - 16-bit - This is a "wide character". It is used to store UNICODE characters, which we&quot;ll learn about later.
+
+	%section
+		:markdown
+			Assignment
+			----------
+
+			When we want to store something in a Variable, we can use the *Assignment Operator* ‘=’ like this:
+
+				int age = 23;
+				float tax_rate = 1.34;
+				char grade = ‘A’;
+				char name[1000] = “Chris”;
+
+	%section 
+		:markdown
+			Typecasting
+			-----------
+
+			We can use *Typecasting* to make one type behave like another type. Let's say we have a floating-point number, but we want to print it out like an integer (with no decimal point), we could do it like this:
+
+				float number = 4.125;
+				printf("Check out this number: %d", (int)number);
+
+			This can be useful when you're doing math with `float`s and `int`s. If you don't want the `float`s to be rounded, you can use typecasting to make all of the numbers into `float`s first:
+
+				float n1 = 2.5;
+				int n2 = 2;
+				float rounded_result =  n1 + n2; // = 4
+				float real_result = n1 + (float)n2; // = 4.5
+
+			Typecasting is used a lot when we start working with pointers and memory management. For now, just know that you can change a variable's type by casting it as something else.
+
+	%section
+		:markdown
+			Make your own Types with `typedef`
+			---------------------------------
+
+			OK, you can't actually make your own types, but with `typedef` (type define) you can create new names for types that already exist:
+
+				typedef float fun_number;
+
+				fun_number pi = 3.14159268;
+
+			This may not seem too useful now, but it will be very important later when we learn about `struct`s.

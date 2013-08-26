@@ -1,47 +1,64 @@
 {% extends "base.html" %}
 {% block content %}
-<section>
-<p>A while loop is good when the loop must run until a condition is no longer true. If we want to have a loop that counts numbers, there is a much better kind of loop, a <span class="keyword">for loop</span>.</p>
-
-<p>The flowchart for a while loop and a for loop both look the same. However, the code looks different. Here is a while loop and a for loop that both do the same thing:</p>
-
-<div class="code">int i=0;
-while(i &lt;= 100)
-{ 
-	printf(&quot;%d&quot;, i); 
-	i++; 
+	<section>
+<p>A <code>while</code> loop is good when the loop must run until a condition is no longer true. If we want to have a loop that counts numbers, there is a much better kind of loop, a <em><code>for</code> loop</em>.</p>
+<p>The flowchart for a <code>while</code> loop and a <code>for</code> loop both look the same. However, the code looks different. Here is a <code>while</code> loop:</p>
+<pre><code>int i=0;
+while(i &amp;lt;= 100)
+{
+    printf("%d", i);
+    i++;
 }
-</div>
-
-<div class="code">int i;
+</code></pre>
+<p>and a <code>for</code> loop that does the same thing:</p>
+<pre><code>int i;
 for(i=0; i&lt;=100; i++)
-{  
-	printf(&quot;%d&quot;, i); 
-}</div>
-
-<p>A for loop has 3 parts:</p>
-
-<div class="code">for(initializer; condition; iterator)</div>
-
+{
+    printf("%d", i);
+}
+</code></pre>
+<p>A <code>for</code> loop has 3 parts:</p>
+<pre><code>for(initializer; condition; afterthought)
+</code></pre>
 <ul>
-<li>The <span class="keyword">initializer</span> runs once, before the loop runs the first time.</li>
-<li>The <span class="keyword">iterator</span> runs after every time the loop code runs. </li>
-<li>The <span class="keyword">condition</span> is checked before the next time the loop code runs.</li>
+<li>The <em>initializer</em> runs once, before the loop runs the first time.</li>
+<li>The <em>afterthought</em> runs after every time the loop code runs.</li>
+<li>The <em>condition</em> is checked before the next time the loop code runs.</li>
 </ul>
+<p>For loops are great for working with Arrays and reading from files.</p>	</section>
+	<section>
+<h2>Nested <code>for</code> Loops</h2>
+<p>You can <em>nest</em> <code>for</code> loops, or put a loop inside of a loop, to get different results:</p>
+<pre><code>int i, j;
+for(i=0; i&lt;=10; i++)
+{
+    for(j=0; j&lt;=i; j++)
+        printf("%d ", j);
 
-<p>For loops are great for working with Arrays and reading from files. </p>
-
-</section>
-<section>
-<h2>Infinite For Loops</h2>
-<p>If you aren't careful, you might make an infinite for loop by accident:</p>
-
-<div class="code">int i;
-for(i=10; i&gt;0; i++)
-{  
-	printf(&quot;%d&quot;, i); 
-}</div>
-
-<p>The variable i begins as 10 and only gets bigger--it will never be less than 0.</p>
-</section>
+    printf("\n");
+}
+</code></pre>
+<p>This will have the following output:</p>
+<pre><code>0
+0 1
+0 1 2
+0 1 2 3
+0 1 2 3 4
+0 1 2 3 4 5
+0 1 2 3 4 5 6
+0 1 2 3 4 5 6 7
+0 1 2 3 4 5 6 7 8
+0 1 2 3 4 5 6 7 8 9
+0 1 2 3 4 5 6 7 8 9 10
+</code></pre>	</section>
+	<section>
+<h2>Infinite <code>for</code> Loops</h2>
+<p>If you aren't careful, you might make an infinite <code>for</code> loop by accident:</p>
+<pre><code>int i;
+for(i=10; i&amp;gt;0; i++)
+{
+    printf("%d", i);
+}
+</code></pre>
+<p>The variable i begins as 10 and only gets bigger--it will never be less than 0.</p>	</section>
 {% endblock %}

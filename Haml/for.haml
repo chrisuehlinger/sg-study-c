@@ -1,0 +1,76 @@
+-extends "base.html" 
+-block content
+	%section
+		:markdown
+			A `while` loop is good when the loop must run until a condition is no longer true. If we want to have a loop that counts numbers, there is a much better kind of loop, a *`for` loop*.
+
+			The flowchart for a `while` loop and a `for` loop both look the same. However, the code looks different. Here is a `while` loop: 
+
+				int i=0;
+				while(i &lt;= 100)
+				{ 
+					printf("%d", i); 
+					i++; 
+				}
+
+			and a `for` loop that does the same thing:
+
+				int i;
+				for(i=0; i<=100; i++)
+				{
+					printf("%d", i); 
+				}
+
+			A `for` loop has 3 parts:
+
+				for(initializer; condition; afterthought)
+
+			- The *initializer* runs once, before the loop runs the first time.
+			- The *afterthought* runs after every time the loop code runs. 
+			- The *condition* is checked before the next time the loop code runs.
+
+			For loops are great for working with Arrays and reading from files.
+
+	%section
+		:markdown
+			Nested `for` Loops
+			----------------
+
+			You can *nest* `for` loops, or put a loop inside of a loop, to get different results:
+
+				int i, j;
+				for(i=0; i<=10; i++)
+				{
+					for(j=0; j<=i; j++)
+						printf("%d ", j);
+
+					printf("\n"); 
+				}
+
+			This will have the following output:
+
+				0
+				0 1
+				0 1 2
+				0 1 2 3
+				0 1 2 3 4 
+				0 1 2 3 4 5
+				0 1 2 3 4 5 6
+				0 1 2 3 4 5 6 7
+				0 1 2 3 4 5 6 7 8
+				0 1 2 3 4 5 6 7 8 9
+				0 1 2 3 4 5 6 7 8 9 10
+	%section
+		:markdown
+			Infinite `for` Loops
+			------------------
+			
+			If you aren't careful, you might make an infinite `for` loop by accident:
+
+				int i;
+				for(i=10; i&gt;0; i++)
+				{  
+					printf("%d", i); 
+				}
+
+			The variable i begins as 10 and only gets bigger--it will never be less than 0.

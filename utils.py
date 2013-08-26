@@ -25,9 +25,9 @@ index = [	{'group':'The Basics', 'topics': [	#{'url':"whatis", 'topic_name':"Wha
 												{'url':"functions", 'topic_name':"Functions and Recursion"},
 												{'url':"arrays", 'topic_name':"Arrays and Strings"},
 												{'url':"files", 'topic_name':"File Input/Output"}]},
-			{'group':'Advanced Topics','topics':[# {'url':"preprocessor", 'topic_name':"Pre-Processor Commands"},
-			# 									{'url':"structs", 'topic_name':"Structs and Pointers"},
-			# 									{'url':"ncurses", 'topic_name':"NCURSES and Basic Graphics"},
+			{'group':'Advanced Topics','topics':[{'url':'time', 'topic_name':'Time in C'},
+			# {'url':"preprocessor", 'topic_name':"Pre-Processor Commands"},
+			 									{'url':"structs", 'topic_name':"Structs"},
 												{'url':"unicode", 'topic_name':"UNICODE"}]},
 			{'group':'The Final', 'topics':[	{'url':"final_project", 'topic_name':"THE FINAL PROJECT"},
 												{'url':"whatsnext", 'topic_name':"What's Next?"}]}

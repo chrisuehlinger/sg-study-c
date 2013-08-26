@@ -1,138 +1,111 @@
 {% extends "base.html" %}
 
 {% block scripts %}
-<script type="text/javascript" language="Javascript" src="/static/js/compiler_demo.js"></script>
+	<script src='/static/js/compiler_demo.js' type='text/javascript' language='Javascript'></script>
 {% endblock %}
-
 {% block content %}
-
-<section>
-
+	<section>
 <p>In order to understand how our program works, it is important to know how the Compiler turns your code into a program. When you press the "Compile" button, your program goes through a three part process:</p>
-
-<ol>
-	<li>The <span class="keyword">Pre-Processor</span> removes all comments from your code and runs any Pre-processor Commands you have written.</li>
-	<li>The <span class="keyword">Compiler</span> turns each file of code (.c) into object code (.o), which computers can read but humans can't.</li>
-	<li>The <span class="keyword">Linker</span> takes the object code files and combines them into one executable file (.exe) which can be run.</li>
-</ol>
-
-<p>We're going to look at each part of the Compiling process and see what it does to the "Hello World!" project:</p>
-
-<figure>
-	<p>main.c</p>
-	<div class="code">#include"hello_func.h"
+<ul>
+<li>The <em>Pre-Processor</em> removes all comments from your code and runs any Pre-processor Commands you have written.</li>
+<li>The <em>Compiler</em> turns each file of code (.c) into object code (.o), which computers can read but humans can&quot;t.</li>
+<li>The <em>Linker</em> takes the object code files and combines them into one executable file (.exe) which can be run.</li>
+</ul>
+<p>We're going to look at each part of the Compiling process and see what it does to the "Hello World!" project:</p>		<figure>
+<p>main.c</p>
+<pre><code>#include"hello_func.h"
 
 //This program should say "Hello World" 2 times
 int main(void)
 {
-	say_hello(2);
+    say_hello(2);
 
-	return;
-}</div>
-
+    return;
+}
+</code></pre>
 <p>hello_func.h</p>
-<div class="code">void say_hello(int num_times);</div>
-
+<pre><code>void say_hello(int num_times);
+</code></pre>
 <p>hello_func.c</p>
-<div class="code">#include&lt;stdio.h&gt;
+<pre><code>#include&lt;stdio.h&gt;
 
 #define THE_OUTPUT "Hello World!"
 
 //This version doesn't work
 /*void say_hello(int num_times)
 {
-	ifprintfefdgghds
+    ifprintfefdgghds
 }*/
 
 void say_hello(int num_times)
 {
-	int i;
-	for(i=1; i&lt;= num_times; i++)
-		printf(THE_OUTPUT);
+    int i;
+    for(i=1; i&lt;= num_times; i++)
+        printf(THE_OUTPUT);
 
-}</div>
-</figure>
-
-</section>
-
-<section>
+}
+</code></pre>		</figure>
+	</section>
+	<section>
 <h2>The Pre-Processor</h2>
-
 <p>Here's what the Pre-Processor does with our project:</p>
-
 <ol>
-	<li>It copies the #included .h files into the C files.</li>
-	<li>It removes all of the comments.</li>
-	<li>It replaces the constant THE_OUTPUT every time it appears in the code.</li>
-</ol>
-
-<figure id="pre-processor">
-	<h3>Pre-processor finished</h3>
-	<p>main.c</p>
-	<div class="code"><span id="inc_local">#include"hello_func.h"</span>
+<li>It copies the #included .h files into the C files.</li>
+<li>It removes all of the comments.</li>
+<li>It replaces the constant THE_OUTPUT every time it appears in the code.</li>
+</ol>		<figure id='pre-processor'>
+<h3>Pre-processor finished</h3>
+<p>main.c</p>
+<pre><code><span id="inc_local">#include"hello_func.h"</span>
 
 <span id="comment">//This program should say "Hello World" 2 times</span>
 int main(void)
 {
-	say_hello(2);
+    say_hello(2);
 
-	return;
-}</div>
+    return;
+}</code></pre>
 
 <p>hello_func.c</p>
-<div class="code"><span id="inc_lib">#include&lt;stdio.h&gt;</span>
+<pre><code><span id="inc_lib">#include<stdio.h></span>
 
 <span id="def_constant">#define THE_OUTPUT "Hello World!"</span>
 
 <span id="comment">//This version doesn't work
 /*void say_hello(int num_times)
 {
-	ifprintfefdgghds
+    ifprintfefdgghds
 }*/</span>
 
 void say_hello(int num_times)
 {
-	int i;
-	for(i=1; i&lt;= num_times; i++)
-		printf(<span id="constant_inst">THE_OUTPUT</span>);
+    int i;
+    for(i=1; i<= num_times; i++)
+        printf(<span id="constant_inst">THE_OUTPUT</span>);
 
-}</div>
-</figure>
-
-<p>Notice that the files that come out of the Pre-Processor are C files that we could read or write if we wanted to. Also, we don't need hello_func.h anymore, all that code is now in main.c!</p>
-
-</section>
-
-<section>
+}</code></pre>		</figure>
+<p>Notice that the files that come out of the Pre-Processor are C files that we could read or write if we wanted to. Also, we don't need hello_func.h anymore, all that code is now in main.c!</p>	</section>
+	<section>
 <h2>The Compiler</h2>
-
 <p>Next we'll send our program through the Compiler. The Compiler has two steps:</p>
 <ol>
 <li>It turns our C code into Assembly (a language that is very hard to write)</li>
 <li>It turns the Assembly code into Object Code (Which people cannot read at all)</li>
-</ol>
-
-<figure id="compiler">
-	<h3>Compiler finished</h3>
-	<p>main.<span class="file-ext">o</span></p>
-	<div id="main" class="code">2e 4c 74 65 78 74 30 3a 5c 6e 2e 67 6c 6f 62 6c 09 6d 61 69 6e 5c 6e 6d 61 69 6e 3a 5c 6e 2e 4c 46 42 30 3a 5c 6e 2e 63 66 69 5f 73 74 61 72 74 70 72 6f 63 5c 6e 70 75 73 68 71 09 25 72 62 70 5c 6e 2e 4c 43 46 49 30 3a 5c 6e 2e 63 66 69 5f 64 65 66 5f 63 66 61 5f 6f 66 66 73 65 74 20 31 36 5c 6e 2e 63 66 69 5f 6f 66 66 73 65 74 20 36 2c 20 2d 31 36 5c 6e 6d 6f 76 71 09 25 72 73 70 2c 20 25 72 62 70 5c 6e 2e 4c 43 46 49 31 3a 5c 6e 2e 63 66 69 5f 64 65 66 5f 63 66 61 5f 72 65 67 69 73 74 65 72 20 36 5c 6e 6d 6f 76 6c 09 24 32 2c 20 25 65 64 69 5c 6e 63 61 6c 6c 09 73 61 79 5f 68 65 6c 6c 6f 5c 6e 70 6f 70 71 09 25 72 62 70 5c 6e 2e 4c 43 46 49 32 3a 5c 6e 2e 63 66 69 5f 64 65 66 5f 63 66 61 20 37 2c 20 38 5c 6e 72 65 74 5c 6e 2e 63 66 69 5f 65 6e 64 70 72 6f 63 5c 6e 2e 4c 46 45 30 3a 5c 6e 2e 4c 65 74 65 78 74 30 3a</div>
+</ol>		<figure id='compiler'>
+<h3>Compiler finished</h3>
+<p>main.<span class="file-ext">o</span></p>
+<pre><code><span id="main">2e 4c 74 65 78 74 30 3a 5c 6e 2e 67 6c 6f 62 6c 09 6d 61 69 6e 5c 6e 6d 61 69 6e 3a 5c 6e 2e 4c 46 42 30 3a 5c 6e 2e 63 66 69 5f 73 74 61 72 74 70 72 6f 63 5c 6e 70 75 73 68 71 09 25 72 62 70 5c 6e 2e 4c 43 46 49 30 3a 5c 6e 2e 63 66 69 5f 64 65 66 5f 63 66 61 5f 6f 66 66 73 65 74 20 31 36 5c 6e 2e 63 66 69 5f 6f 66 66 73 65 74 20 36 2c 20 2d 31 36 5c 6e 6d 6f 76 71 09 25 72 73 70 2c 20 25 72 62 70 5c 6e 2e 4c 43 46 49 31 3a 5c 6e 2e 63 66 69 5f 64 65 66 5f 63 66 61 5f 72 65 67 69 73 74 65 72 20 36 5c 6e 6d 6f 76 6c 09 24 32 2c 20 25 65 64 69 5c 6e 63 61 6c 6c 09 73 61 79 5f 68 65 6c 6c 6f 5c 6e 70 6f 70 71 09 25 72 62 70 5c 6e 2e 4c 43 46 49 32 3a 5c 6e 2e 63 66 69 5f 64 65 66 5f 63 66 61 20 37 2c 20 38 5c 6e 72 65 74 5c 6e 2e 63 66 69 5f 65 6e 64 70 72 6f 63 5c 6e 2e 4c 46 45 30 3a 5c 6e 2e 4c 65 74 65 78 74 30 3a</span></code></pre>
 
 <p>hello_func.<span class="file-ext">o</span></p>
-<div id="hello_func" class="code">2e 4c 74 65 78 74 30 3a 5c 6e 2e 73 65 63 74 69 6f 6e 09 2e 72 6f 64 61 74 61 5c 6e 2e 4c 43 30 3a 5c 6e 2e 73 74 72 69 6e 67 09 22 48 65 6c 6c 6f 20 57 6f 72 6c 64 21 22 5c 6e 2e 74 65 78 74 5c 6e 2e 67 6c 6f 62 6c 09 73 61 79 5f 68 65 6c 6c 6f 5c 6e 73 61 79 5f 68 65 6c 6c 6f 3a 5c 6e 2e 4c 46 42 30 3a 5c 6e 2e 63 66 69 5f 73 74 61 72 74 70 72 6f 63 5c 6e 70 75 73 68 71 09 25 72 62 70 5c 6e 2e 4c 43 46 49 30 3a 5c 6e 2e 63 66 69 5f 64 65 66 5f 63 66 61 5f 6f 66 66 73 65 74 20 31 36 5c 6e 2e 63 66 69 5f 6f 66 66 73 65 74 20 36 2c 20 2d 31 36 5c 6e 6d 6f 76 71 09 25 72 73 70 2c 20 25 72 62 70 5c 6e 2e 4c 43 46 49 31 3a 5c 6e 2e 63 66 69 5f 64 65 66 5f 63 66 61 5f 72 65 67 69 73 74 65 72 20 36 5c 6e 73 75 62 71 09 24 33 32 2c 20 25 72 73 70 5c 6e 6d 6f 76 6c 09 25 65 64 69 2c 20 2d 32 30 28 25 72 62 70 29 5c 6e 6d 6f 76 6c 09 24 31 2c 20 2d 34 28 25 72 62 70 29 5c 6e 6a 6d 70 09 2e 4c 32 5c 6e 2e 4c 33 3a 5c 6e 61 64 64 6c 09 24 31 2c 20 2d 34 28 25 72 62 70 29 5c 6e 6d 6f 76 6c 09 24 2e 4c 43 30 2c 20 25 65 61 78 5c 6e 6d 6f 76 71 09 25 72 61 78 2c 20 25 72 64 69 5c 6e 6d 6f 76 6c 09 24 30 2c 20 25 65 61 78 5c 6e 63 61 6c 6c 09 70 72 69 6e 74 66 5c 6e 2e 4c 32 3a 5c 6e 6d 6f 76 6c 09 2d 34 28 25 72 62 70 29 2c 20 25 65 61 78 5c 6e 63 6d 70 6c 09 2d 32 30 28 25 72 62 70 29 2c 20 25 65 61 78 5c 6e 6a 6c 65 09 2e 4c 33 5c 6e 6c 65 61 76 65 5c 6e 2e 4c 43 46 49 32 3a 5c 6e 2e 63 66 69 5f 64 65 66 5f 63 66 61 20 37 2c 20 38 5c 6e 72 65 74 5c 6e 2e 63 66 69 5f 65 6e 64 70 72 6f 63 5c 6e 2e 4c 46 45 30 3a 5c 6e 2e 4c 65 74 65 78 74 30 3a</div>
-</figure>
-</section>
-
-<section>
+<pre><code><span id="hello_func">2e 4c 74 65 78 74 30 3a 5c 6e 2e 73 65 63 74 69 6f 6e 09 2e 72 6f 64 61 74 61 5c 6e 2e 4c 43 30 3a 5c 6e 2e 73 74 72 69 6e 67 09 22 48 65 6c 6c 6f 20 57 6f 72 6c 64 21 22 5c 6e 2e 74 65 78 74 5c 6e 2e 67 6c 6f 62 6c 09 73 61 79 5f 68 65 6c 6c 6f 5c 6e 73 61 79 5f 68 65 6c 6c 6f 3a 5c 6e 2e 4c 46 42 30 3a 5c 6e 2e 63 66 69 5f 73 74 61 72 74 70 72 6f 63 5c 6e 70 75 73 68 71 09 25 72 62 70 5c 6e 2e 4c 43 46 49 30 3a 5c 6e 2e 63 66 69 5f 64 65 66 5f 63 66 61 5f 6f 66 66 73 65 74 20 31 36 5c 6e 2e 63 66 69 5f 6f 66 66 73 65 74 20 36 2c 20 2d 31 36 5c 6e 6d 6f 76 71 09 25 72 73 70 2c 20 25 72 62 70 5c 6e 2e 4c 43 46 49 31 3a 5c 6e 2e 63 66 69 5f 64 65 66 5f 63 66 61 5f 72 65 67 69 73 74 65 72 20 36 5c 6e 73 75 62 71 09 24 33 32 2c 20 25 72 73 70 5c 6e 6d 6f 76 6c 09 25 65 64 69 2c 20 2d 32 30 28 25 72 62 70 29 5c 6e 6d 6f 76 6c 09 24 31 2c 20 2d 34 28 25 72 62 70 29 5c 6e 6a 6d 70 09 2e 4c 32 5c 6e 2e 4c 33 3a 5c 6e 61 64 64 6c 09 24 31 2c 20 2d 34 28 25 72 62 70 29 5c 6e 6d 6f 76 6c 09 24 2e 4c 43 30 2c 20 25 65 61 78 5c 6e 6d 6f 76 71 09 25 72 61 78 2c 20 25 72 64 69 5c 6e 6d 6f 76 6c 09 24 30 2c 20 25 65 61 78 5c 6e 63 61 6c 6c 09 70 72 69 6e 74 66 5c 6e 2e 4c 32 3a 5c 6e 6d 6f 76 6c 09 2d 34 28 25 72 62 70 29 2c 20 25 65 61 78 5c 6e 63 6d 70 6c 09 2d 32 30 28 25 72 62 70 29 2c 20 25 65 61 78 5c 6e 6a 6c 65 09 2e 4c 33 5c 6e 6c 65 61 76 65 5c 6e 2e 4c 43 46 49 32 3a 5c 6e 2e 63 66 69 5f 64 65 66 5f 63 66 61 20 37 2c 20 38 5c 6e 72 65 74 5c 6e 2e 63 66 69 5f 65 6e 64 70 72 6f 63 5c 6e 2e 4c 46 45 30 3a 5c 6e 2e 4c 65 74 65 78 74 30 3a</span></code></pre>		</figure>
+	</section>
+	<section>
 <h2>The Linker</h2>
-
 <p>The final part of the process is the Linker:</p>
-
 <ol>
 <li>It will combine the Object Code into one file.</li>
 <li>It will add in code from libraries like stdio</li>
 <li>It will make sure that every function that is called has been defined in one of the C files.</li>
 <li>It will create an executable file that the computer can run.</li>
-</ol>
-</section>
-
+</ol>	</section>
 {% endblock %}

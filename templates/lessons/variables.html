@@ -1,39 +1,51 @@
 {% extends "base.html" %}
 {% block content %}
-<section>
-<p>Our programs use <span class="keyword">Variables</span> to remember information.</p>
-</section>
-
-<section>
+	<section>
+<p>Our programs use <em>Variables</em> to remember information.</p>	</section>
+	<section>
 <h2>Data Types</h2>
-
-<p>There are four <span class="keyword">types</span> of Variables that we use very often:</p>
+<p>There are four <em>types</em> of Variables that we use very often:</p>
 <ul>
-<li><span class="keyword">Integers</span> (int) - Numbers with no decimal point.</li>
-<li><span class="keyword">Floating-Point Numbers</span> (float) - Numbers that have a decimal point.</li>
-<li><span class="keyword">Characters</span> (char) - A character can be a letter, a digit or a punctuation mark.</li>
-<li><span class="keyword">Strings</span> (char[]) - Many characters (Strings are really just Arrays of Characters). A String is the best way to store words or text.</li>
+<li><em>Integers</em> (<code>int</code>) - Numbers with no decimal point.</li>
+<li><em>Floating-Point Numbers</em> (<code>float</code>) - Numbers that have a decimal point.</li>
+<li><em>Characters</em> (<code>char</code>) - A character can be a letter, a digit or a punctuation mark.</li>
+<li><em>Strings</em> (<code>char[]</code>) - Many characters (Strings are really just Arrays of Characters). A String is the best way to store words or text.</li>
 </ul>
-
 <p>These are the types we will use most often. There are many other types that can be useful. For example, int can only hold 16-bits, so it can only store a number between -32767 and +32767. If we want to store bigger numbers, there are some other types we can use:</p>
 <ul>
-	<li>unsigned - 16-bit - This is an int that can store numbers from 0 to 65535 ("unsigned" means there is no negative sign).</li>
-	<li>long - 32-bit - This is an int that can store numbers from -2147483647 to +2147483647.</li>
-	<li>long long - 64-bit - This is an int that can store numbers from -1.8446744*10^19 to 1.8446744*10^19. You rarely need to use this.</li>
-	<li>double - 64-bit - This is a float with "double precision". It is good for storing numbers with many decimal places, like pi.</li>
-	<li>wchar_t - - This is a "wide character". It is used to store UNICODE characters, which we'll learn about later.</li>
-</ul>
-</section>
-
-<section>
+<li><code>unsigned</code> - 16-bit - This is an int that can store numbers from 0 to 65535 ("unsigned" means there is no negative sign).</li>
+<li><code>long</code> - 32-bit - This is an int that can store numbers from -2147483647 to +2147483647.</li>
+<li><code>long long</code> - 64-bit - This is an int that can store numbers from -1.8446744 * 10^19 to 1.8446744 * 10^19. You rarely need to use this.</li>
+<li><code>double</code> - 64-bit - This is a float with "double precision". It is good for storing numbers with many decimal places, like pi.</li>
+<li><code>wchar_t</code> - 16-bit - This is a "wide character". It is used to store UNICODE characters, which we&quot;ll learn about later.</li>
+</ul>	</section>
+	<section>
 <h2>Assignment</h2>
-<p>When we want to store something in a Variable, we can use the <span class="keyword">Assignment Operator</span> ‘=’ like this:</p>
-
-<div class="code">int age = 23;
+<p>When we want to store something in a Variable, we can use the <em>Assignment Operator</em> ‘=’ like this:</p>
+<pre><code>int age = 23;
 float tax_rate = 1.34;
 char grade = ‘A’;
 char name[1000] = “Chris”;
-</div>
-</section>
+</code></pre>	</section>
+	<section>
+<h2>Typecasting</h2>
+<p>We can use <em>Typecasting</em> to make one type behave like another type. Let's say we have a floating-point number, but we want to print it out like an integer (with no decimal point), we could do it like this:</p>
+<pre><code>float number = 4.125;
+printf("Check out this number: %d", (int)number);
+</code></pre>
+<p>This can be useful when you're doing math with <code>float</code>s and <code>int</code>s. If you don't want the <code>float</code>s to be rounded, you can use typecasting to make all of the numbers into <code>float</code>s first:</p>
+<pre><code>float n1 = 2.5;
+int n2 = 2;
+float rounded_result =  n1 + n2; // = 4
+float real_result = n1 + (float)n2; // = 4.5
+</code></pre>
+<p>Typecasting is used a lot when we start working with pointers and memory management. For now, just know that you can change a variable's type by casting it as something else.</p>	</section>
+	<section>
+<h2>Make your own Types with <code>typedef</code></h2>
+<p>OK, you can't actually make your own types, but with <code>typedef</code> (type define) you can create new names for types that already exist:</p>
+<pre><code>typedef float fun_number;
 
+fun_number pi = 3.14159268;
+</code></pre>
+<p>This may not seem too useful now, but it will be very important later when we learn about <code>struct</code>s.</p>	</section>
 {% endblock %}

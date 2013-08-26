@@ -1,0 +1,53 @@
+-extends "base.html"
+-block content
+	%section
+		:markdown
+			Let's look at a common programming problem: We need to make a database that will store information on many people. It will need to store:
+
+			- Each person's name.
+			- Each person's age.
+			- Each person's address.
+			- Each person's salary.
+
+			Let's look at one way we could do it using arrays:
+
+				//Database for 100 people
+				char names[100][1000];
+				int ages[100];
+				char addresses[100][1000];
+				float salaries[100];
+
+			This works, but something still seems wrong. We have to look through 4 arrays to find information on one person. Why can't we just make one array, full of people?
+
+			Fortunately, C let's you store information like this in a *`struct`*, or "structured record". Here's an example of how we could use a `struct` to keep track of people:
+
+				struct person {
+					char name[1000];
+					int age;
+					char address[1000];
+					float salary;
+				}
+
+				struct person information[1000];
+
+			Even better, we can use `typedef` to turn `struct person` into its own type, like this:
+
+				struct person {
+					char name[1000];
+					int age;
+					char address[1000];
+					float salary;
+				}
+				typedef struct person Person;
+
+				Person information[1000];
+
+			We can store information inside of `Person` like this:
+
+				Person teacher;
+				teacher.name = "Chris";
+				teacher.age = 23;
+				teacher.address = "565 Thanon Samsen"
+				teacher.salary = 1000000.86;
+
+			

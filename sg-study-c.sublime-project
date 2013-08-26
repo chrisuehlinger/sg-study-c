@@ -1,33 +1,43 @@
 {
-	"folders":
-	[
-		{
-			"path": "/Users/Chris/sg-study-c",
-			"name": "Python"
-		},
-		{
-			"path": "/Users/Chris/sg-study-c/templates",
-			"name": "HTML"
-		},
-		{
-			"path": "/Users/Chris/sg-study-c/static/stylesheets",
-			"name": "CSS"
-		},
-		{
-			"path": "/Users/Chris/sg-study-c/static/js",
-			"name": "JavaScript"
-		},
-		{
-			"path": "/Users/Chris/sg-study-c/coffee-script",
-			"name": "CoffeeScript"
-		}
-	],
 	"build_systems":
 	[
 		{
-		    "cmd": ["coffee","-o","static/js/", "-c", "$file"],
-		    "selector" : "source.coffee",
-		    "path" : "/usr/local/bin"
+			"cmd":
+			[
+				"coffee",
+				"-o",
+				"static/js/",
+				"-c",
+				"$file"
+			],
+			"path": "/usr/local/bin",
+			"selector": "source.coffee"
+		}
+	],
+	"folders":
+	[
+		{
+			"name": "Python",
+			"path": "/Users/Chris/sg-study-c"
+		},
+		{
+			"name": "HTML",
+			"path": "templates"
+		},
+		{
+			"name": "CSS",
+			"path": "static/stylesheets"
+		},
+		{
+			"name": "JavaScript",
+			"path": "static/js"
+		},
+		{
+			"name": "CoffeeScript",
+			"path": "coffee-script"
+		},
+		{
+			"path": "Haml"
 		}
 	]
 }

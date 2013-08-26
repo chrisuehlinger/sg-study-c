@@ -1,0 +1,44 @@
+-extends "base.html"
+-block content
+	%section
+		:markdown
+			Often, we need to make our program do the same thing many times. We can use *loops* to make our programs perform repetitive tasks, and save ourselves time. *`while` statements* are conditional statements, just like `if`-`else` statements.
+
+				while(pin != MYPIN) 
+				{
+					printf("Sorry, that number is wrong, please try again: ");  
+					scanf("%d", &pin); 
+				}
+
+			The difference between `if`-`else` and `while` is that after the code inside the `while` statement runs, it checks if the condition is still true. If it is, it will run again.
+
+			However, if the condition is false the first time the while statement is checked, the code inside the loop will never run. Look at this code:
+
+				int n=11; 
+				while(n < 10) 
+				{
+					printf("%d\n", n);
+					n++; 
+				}
+
+			If we want our loop to run one time before we look at the condition, we can use the *do-while loop*, like this:
+
+				do
+				{  
+					printf("%d\n", n);  
+					n++;
+				}while(n < 10);
+
+	%section
+		:markdown
+			Infinite Loops
+			--------------
+
+			Some loops will run forever, these are called *Infinite loops*. You must be very careful to avoid creating an Infinite loop in your program:
+
+				printf("Forever ");
+				while(7==7) //This will always be TRUE
+				{
+					printf(" and ever");
+				}
+				printf("."); //This line will never run.

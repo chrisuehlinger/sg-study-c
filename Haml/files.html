@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block content %}
+<section>
+<p>In this lesson, we'll learn how to make our programs read and write files. This is very important if you want to let users open and save files with your program</p>
+
+<p>We use <span class="keyword">File Pointers</span> to talk about files like variables.</p>
+
+<div class="code">FILE *r_file, *w_file;</div>
+</section>
+
+<section>
+<h2>Opening an Closing Files</h2>
+<p>We open files with <span class="keyword">fopen()</span> and close them with <span class="keyword">fclose()</span> when we&rsquo;ve finished using them:</p>
+
+<div class="code">r_file = fopen(&ldquo;Readable.txt&rdquo;, &ldquo;r&rdquo;);
+w_file = fopen(&ldquo;Writeable.txt&rdquo;, &ldquo;w&rdquo;);
+...
+fclose(r_file);
+fclose(w_file);
+</div>
+
+<p>fopen() has 2 parameters: The file name and the <span class="keyword">file permission</span>. The file permission tells our program what we can do with the file. There are six options:</p>
+
+<ul>
+<li>"r" - Open a file for reading. The file must exist.</li>
+<li>"w" - Create an empty file for writing. If the file already exists it is erased before writing.</li>
+<li>"a" - Append to a file. Writing operations append data at the end of the file. The file is created if it does not exist.</li>
+<li>"r+" - Open a file for update both reading and writing. The file must exist.</li>
+<li>"w+" - Create an empty file for both reading and writing.</li>
+<li>"a+" - Open a file for reading and appending.</li>
+</ul>
+
+<p>It's also very important to check that your file opened correctly. If it did not, it will cause an error later. To prevent errors, we will close the program with exit():</p>
+
+<div class="code">r_file = fopen(&ldquo;Readable.txt&rdquo;, &ldquo;r&rdquo;);
+if(r_file==NULL) {
+	printf("Cannot open file.");
+	exit(0);
+}</div>
+</section>
+
+<section>
+<h2>File I/O</h2>
+<p>We use <span class="keyword">fgets()</span> to read from a file, and <span class="keyword">fprintf()</span> to write to the file.</p>
+
+<div class="code">fgets(string,1000, r_file); // file -> string
+fprintf(w_file, &ldquo;Hello File!&rdquo;);</div>
+
+<p>For Loops are The Right Tool for The Job when you want to read/write a file or work with an array.</p>
+
+<div class="code">for(i=0; !feof(r_file); i++) 
+	fgets(line[i], 1000, r_file);</div>
+
+<p>The function <span class="keyword">feof()</span> tells us if we are at EOF (End Of File). </p>
+
+<p>There are a number of other File I/O functions you may find useful: (For fread() and fwrite() you need to know how pointers work)</p>
+<ul>
+	<li>char fgetc(FILE *f) - This function reads the next character of the file.</li>
+	<li>fputc(char c, FILE *f) - This function writes one letter to the file.</li>
+	<li>fread(void *ptr, int size, int num_members, FILE *f) - Reads the whole file and stores it ptr.</li>
+	<li>fwrite(void *ptr, int size, int num_members, FILE *f) - Writes the values pointed to by ptr to the file.</li>
+	<li>rewind(FILE *f) - Rewinds to the beginning of the file.</li>
+</ul>
+
+</section>
+{% endblock %}

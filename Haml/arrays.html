@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block scripts %}
+<script type="text/javascript" language="Javascript" src="/static/js/array_demo.js"></script>
+{% endblock %}
+
+{% block content %}
+
+<section>
+<p>Sometimes, we want to store many values inside of one Variable. An <span class="keyword">Array</span> is a variable that can store many values. You can think about an Array as a list. Here's an example of two ways we can make an array:</p>
+
+<div class="code">int arr[] = {34, 1, 180, 92, 17, 17, 0, 12};
+OR
+int arr[8];
+arr = {34, 1, 180, 92, 17, 17, 0, 12};</div>
+
+<table class="array">
+<tr><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th></tr>
+<tr><td>34</td><td>1</td><td>180</td><td>92</td><td>17</td><td>17</td><td>0</td><td>12</td></tr>
+</table>
+
+<p>Each value has an <span class="keyword">Index</span>, a numbered location in the Array. Here's an example of how we could change one of the values in the Array:</p>
+
+<div class="code">arr[3] = 5; //Changes 92 to 5
+</div>
+
+<table class="array">
+<tr><th>0</th><th>1</th><th>2</th><th class="selected-index">3</th><th>4</th><th>5</th><th>6</th><th>7</th></tr>
+<tr><td>34</td><td>1</td><td>180</td><td class="changed">5</td><td>17</td><td>17</td><td>0</td><td>12</td></tr>
+</table>
+
+</section>
+
+<section>
+<h2>Strings</h2>
+<p>So what happens if we make an Array of Characters? We call it a String! This is important: String is not a Primitive Data Type (like int, char, float), it is simply an Array made from Characters. Because we use Strings so much, C makes it easy to use strings by letting us put them in double quotes (&quot;).</p>
+
+<div class="code">char name[8] = &quot;Chris&quot;;
+OR 
+char name[8] = {'C', 'h', 'r', 'i', 's'};</div>
+
+<table class="array">
+<tr><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th></tr>
+<tr><td>'C'</td><td>'h'</td><td>'r'</td><td>'i'</td><td>'s'</td><td>'\0'</td><td>'\0'</td><td>'\0'</td></tr>
+</table>
+
+<p>The <span class="keyword">NULL Character</span> '\0' indicates that there is nothing stored in index 5, 6 and 7. Every String must end with a NULL Character.</p>
+
+</section>
+
+<section>
+<h2>Using For Loops with Arrays</h2>
+
+<p>For Loops are the Right Tool For The Job when you want to do something to every item in the array:</p>
+
+<figure class="run">
+<div class="code"><span id="create-array">int arr[] = {34, 1, 180, 92, 17, 17, 0, 12};</span>
+for(<span id="init">i=0;</span> <span id="cond">i&lt;8;</span> <span id="inc">i++</span>)
+{  
+	<span id="inc-array">arr[i]++;</span>
+}</div>
+
+<table class="array">
+<tr><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th></tr>
+<tr><td>34</td><td>1</td><td>180</td><td>92</td><td>17</td><td>17</td><td>0</td><td>12</td></tr>
+</table>
+</figure>
+
+</section>
+
+<section>
+<h2> 2D Arrays</h2>
+<p>So if Strings are Arrays of Characters, then an Array of Strings is an Array of Arrays of Characters... Can we do that?</p>
+
+<p>Yes! An &quot;Array of Arrays&quot; is sometimes called a <span class="keyword">2-Dimensional Array</span> (or 2D Array) because it takes 2 Dimensions to show what it looks like. Here's an example of a 2D Array:</p>
+
+<div class="code">int arr[][] = { {13, 44, 82, 1},
+                {22, 11, 90, 62}
+                {10, 15, 4, 7} };
+</div>
+
+<table class="array">
+<tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th></tr>
+<tr><th>0</th><td>13</td><td>44</td><td>82</td><td>1</td></tr>
+<tr><th>1</th><td>22</td><td>11</td><td>90</td><td>62</td></tr>
+<tr><th>2</th><td>10</td><td>15</td><td>4</td><td>7</td></tr>
+</table>
+
+<p>And here's how we could change one value inside of it:</p>
+
+<div class="code">arr[1][2] = 33; //Changes 90 to 33
+</div>
+
+<table class="array">
+<tr><th></th><th>0</th><th>1</th><th class="selected-index">2</th><th>3</th></tr>
+<tr><th>0</th><td>13</td><td>44</td><td>82</td><td>1</td></tr>
+<tr><th class="selected-index">1</th><td>22</td><td>11</td><td class="changed">33</td><td>62</td></tr>
+<tr><th>2</th><td>10</td><td>15</td><td>4</td><td>7</td></tr>
+</table>
+
+</section>
+
+{% endblock %}

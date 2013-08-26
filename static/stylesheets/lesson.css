@@ -87,24 +87,22 @@ a:hover {
     text-decoration: underline;
 }
 
-.keyword {
+em, .keyword {
     font-weight: bold;
+    font-style: normal;
 }
 
-.code {
+code, .code {
     font-family: Courier, monospace;
 }
 
-div.code, textarea.code {
+pre, div.code, textarea.code {
     background-color: #333;
     color: #fff;
     padding: 1%; /*5px*/
     border-radius: 4px;
     white-space: pre;
     word-wrap: break-word;
-}
-
-textarea.code {
 }
 
 table {

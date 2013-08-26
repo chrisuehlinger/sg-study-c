@@ -1,50 +1,41 @@
 {% extends "base.html" %}
 {% block content %}
-
-<section>
-<p>Sometimes, a long chain of if-else-if statements is not the best way to solve a problem. We saw this with the necktie problem:</p>
-
+	<section>
+<p>Sometimes, a long chain of <code>if</code>-<code>else</code>-<code>if</code> statements is not the best way to solve a problem. We saw this with the necktie problem:</p>
 <p>I have one necktie for each day of the week. I need a program to tell me which tie to wear each day.</p>
-
-<p>Here is how we could solve the problem using if-else-if statements:</p>
-
-<div class="code">day = getchar();
+<p>Here is how we could solve the problem using <code>if</code>-<code>else</code>-<code>if</code> statements:</p>
+<pre><code>day = getchar();
 if(day == 'M')
-	printf(&quot;Today you should wear a Yellow tie!&quot;);
+    printf("Today you should wear a Yellow tie!");
 else if(day == 'T')
-	printf(&quot;Today you should wear a Pink tie!&quot;);
+    printf("Today you should wear a Pink tie!");
 else if(day == 'W')
-	printf(&quot;Today you should wear a Green tie!&quot;);
+    printf("Today you should wear a Green tie!");
 else if(day == 'R')
-	printf(&quot;Today you should wear an Orange tie!&quot;);
+    printf("Today you should wear an Orange tie!");
 else if(day == 'F')
-	printf(&quot;Today you should wear a Blue tie!&quot;);
+    printf("Today you should wear a Blue tie!");
 else
-	printf(&quot;Today you should wear No tie!&quot;);
-</div>
-
-<p>When we have to answer a question with Two possible answers (True or False, Yes or No, Right or Wrong, etc.) if-else statements are a good idea. Sometimes we even need to have many if statements. However, sometimes it is easier to write a <span class="keyword">switch-case statement</span> to help solve the problem:</p>
-
-<div class="code">day = getchar();
-printf(&quot;Today you should wear &quot;);
+    printf("Today you should wear No tie!");
+</code></pre>
+<p>When we have to answer a question with Two possible answers (True or False, Yes or No, Right or Wrong, etc.) <code>if</code>-<code>else</code> statements are a good idea. Sometimes we even need to have many <code>if</code> statements. However, sometimes it is easier to write a <em><code>switch-case</code> statement</em> to help solve the problem:</p>
+<pre><code>day = getchar();
+printf("Today you should wear ");
 switch(day)
-{ 
-	case 'm': 
-	case 'M': printf(&quot;a Yellow &quot;); break; 
-	case 't': 
-	case 'T': printf(&quot;a Pink &quot;); break;  
-	case 'w':  
-	case 'W': printf(&quot;a Green &quot;); break;  
-	case 'r':  
-	case 'R': printf(&quot;an Orange &quot;); break;  
-	case 'f':  
-	case 'F': printf(&quot;a Blue &quot;); break;  
-	default: printf(&quot;No &quot;); break; 
-} 
-printf(&quot;Tie! Have a nice day!&quot;);
-</div>
-
-<p>A <span class="keyword">switch statement</span> takes a variable as input (although Strings will not work, because they are Arrays) and uses it to choose which case statement to run. It runs the code starting at the <span class="keyword">case statement</span> and ending at the next <span class="keyword">break statement</span>. If none of the case statements are correct, it will run the code the comes after the <span class="keyword">default statement</span>.</p>
-
-</section>
+{
+    case 'm':
+    case 'M': printf("a Yellow "); break;
+    case 't':
+    case 'T': printf("a Pink "); break;
+    case 'w':
+    case 'W': printf("a Green "); break;
+    case 'r':
+    case 'R': printf("an Orange "); break;
+    case 'f':
+    case 'F': printf("a Blue "); break;
+    default: printf("No "); break;
+}
+printf("Tie! Have a nice day!");
+</code></pre>
+<p>A <em><code>switch</code> statement</em> takes a variable as input (although Strings will not work, because they are Arrays) and uses it to choose which <code>case</code> statement to run. It runs the code starting at the <em><code>case</code> statement</em> and ending at the next <em><code>break</code> statement</em>. If none of the <code>case</code> statements are correct, it will run the code the comes after the <em><code>default</code> statement</em>.</p></p>	</section>
 {% endblock %}
