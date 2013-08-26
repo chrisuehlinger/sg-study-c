@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<section>
+<h2>Users</h2>
+<ul>
+	{% for u in user_list %}
+	{% if not u.admin_priv %}
+	<li><a href="/user/{{u.username}}">{{u.username}}</a> - M 5/{{u.room}} - #{{u.number}}</li>
+	{% endif %}{% endfor %}
+</ul>
+</section>
+<section>
+	<h2>Exercises</h2>
+	<ul>
+		{% for e in exercise_list %}
+		<li><a href="/exercises/{{e.url}}">{{e.name}}</a></li>
+		{% endfor %}
+	</ul>
+	<a href="/addexercise">Add an Exercise</a>
+</section>
+<section>
+	<h2>Suggestions</h2>
+	<ul>
+		{% for s in suggestion_list %}
+		<li>"{{s.content}}" --{{s.submitter_string()}} on {{s.page}}</li>
+		{% endfor %}
+	</ul>
+</section>
+{% endblock %}

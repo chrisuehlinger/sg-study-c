@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>St. Gabriel's C Study Guide</title>
+		<link rel="stylesheet" type="text/css" href="/static/stylesheets/lesson.css">
+	</head>
+	<body>
+		<div class="login-area">
+		{% if logged_in == True %}
+			{{username}} (<a href="/logout" class="login-link">logout</a>)
+		{% else %}
+			<a href="/signup" class="login-link">signup</a>
+			|
+			<a href="/login" class="login-link">login</a>
+		{% endif %}
+		</div>
+		<article>
+		<header><h1>St. Gabriel's C Study Guide</h1></header>
+			<section>
+				<h2>Welcome!</h2>
+				<p>This website has information on everything we have been learning about C this semester.</p>
+				{% for g in groups %}
+		<span>{{g['group']}}</span>
+			<ul>
+				{% for t in g['topics'] %}
+				<li><a href="/{{t['url']}}">{{t['topic_name']}}</a></li>
+				{% endfor %}
+			</ul>
+		{% endfor %}
+
+		<h3><a href="/exercises">Practice Exercises</a></h3>
+			</section>
+		</article>
+	</body>
+</html>

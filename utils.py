@@ -9,6 +9,9 @@ import time
 import re
 import json
 
+styles = {'old_reliable':'Old Reliable',
+		  'the_new_style':'The NEW Style'}
+
 index = [	{'group':'The Basics', 'topics': [	#{'url':"whatis", 'topic_name':"What is C?"},
 												{'url':"basic_syntax", 'topic_name':"Basic Syntax"},
 												{'url':"math", 'topic_name':"Basic Math in C"},
@@ -63,6 +66,8 @@ def remove_comments(code):
 	return re.sub(r'(/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/)|(//.*)', '', code, flags=re.MULTILINE)
 
 class Handler(webapp2.RequestHandler):
+	stylesheet = 'old_reliable'
+
 	def write(self,output=""):
 		self.response.out.write(output)
 

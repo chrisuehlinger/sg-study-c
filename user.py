@@ -43,9 +43,17 @@ class User(utils.Model):
 	email=db.StringProperty()
 	created=db.DateTimeProperty(auto_now_add=True)
 	admin_priv=db.BooleanProperty(default=False)
+
 	room=db.IntegerProperty()
 	number=db.IntegerProperty()
+
 	exercises_completed=db.ListProperty(db.Key)
+
+	#Preferences
+	pref_css=db.StringProperty(default="old_reliable")
+	pref_codemirror_css=db.StringProperty(default="night")
+	pref_codemirror_addons=db.ListProperty(unicode)
+
 
 	def reset_pw(self):
 		new_pw = ''.join(random.choice(string.letters) for x in xrange(5))
@@ -126,18 +134,25 @@ class UserHandler(utils.Handler):
 		self.username = self.get_cookie("username")
 		if self.get_cookie("admin") == "yes":
 			self.isAdmin = True
+		if self.get_cookie("css"):
+			self.stylesheet = self.get_cookie("css")
+			logging.info(self.stylesheet)
 		self.user_get(*args)
 
 	def post(self, *args):
 		self.username = self.get_cookie("username")
 		if self.get_cookie("admin") == "yes":
 			self.isAdmin = True
+		if self.get_cookie("css"):
+			self.stylesheet = self.get_cookie("css")
 		self.user_post(*args)
 
 	def render_with_user(self,template_name, template_values={}):
 		logging.info('User: "%s"' % self.username)
 		template_values['logged_in_username'] = self.username
 		template_values['isAdmin'] = self.isAdmin
+		template_values['stylesheet'] = self.stylesheet
+		logging.info(self.stylesheet)
 		self.render(template_name, template_values)
 
 class AdminHandler(UserHandler):
@@ -159,50 +174,73 @@ class SettingsHandler(UserHandler):
 	def user_get(self):
 		if self.username:
 			page = {'url':'settings', 'topic_name':'Settings'}
-			self.render_with_user("settings.html", {'page':page})
+			self.render_with_user("settings.html", {'page':page,
+													'styles':utils.styles})
 		else:
 			self.redirect('/')
 
 	def user_post(self):
 		user = User.query().filter('username = ', self.username).get()
-		page = {'url':'settings', 'topic_name':'Settings'}
 		if user:
-			old_password = user.valid_pw(user.username, self.request.get('old_password'))
-			new_password = valid_password(self.request.get('new_password'))
-			confirm_password = verify_password(self.request.get('new_password'), self.request.get('confirm_password'))
-
-			if not (old_password and new_password and confirm_password):
-				old_error=''
-				if not old_password:
-					old_error='Password incorrect.'
-
-				new_error=''
-				if not new_password:
-					new_error='Invalid password.'
-
-				confirm_error=''
-				if not confirm_password:
-					confirm_error='Passwords do not match'
-
-				self.render_with_user("settings.html", {'page':page,
-														'old_password':self.request.get('old_password'),
-														'new_password':self.request.get('new_password'),
-														'confirm_password':self.request.get('confirm_password'),
-														'old_error':old_error,
-														'new_error':new_error,
-														'confirm_error':confirm_error})
-			else:
-				user.password = make_pw_hash(user.username, self.request.get('new_password'))
-				user.put()
-				self.render_with_user("settings.html", {'page':page, 'message':'Success!'})
+			if self.request.get("form_id") == "change_password":
+				self.change_password(user)
+			elif self.request.get("form_id") == "css":
+				self.change_css(user)
+			
 		else:
 			self.redirect('/')
+
+	def change_css(self, user):
+		page = {'url':'settings', 'topic_name':'Settings'}
+		new_css = self.request.get('style')
+		self.set_secure_cookie("css", new_css)
+		user.pref_css = new_css
+		user.put()
+		self.stylesheet = new_css
+		logging.info(new_css)
+		self.render_with_user("settings.html", {'page':page,
+												'styles':utils.styles})
+
+	def change_password(self, user):
+		page = {'url':'settings', 'topic_name':'Settings'}
+		old_password = user.valid_pw(user.username, self.request.get('old_password'))
+		new_password = valid_password(self.request.get('new_password'))
+		confirm_password = verify_password(self.request.get('new_password'), self.request.get('confirm_password'))
+
+		if not (old_password and new_password and confirm_password):
+			old_error=''
+			if not old_password:
+				old_error='Password incorrect.'
+
+			new_error=''
+			if not new_password:
+				new_error='Invalid password.'
+
+			confirm_error=''
+			if not confirm_password:
+				confirm_error='Passwords do not match'
+
+			self.render_with_user("settings.html", {'page':page,
+													'styles':utils.styles,
+													'old_password':self.request.get('old_password'),
+													'new_password':self.request.get('new_password'),
+													'confirm_password':self.request.get('confirm_password'),
+													'old_error':old_error,
+													'new_error':new_error,
+													'confirm_error':confirm_error})
+		else:
+			user.password = make_pw_hash(user.username, self.request.get('new_password'))
+			user.put()
+			self.render_with_user("settings.html", {'page':page, 
+													'styles':utils.styles,
+													'message':'Success!'})
 
 class UserPageHandler(UserHandler):
 	def user_get(self, *args):
 		user = User.query().filter('username = ', self.username).get()
 		if user and args[0] and ( user.username == args[0] or user.admin_priv):
-			page = {'url':'/user/%s' % user.username, 'topic_name':'{0} - M5/{1} #{2}'.format(user.username, user.room, user.number) }
+			page = {'url':'/user/%s' % user.username, 
+					'topic_name':'{0} - M5/{1} #{2}'.format(user.username, user.room, user.number) }
 
 			exercise_list = Exercise.query()
 			exercises_completed = list()
@@ -212,7 +250,9 @@ class UserPageHandler(UserHandler):
 					logging.info(e.name)
 
 
-			self.render_with_user("userpage.html", {'page':page, 'user':user, 'exercises_completed':exercises_completed})
+			self.render_with_user("userpage.html", {'page':page,
+													'user':user,
+													'exercises_completed':exercises_completed})
 		else:
 			self.redirect('/')
 
@@ -223,5 +263,9 @@ class AdminPageHandler(AdminHandler):
 		exercise_list = Exercise.query()
 		suggestion_list = Suggestion.query().order("-posted_date")
 		current_user = User.query().filter("username = ", self.username).get()
-		self.render_with_user("adminpage.html", {'page':page, 'user':current_user, 'user_list':user_list, 'exercise_list':exercise_list, 'suggestion_list':suggestion_list})
+		self.render_with_user("adminpage.html", {   'page':page, 
+													'user':current_user,
+													'user_list':user_list, 
+													'exercise_list':exercise_list, 
+													'suggestion_list':suggestion_list})
 

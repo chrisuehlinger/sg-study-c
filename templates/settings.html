@@ -1,16 +1,41 @@
 {% extends "base.html" %}
 {% block content %}
-<section>
-	<h2>Change Password</h2>
-	<form action="/settings" method="POST">
-		<label>Old Password: <input name="old_password" type="password" value="{{old_password}}" ></label>
-		<div class="error">{{old_error}}</div>
-		<label>New Password: <input name="new_password" type="password" value="{{new_password}}" ></label>
-		<div class="error">{{new_error}}</div>
-		<label>Confirm New Password: <input name="confirm_password" type="password" value="{{confirm_password}}" ></label>
-		<div class="error">{{confirm_error}}</div>
-		<input type="submit">
-	</form>
-	<p>{{message}}</p>
-</section>
+	<section>
+		<h2>Change Password</h2>
+		<form action='/settings' method='POST'>
+			<input type='hidden' name='form_id' value='change_password' />
+			<label>Old Password:				<input type='password' name='old_password' value='{{ old_password }}' />
+</label>
+			<div class='error'>{{ old_error }}</div>
+
+			<label>New Password:				<input type='password' name='new_password' value='{{ new_password }}' />
+</label>
+			<div class='error'>{{ new_error }}</div>
+
+			<label>Confirm New Password:				<input type='password' name='confirm_password' value='{{ confirm_password }}' />
+</label>
+			<div class='error'>{{ confirm_error }}</div>
+
+			<input type='submit' value='Submit' />
+		</form>
+		<p>{{ message }}</p>
+
+	</section>
+	<section>
+		<h2>Look and Feel</h2>
+		<form action='/settings' method='POST'>
+			<input type='hidden' name='form_id' value='css' />
+			<label>Style:				<select name='style'>
+					{% for k in styles.keys() %}
+						{% if k == stylesheet %}
+							<option selected='selected' value='{{ k }}'>{{ styles[k] }}</option>
+						{% else %}
+							<option value='{{ k }}'>{{ styles[k] }}</option>
+						{% endif %}
+					{% endfor %}
+				</select>
+</label>
+			<input type='submit' value='Submit' />
+		</form>
+	</section>
 {% endblock %}

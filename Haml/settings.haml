@@ -1,0 +1,33 @@
+-extends "base.html"
+-block content
+	%section
+		%h2 Change Password
+		%form{action:"/settings", method:"POST"}
+			%input{type:'hidden', name:'form_id', value:'change_password'}
+			%label Old Password:
+				%input{name:"old_password", type:"password", value:"={old_password}"}
+			.error= old_error
+			
+			%label New Password:
+				%input{name:"new_password", type:"password", value:"={new_password}"}
+			.error= new_error
+
+			%label Confirm New Password: 
+				%input{name:"confirm_password", type:"password", value:"={confirm_password}"}
+			.error= confirm_error
+			
+			%input{type:"submit", value:"Submit"}
+		%p= message
+
+	%section
+		%h2 Look and Feel
+		%form{action:"/settings", method:"POST"}
+			%input{type:'hidden', name:'form_id', value:'css'}
+			%label Style:
+				%select{name:"style"}
+					-for k in styles.keys()
+						-if k == stylesheet
+							%option{value:"={k}", selected:"selected"}= styles[k]
+						-else
+							%option{value:"={k}"}= styles[k]
+			%input{type:'submit', value:'Submit'}

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block scripts %}
+<script type="text/javascript" language="Javascript" src="/static/js/exercises.js"></script>
+{% endblock %}
+{% block content %}
+
+<section>
+	<h2>{{page.name}}</h2>
+	<p> {{page.description | safe}}</p>
+	{% if page.flowchart %}
+		<img src="/serve/{{page.flowchart.key()}}"></img>
+	{% endif %}
+	<form id="answer" method="post">
+		<textarea id="editor" name="code">{{page.start_code}}</textarea>
+		<label>Input:<br>
+			<textarea id="input"></textarea>
+		</label>
+		<br>
+		<input id="submit-test" type="submit" value="Test Program">
+		<input id="submit-check" type="submit" value="Submit Work">
+	</form>
+	<div id="message">{{message}}</div>
+	<div id="cmpinfo">
+		<p>Compiler:</p>
+		<div class="code">{{cmpinfo}}</div>
+	</div>
+	<div id="output">
+		<p>Output:</p>
+		<div class="code">{{output}}</div>
+	</div>
+	<p>Powered by <a href="http://ideone.com">ideone.com</a> &copy; by <a href="http://sphere-research.com">Sphere Research Labs</a></p>
+</section>
+
+
+{% endblock %}

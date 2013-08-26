@@ -2,54 +2,75 @@
 <html>
 	<head>
 		<title>{{page['topic_name']}} - St. Gabriel's C Study Guide</title>
-		<link rel="stylesheet" type="text/css" href="/static/stylesheets/lesson.css">
-		<script type="text/javascript" language="Javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
-		<script type="text/javascript" language="Javascript" src="/static/js/codemirror.js"></script>
-		<script type="text/javascript" language="Javascript" src="/static/js/clike.js"></script>
-		<link rel="stylesheet" href="/static/stylesheets/codemirror.css">
-		<link rel="stylesheet" href="/static/stylesheets/night.css">
-		<script type="text/javascript" language="Javascript" src="/static/js/base.js"></script>
-		{% block scripts %}{% endblock %}
+		<link href='/static/stylesheets/{{ stylesheet }}.css' type='text/css' rel='stylesheet' />
+		<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js' type='text/javascript' language='Javascript'></script>
+		<script src='/static/js/codemirror.js' type='text/javascript' language='Javascript'></script>
+		<script src='/static/js/clike.js' type='text/javascript' language='Javascript'></script>
+		<link href='/static/stylesheets/codemirror.css' rel='stylesheet' />
+		<link href='/static/stylesheets/night.css' rel='stylesheet' />
+		<script src='/static/js/base.js' type='text/javascript' language='Javascript'></script>
+		{% block scripts %}
+
+		{% endblock %}
+
 	</head>
 	<body>
 		<div id='sidebar-wrapper'>
-		<nav id='sidebar'>
-			<h2><a href="/">Home</a></h2>
-		{% for g in groups %}
-		<span>{{g['group']}}</span>
-			<ul>
-				{% for t in g['topics'] %}
-				<li><a href="/lessons/{{t['url']}}">{{t['topic_name']}}</a></li>
-				{% endfor %}
-			</ul>
-		{% endfor %}
-		<h3><a href="/exercises">Practice Exercises</a></h3>
-		<form id="suggestion-box" method="POST">
-			<label>Suggestions:<br><input id="suggestion-input" name="suggestion" type="text"></label>
-			<input id="suggestion-submit" type="submit" value="Submit">
-		</form>
-		</nav>
-		</div>
+			<nav id='sidebar'>
+				<h2>
+					<a href='/'>Home</a>
 
-		<div class="login-area">
+				</h2>
+				{% for g in groups %}
+					<span>{{ g['group'] }}</span>
+					<ul>
+						{% for t in g['topics'] %}
+							<li>
+								<a href='/lessons/={t[\'url\']}'>{{ t['topic_name'] }}</a>
+
+							</li>
+						{% endfor %}
+					</ul>
+				{% endfor %}
+				<h3>
+					<a href='/exercises'>Practice Exercises</a>
+
+				</h3>
+				<form id='suggestion-box' method='POST'>
+					<label>
+						Suggestions:
+						<input id='suggestion-input' type='text' name='suggestion' />
+						<input id='suggestion-submit' type='submit' value='Submit' />
+
+					</label>
+				</form>
+			</nav>
+		</div>
+		<div class='login-area'>
 			{% if logged_in_username %}
-			{% if isAdmin %}
-			<a href="/admin">admin page</a>
-			|
+				{% if isAdmin %}
+					<a class='login-link' href='/admin'>admin page</a>
+					|
+				{% endif %}
+				<a class='login-link' href='/settings'>settings</a>
+				|
+				<a class='login-link' href='/user/{{logged_in_username}}'>my page</a>
+				|
+				{{ logged_in_username }}
+				(
+				<a class='login-link' href='/logout'>logout</a>
+				)
+			{% else %}
+				<a class='login-link' href='/signup'>signup</a>
+				|
+				<a class='login-link' href='/login'>login</a>
+
 			{% endif %}
-			<a href="/settings">settings</a>
-			|
-			<a href="/user/{{logged_in_username}}">my page</a>
-			|
-			{{logged_in_username}} (<a href="/logout" class="login-link">logout</a>)
-		{% else %}
-			<a href="/signup" class="login-link">signup</a>
-			|
-			<a href="/login" class="login-link">login</a>
-		{% endif %}
 		</div>
 		<article>
-			<header><h1>{{page['topic_name']}}</h1></header>
+			<header>
+				<h1>{{ page['topic_name'] }}</h1>
+			</header>
 			{% block content %}
 			{% endblock %}
 		</article>

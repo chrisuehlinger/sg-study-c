@@ -134,6 +134,7 @@ class SignupHandler(utils.Handler):
 			new_user.number = int(input_number)
 			new_user.put()
 			self.set_secure_cookie("username", input_username)
+			self.set_secure_cookie("css", new_user.pref_css)
 			self.redirect('/')
 
 class LoginHandler(utils.Handler):
@@ -152,12 +153,13 @@ class LoginHandler(utils.Handler):
 			if the_user and the_user.valid_pw(input_username, input_password):
 					valid=True
 					self.set_secure_cookie("username", input_username)
+					self.set_secure_cookie("css", the_user.pref_css)
 					if the_user.admin_priv:
 						self.redirect('/admin')
 						self.set_secure_cookie("admin", "yes")
 					else:
 						self.redirect('/user/%s' % input_username)
-		
+					
 		if not valid:
 			error = "Invalid username or password"
 			self.render("login.html", {'username':input_username, 'password':input_password, 'error': error, "page":page})
@@ -166,6 +168,7 @@ class LogoutHandler(utils.Handler):
 	def get(self):
 		self.delete_cookie("username")
 		self.delete_cookie("admin")
+		self.delete_cookie("css")
 		self.redirect('/')
 
 class WelcomeHandler(utils.Handler):
