@@ -16,62 +16,67 @@
 
 	</head>
 	<body>
-		<div id='sidebar-wrapper'>
-			<nav id='sidebar'>
-				<h2>
-					<a href='/'>Home</a>
+		<header>
+			<div class='title-box'>
+				<h1>
+					<a href='/'>C Study Guide</a>
+				</h1>
+				<h2>St. Gabriel's College</h2>
 
-				</h2>
-				{% for g in groups %}
-					<span>{{ g['group'] }}</span>
-					<ul>
-						{% for t in g['topics'] %}
-							<li>
-								<a href='/lessons/={t[\'url\']}'>{{ t['topic_name'] }}</a>
-
-							</li>
-						{% endfor %}
-					</ul>
-				{% endfor %}
-				<h3>
-					<a href='/exercises'>Practice Exercises</a>
-
-				</h3>
-				<form id='suggestion-box' method='POST'>
-					<label>
-						Suggestions:
-						<input id='suggestion-input' type='text' name='suggestion' />
-						<input id='suggestion-submit' type='submit' value='Submit' />
-
-					</label>
-				</form>
-			</nav>
-		</div>
-		<div class='login-area'>
-			{% if logged_in_username %}
-				{% if isAdmin %}
-					<a class='login-link' href='/admin'>admin page</a>
+			</div>
+			<div class='login-area'>
+				{% if logged_in_username %}
+					{% if isAdmin %}
+						<a class='login-link' href='/admin'>admin page</a>
+						|
+					{% endif %}
+					<a class='login-link' href='/settings'>settings</a>
 					|
-				{% endif %}
-				<a class='login-link' href='/settings'>settings</a>
-				|
-				<a class='login-link' href='/user/{{logged_in_username}}'>my page</a>
-				|
-				{{ logged_in_username }}
-				(
-				<a class='login-link' href='/logout'>logout</a>
-				)
-			{% else %}
-				<a class='login-link' href='/signup'>signup</a>
-				|
-				<a class='login-link' href='/login'>login</a>
+					<a class='login-link' href='/user/{{ logged_in_username }}'>my page</a>
+					|
+					{{ logged_in_username }}
+					(
+					<a class='login-link' href='/logout'>logout</a>
+					)
+				{% else %}
+					<a class='login-link' href='/signup'>signup</a>
+					|
+					<a class='login-link' href='/login'>login</a>
 
-			{% endif %}
-		</div>
+				{% endif %}
+			</div>
+		</header>
+		<nav id='sidebar'>
+			<h2>
+				<a href='/'>Home</a>
+
+			</h2>
+			{% for g in groups %}
+				<span>{{ g['group'] }}</span>
+				<ul>
+					{% for t in g['topics'] %}
+						<li>
+							<a href='/lessons/{{t["url"]}}'>{{ t['topic_name'] }}</a>
+
+						</li>
+					{% endfor %}
+				</ul>
+			{% endfor %}
+			<h3>
+				<a href='/exercises'>Practice Exercises</a>
+
+			</h3>
+			<form id='suggestion-box' method='POST'>
+				<label>
+					Suggestions:
+					<input id='suggestion-input' type='text' name='suggestion' />
+					<input id='suggestion-submit' type='submit' value='Submit' />
+
+				</label>
+			</form>
+		</nav>
 		<article>
-			<header>
-				<h1>{{ page['topic_name'] }}</h1>
-			</header>
+			<h1>{{ page['topic_name'] }}</h1>
 			{% block content %}
 			{% endblock %}
 		</article>

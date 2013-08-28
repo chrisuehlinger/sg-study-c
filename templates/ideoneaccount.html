@@ -1,9 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
-<form method="post">
-	<label>Username:<input name="user" type="text"></label>
-	<label>Password:<input name="pass" type="text"></label>
-	<label>Remaining:<input name="remaining" type="text"></label>
-	<input type="submit" value="Submit">
-</form>
+	<form method='post'>
+		<label>Username:			<input type='text' name='user' />
+</label>
+		<label>Password:			<input type='text' name='pass' />
+</label>
+		<label>Remaining:			<input type='text' name='remaining' />
+</label>
+		<input type='submit' value='Submit' />
+	</form>
 {% endblock %}

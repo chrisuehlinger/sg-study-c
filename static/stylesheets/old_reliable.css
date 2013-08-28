@@ -21,6 +21,10 @@ h2 {
     border-bottom: 2px solid #333;
 }
 
+header h2 {
+    border-bottom: none;
+}
+
 #sidebar-wrapper {
     position: absolute;
     width: 100%;

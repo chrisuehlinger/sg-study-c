@@ -155,15 +155,13 @@ class UserHandler(utils.Handler):
 
 		if self.get_cookie('cm_theme'):
 			self.codemirror_theme = self.get_cookie('cm_theme')
-			
+
 		self.user_post(*args)
 
 	def render_with_user(self,template_name, template_values={}):
 		logging.info('User: "%s"' % self.username)
 		template_values['logged_in_username'] = self.username
 		template_values['isAdmin'] = self.isAdmin
-		template_values['stylesheet'] = self.stylesheet
-		template_values['codemirror_theme'] = self.codemirror_theme
 		self.render(template_name, template_values)
 
 class AdminHandler(UserHandler):

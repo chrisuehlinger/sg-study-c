@@ -1,118 +1,121 @@
 {% extends "base.html" %}
 {% block content %}
-<section>
-
+	<section>
 <h2>Conditions</h2>
-<p>Many statements in C use Conditions. A <span class="keyword">Condition</span> is a question with two possible answers: True or False. For example, &ldquo;How old are you?&rdquo; is not a Condition. However, &ldquo;Are you 16?&rdquo; is a Condition: It can be answered Yes or No. We could write this condition like this:</p>
-
-<div class="code">(age == 16)</div>
-</section>
-
-<section>
+<p>Many statements in C use Conditions. A <em>Condition</em> is a question with two possible answers: True or False. For example, "How old are you?" is not a Condition. However, "Are you 16?" is a Condition: It can be answered Yes or No. We could write this condition like this:</p>
+<pre><code>(age == 16)
+</code></pre>	</section>
+	<section>
 <h2>Relational Operators</h2>
-<p>When we write conditions, we use <span class="keyword">Relational Operators</span>. Here is a list of them:</p>
-
+<p>When we write conditions, we use <em>Relational Operators</em>. Here is a list of them:</p>
 <ul>
-<li>== - Equal to*</li>
+<li>== - Equal to *</li>
 <li>!= - Not equal to</li>
 <li>&gt; - Greater Than</li>
 <li>&lt; - Less Than</li>
 <li>&gt;= - Greater or Equal</li>
-<li>&lt;= - Less or Equa</li>
+<li>&lt;= - Less or Equal</li>
 </ul>
-
-<p>*Remember to write &ldquo;==&rdquo; not &ldquo;=&rdquo; or your code will not work the way you want!</p>
-
-<p>So if we wanted to write the condition &ldquo;Is height greater than or equal to 182cm?&rdquo; We could write it like this:</p>
-
-<div class="code">(height >= 182)</div>
-</section>
-
-<section>
+<p>*Remember to write "==" not "=" or your code will not work the way you want!</p>
+<p>So if we wanted to write the condition "Is height greater than or equal to 182cm?" We could write it like this:</p>
+<pre><code>(height &gt;= 182)
+</code></pre>	</section>
+	<section>
 <h2>Logical Operators</h2>
-<p>We can combine two or more conditions using the <span class="keyword">Logical Operators</span>: &amp;&amp; - AND, || - OR. These tables will show you how they work:</p>
+<p>We can combine two or more conditions using the <em>Logical Operators</em>: &amp;&amp; - AND, || - OR. These tables will show you how they work:</p>		<figure id='truth-tables'>
+			<table>
+				<tr>
+					<th colspan='2'>AND - &amp;&amp;</th>
+				</tr>
+				<tr>
+					<td>True &amp;&amp; True</td>
+					<td>True</td>
+				</tr>
+				<tr>
+					<td>True &amp;&amp; False</td>
+					<td>False</td>
+				</tr>
+				<tr>
+					<td>False &amp;&amp; True</td>
+					<td>False</td>
+				</tr>
+				<tr>
+					<td>False &amp;&amp; False</td>
+					<td>False</td>
 
-<figure id="truth-tables">
-<table>
-<tr><th colspan="2"><span class="keyword">AND - &amp;&amp;</span></th></tr>
-<tr><td>True &amp;&amp; True</td><td>True</td></tr>
-<tr><td>True &amp;&amp; False</td><td>False</td></tr>
-<tr><td>False &amp;&amp; True</td><td>False</td></tr>
-<tr><td>False &amp;&amp; False</td><td>False</td></tr>
-</table>
-
-<table >
-<tr><th colspan="2"><span class="keyword">OR - ||</span></th></tr>
-<tr><td>True || True</td><td>True</td></tr>
-<tr><td>True || False</td><td>True</td></tr>
-<tr><td>False || True</td><td>True</td></tr>
-<tr><td>False || False</td><td>False</td></tr>
-</table>
-<span class="stretch"></span>
-</figure>
-
-<p>So if I wanted to write a condition like this: &ldquo;Do you have 3 shirts AND 5 jackets?&rdquo; I could write it like this:</p>
-
-<div class="code">(shirts == 3 &amp;&amp; jackets == 5)</div>
-
-<p>There is one more logical operator: NOT - ! This operator changes True to False and False to True. If I wanted to write the condition &ldquo;Do you NOT have 3 cars?&rdquo; I could write it like this:</p>
-
-<div class="code">(!(cars == 3))</div>
-
-<p>I could also write it like this with the &ldquo;Not Equal To&rdquo; relational operator:</p>
-
-<div class="code">(cars != 3)</div>
-</section>
-
-<section>
+				</tr>
+			</table>
+			<table>
+				<tr>
+					<th colspan='2'>OR - ||</th>
+				</tr>
+				<tr>
+					<td>True || True</td>
+					<td>True</td>
+				</tr>
+				<tr>
+					<td>True || False</td>
+					<td>True</td>
+				</tr>
+				<tr>
+					<td>False || True</td>
+					<td>True</td>
+				</tr>
+				<tr>
+					<td>False || False</td>
+					<td>False</td>
+				</tr>
+			</table>
+			<span class='stretch'></span>
+		</figure>
+<p>So if I wanted to write a condition like this: "Do you have 3 shirts AND 5 jackets?" I could write it like this:</p>
+<pre><code>(shirts == 3 &amp;&amp; jackets == 5)
+</code></pre>
+<p>There is one more logical operator: NOT - ! This operator changes True to False and False to True. If I wanted to write the condition "Do you NOT have 3 cars?" I could write it like this:</p>
+<pre><code>(!(cars == 3))
+</code></pre>
+<p>I could also write it like this with the "Not Equal To" relational operator:</p>
+<pre><code>(cars != 3)
+</code></pre>	</section>
+	<section>
 <h2>Comparing Strings</h2>
-
-<p>We cannot use relational operators (==, &gt;, &lt;, etc.) to compare Strings (This is because Strings are not normal variables, they are Arrays). We must use the <span class="keyword">strcmp()</span> (short for &ldquo;String Compare&rdquo;) function. The strcmp() function takes two strings as input, and returns 0 if they are the same. So we can compare two strings like this:</p>
-
-<div class="code">(strcmp(string1, string2) == 0)</div>
-
-<p>If string1 and string2 are the same, this condition will be True.</p>
-</section>
-
-<section>
+<p>We cannot use relational operators (==, &gt;, &lt;, etc.) to compare Strings (This is because Strings are not normal variables, they are Arrays). We must use the <em><code>strcmp()</code></em> (short for "String Compare") function. The <code>strcmp()</code> function takes two strings as input, and returns 0 if they are the same. So we can compare two strings like this:</p>
+<pre><code>(strcmp(string1, string2) == 0)
+</code></pre>
+<p>If <code>string1</code> and <code>string2</code> are the same, this condition will be True.</p>	</section>
+	<section>
 <h2>If-Else Statements</h2>
-
-<p>We can use conditions to write if statements. An <span class="keyword">if statement</span> will check if the condition it contains is True. If the condition is true, it will run the code that comes after it:</p>
-
-<div class="code">if(cars != 3)
-{  
-	printf(&ldquo;Time to buy a new car!\n&rdquo;); 
-}</div>
-
-<p>We can also write <span class="keyword">else statements</span> that will run if the condition is false. Here is an example:</p>
-
-<div class="code">if(height > 150) 
-{  
-	printf(&ldquo;You can ride this roller coaster!\n&rdquo;); 
-}else 
-{  
-	printf(&ldquo;You are too short to ride this roller coaster.\n&rdquo;); 
-}</div>
-
-<p>If you do not follow your if and else statements with curly braces (&ldquo;{&ldquo; and &ldquo;}&rdquo;), they will run the next line of code and nothing else. We could rewrite the above code like this:</p>
-
-<div class="code">if(height > 150)  
-	printf(&ldquo;You can ride this roller coaster!\n&rdquo;); 
-else  
-	printf(&ldquo;You are too short to ride this roller coaster.\n&rdquo;);</div>
-
+<p>We can use conditions to write <code>if</code> statements. An <em><code>if</code> statement</em> will check if the condition it contains is True. If the condition is true, it will run the code that comes after it:</p>
+<pre><code>if(cars != 3)
+{
+    printf("Time to buy a new car!\n");
+}
+</code></pre>
+<p>We can also write <em><code>else</code> statements</em> that will run if the condition is false. Here is an example:</p>
+<pre><code>if(height &gt; 150)
+{
+    printf("You can ride this roller coaster!\n");
+}else
+{
+    printf("You are too short to ride this roller coaster.\n");
+}
+</code></pre>
+<p>If you do not follow your <code>if</code> and <code>else</code> statements with curly braces ("{" and "}"), they will run the next line of code and nothing else. We could rewrite the above code like this:</p>
+<pre><code>if(height &gt; 150)
+    printf("You can ride this roller coaster!\n");
+else
+    printf("You are too short to ride this roller coaster.\n");
+</code></pre>
 <p>One last note: You can put if statements after your else statements, like this:</p>
-
-<div class="code">if(score > 90)  
-	grade = &ldquo;A&rdquo;; 
-else if(score > 80)  
-	grade = &ldquo;B&rdquo;; 
-else if(score > 70)  
-	grade = &ldquo;C&rdquo;; 
-else if(score > 60)  
-	grade = &ldquo;D&rdquo;; 
-else  
-	grade = &ldquo;F&rdquo;; </div>
-
-</section>
+<pre><code>if(score &gt; 90)
+    grade = "A";
+else if(score &gt; 80)
+    grade = "B";
+else if(score &gt; 70)
+    grade = "C";
+else if(score &gt; 60)
+    grade = "D";
+else
+    grade = "F";
+</code></pre>	</section>
 {% endblock %}

@@ -3,3 +3,4 @@ issuetracker.txt
 *.pyc
 *~
 *.sh
+.sass_cache/*

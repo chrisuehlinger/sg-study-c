@@ -3,17 +3,6 @@
   var submitSuggestion;
 
   $(document).ready(function() {
-    var top;
-    top = $('#sidebar').offset().top - parseFloat($('#sidebar').css('marginTop').replace(/auto/, 0));
-    $(window).scroll(function(event) {
-      var y;
-      y = $(this).scrollTop();
-      if (y >= top - 10) {
-        return $('#sidebar').addClass('fixed');
-      } else {
-        return $('#sidebar').removeClass('fixed');
-      }
-    });
     return $('form#suggestion-box').submit(function(e) {
       e.preventDefault();
       submitSuggestion();

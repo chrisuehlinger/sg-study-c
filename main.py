@@ -49,7 +49,7 @@ class LessonHandler(user.UserHandler):
 
 class MainHandler(user.UserHandler):
 	def user_get(self, *args):
-		page = {'url':'/', 'topic_name':""}
+		page = {'url':'/', 'topic_name':"Welcome!"}
 		self.render_with_user("index.html", {'page':page})
 
 app = utils.webapp2.WSGIApplication(

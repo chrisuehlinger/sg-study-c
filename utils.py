@@ -92,7 +92,7 @@ def remove_comments(code):
 	return re.sub(r'(/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/)|(//.*)', '', code, flags=re.MULTILINE)
 
 class Handler(webapp2.RequestHandler):
-	stylesheet = 'old_reliable'
+	stylesheet = 'the_new_style'
 	codemirror_theme = 'night'
 
 	def write(self,output=""):
@@ -103,6 +103,8 @@ class Handler(webapp2.RequestHandler):
 
 	def render(self,template_name, template_values={}):
 		template_values['groups'] = index
+		template_values['stylesheet'] = self.stylesheet
+		template_values['codemirror_theme'] = self.codemirror_theme
 		self.write(render_str(template_name, template_values))
 
 	def set_secure_cookie(self, name, value):

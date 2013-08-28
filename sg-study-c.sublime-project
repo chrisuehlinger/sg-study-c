@@ -6,12 +6,35 @@
 			[
 				"coffee",
 				"-o",
-				"static/js/",
+				"static/js/$file_base_name.js",
 				"-c",
 				"$file"
 			],
 			"path": "/usr/local/bin",
 			"selector": "source.coffee"
+		},
+		{
+			"cmd": 
+			[
+				"sass", 
+				"--update",
+				"$file:static/stylesheets/$file_base_name.css",
+				"--stop-on-error", 
+				"--style",
+				"--compass",
+				"--precision 6",
+				"compressed"
+			],
+			"selector": "source.sass, source.scss"
+		},
+		{
+			"cmd": 
+			[
+				"hamlpy", 
+				"$file",
+				"templates/$file_base_name.html"
+			],
+			"selector": "source.haml"
 		}
 	],
 	"folders":
