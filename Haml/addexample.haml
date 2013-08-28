@@ -1,0 +1,51 @@
+-extends "base.html"
+-block content
+	%section
+		%h2 Add an Exercise
+		%form{action:"={upload_url}", method:"POST", enctype:"multipart/form-data"}
+			%label Name:
+				%input{type:"text", name:"name", value:"HelloWorld"}
+			%br
+
+			%label URL:
+				%input{type:"text", name:"url", value:"HelloWorld"}
+			%br
+
+			%label Description:
+				%br
+				%textarea{name:"description"} Write "Hello World!"
+			%br
+
+			%label Flowchart:
+	          %input{type:"file", name:"file"}
+			%br
+
+			%label Starting Code:
+				%br
+				%textarea.code{name:"start_code", contenteditable:"true"}
+			%br
+			
+			%label Checking Method:
+				%br
+				-for m in test_methods
+					%label= m
+						%input{type:"checkbox", name:"={m}", value:"={m}"}
+					%br
+			%br
+			
+			%label Test Input: (separate with semicolons)
+				%br
+				%textarea.code{name:"test_input"} none
+			%br
+
+			%label Expected Output: (separate with semicolons)
+				%br
+				%textarea.code{name:"output"} Hello World!
+			%br
+			
+			%label Keywords: (separate with semicolons)
+				%br
+				%textarea{name:"keywords"}
+			%br
+			
+			%input{type:"submit", value:"Submit"}

@@ -18,6 +18,7 @@ import utils
 import json
 from utils import index, db
 import logging
+import examples
 import exercises
 import exercisehandlers
 import ideoneclient
@@ -73,6 +74,12 @@ app = utils.webapp2.WSGIApplication(
 		# Exercise Pages
 		('/exercises/?([a-zA-Z0-9_]+)?', exercisehandlers.ExerciseHandler),
 
+		# Adding new Examples
+		('/addexample', example.AddExampleHandler),
+
+		# Examples
+		('/example/', example.ExampleHandler),
+
 		# Suggestions
 		('/suggestion', user.SuggestionHandler),
 
@@ -86,6 +93,7 @@ app = utils.webapp2.WSGIApplication(
 
 exercises.Exercise.warmup()
 user.User.warmup()
+example.Example.warmup()
 
 def main():
  	run_wsgi_app(application) 
