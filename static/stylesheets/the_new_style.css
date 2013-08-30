@@ -128,7 +128,7 @@ pre, div.code, textarea.code {
   padding: 1%;
   border-radius: 4px;
   white-space: pre;
-  word-wrap: break-word; }
+  overflow-x: scroll; }
 
 table {
   text-align: center;

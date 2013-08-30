@@ -6,32 +6,32 @@
 	%form.auth-form{method:"post"}
 		%label
 			Username:
-			%input{type:"text", name:"username", value:'={username}'}
+			%input{type:"text", name:"username", value:'{{username}}'}
 			.error= usernameerror
 
 		%label
 			Password:
-			%input{type:"password", name:"password", value:'={password}'}
+			%input{type:"password", name:"password", value:'{{password}}'}
 			.error= passworderror
 
 		%label
 			Verify Password:
-			%input{type:"password", name:"verify", value:'={verify}'}
+			%input{type:"password", name:"verify", value:'{{verify}}'}
 			.error= verifyerror
 
 		%label
 			Email (Optional):
-			%input{type:"text", name:"email", value:'={email}'}
+			%input{type:"text", name:"email", value:'{{email}}'}
 			.error= emailerror
 
 		%label
 			Room:
-			%input{type:"text", name:"room", maxlength:"1", value:'={room}'}
+			%input{type:"text", name:"room", maxlength:"1", value:'{{room}}'}
 			.error= roomerror
 
 		%label
 			Number:
-			%input{type:"text", name:"number", maxlength:"2", value:'={number}'}
+			%input{type:"text", name:"number", maxlength:"2", value:'{{number}}'}
 			.error= numbererror
 
 		%br

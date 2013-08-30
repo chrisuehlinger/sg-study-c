@@ -21,6 +21,41 @@
 <pre><code>(height &gt;= 182)
 </code></pre>	</section>
 	<section>
+<h2>If-Else Statements</h2>
+<p>We can use conditions to write <code>if</code> statements. An <em><code>if</code> statement</em> will check if the condition it contains is True. If the condition is true, it will run the code that comes after it:</p>
+<pre><code>if(cars != 3)
+{
+    printf("Time to buy a new car!\n");
+}
+</code></pre>
+<p>We can also write <em><code>else</code> statements</em> that will run if the condition is false. Here is an example:</p>
+<pre><code>if(height &gt; 150)
+{
+    printf("You can ride this roller coaster!\n");
+}else
+{
+    printf("You are too short to ride this roller coaster.\n");
+}
+</code></pre>
+<p>If you do not follow your <code>if</code> and <code>else</code> statements with curly braces ("{" and "}"), they will run the next line of code and nothing else. We could rewrite the above code like this:</p>
+<pre><code>if(height &gt; 150)
+    printf("You can ride this roller coaster!\n");
+else
+    printf("You are too short to ride this roller coaster.\n");
+</code></pre>
+<p>One last note: You can put if statements after your else statements, like this:</p>
+<pre><code>if(score &gt; 90)
+    grade = "A";
+else if(score &gt; 80)
+    grade = "B";
+else if(score &gt; 70)
+    grade = "C";
+else if(score &gt; 60)
+    grade = "D";
+else
+    grade = "F";
+</code></pre>	</section>
+	<section>
 <h2>Logical Operators</h2>
 <p>We can combine two or more conditions using the <em>Logical Operators</em>: &amp;&amp; - AND, || - OR. These tables will show you how they work:</p>		<figure id='truth-tables'>
 			<table>
@@ -85,41 +120,5 @@
 <pre><code>(strcmp(string1, string2) == 0)
 </code></pre>
 <p>If <code>string1</code> and <code>string2</code> are the same, this condition will be True.</p>		{{ example(examples[1]) }}
-
 	</section>
-	<section>
-<h2>If-Else Statements</h2>
-<p>We can use conditions to write <code>if</code> statements. An <em><code>if</code> statement</em> will check if the condition it contains is True. If the condition is true, it will run the code that comes after it:</p>
-<pre><code>if(cars != 3)
-{
-    printf("Time to buy a new car!\n");
-}
-</code></pre>
-<p>We can also write <em><code>else</code> statements</em> that will run if the condition is false. Here is an example:</p>
-<pre><code>if(height &gt; 150)
-{
-    printf("You can ride this roller coaster!\n");
-}else
-{
-    printf("You are too short to ride this roller coaster.\n");
-}
-</code></pre>
-<p>If you do not follow your <code>if</code> and <code>else</code> statements with curly braces ("{" and "}"), they will run the next line of code and nothing else. We could rewrite the above code like this:</p>
-<pre><code>if(height &gt; 150)
-    printf("You can ride this roller coaster!\n");
-else
-    printf("You are too short to ride this roller coaster.\n");
-</code></pre>
-<p>One last note: You can put if statements after your else statements, like this:</p>
-<pre><code>if(score &gt; 90)
-    grade = "A";
-else if(score &gt; 80)
-    grade = "B";
-else if(score &gt; 70)
-    grade = "C";
-else if(score &gt; 60)
-    grade = "D";
-else
-    grade = "F";
-</code></pre>	</section>
 {% endblock %}

@@ -16,7 +16,7 @@
 
 				printf("Hello World!");
 
-			When using printf(), you can include variables in your output by using *format strings</span>:
+			When using printf(), you can include variables in your output by using *format strings*:
 
 				printf("Your name is %s and your age is %d.", name, age);
 
@@ -32,7 +32,7 @@
 			- `\n` - Newline (The Enter key) 
 			- `\t` - Tab 
 			- `\"` - Use this if you want double quotes inside of a String. 
-			- `\&rsquo;` - Use this if you want single quotes inside of a String. 
+			- `\'` - Use this if you want single quotes inside of a String. 
 			- `\\` - Use this if you want a backslash inside of a String. 
 			- `\0` - NULL character (We don&rsquo;t use this very often)
 
@@ -61,7 +61,8 @@
 
 				char string[1000];
 
-				printf("Enter your age: "); fgets(string, 1000, stdin);
+				printf("Enter your age: ");
+				fgets(string, 1000, stdin);
 				int age = atoi(string);
 
 				printf("How much money do you have? "); 

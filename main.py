@@ -50,7 +50,7 @@ class LessonHandler(user.UserHandler):
 				now = datetime.datetime.now()
 				now_stamp = int(time.mktime(now.timetuple()))
 				self.render_with_user("lessons/" + args[0] + ".html", { 'page': page, 
-																		'curr_time-formatted': now, 
+																		'curr_time_formatted': time.strftime("%b %d %Y %H:%M:%S", now.timetuple()), 
 																		'curr_timestamp': now_stamp,
 																		'examples': inline_examples})
 			else:

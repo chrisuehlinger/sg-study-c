@@ -42,10 +42,11 @@ fprintf(w_file, "Hello File!");
 </code></pre>
 <p>The function <em><code>feof()</code></em> tells us if we are at <code>EOF</code> (End Of File).</p>
 <p>There are a number of other File I/O functions you may find useful: (For <code>fread()</code> and <code>fwrite()</code> you need to know how pointers work)</p>
-<pre><code>+ `char fgetc(FILE *f)` - This function reads the next character of the file.
-+ `fputc(char c, FILE *f)` - This function writes one letter to the file.
-+ `fread(void *ptr, int size, int num_members, FILE *f)` - Reads the whole file and stores it ptr.
-+ `fwrite(void *ptr, int size, int num_members, FILE *f)` - Writes the values pointed to by ptr to the file.
-+ `rewind(FILE *f)` - Rewinds to the beginning of the file.
-</code></pre>	</section>
+<ul>
+<li><code>char fgetc(FILE *f)</code> - This function reads the next character of the file.</li>
+<li><code>fputc(char c, FILE *f)</code> - This function writes one letter to the file.</li>
+<li><code>fread(void *ptr, int size, int num_members, FILE *f)</code> - Reads the whole file and stores it ptr.</li>
+<li><code>fwrite(void *ptr, int size, int num_members, FILE *f)</code> - Writes the values pointed to by ptr to the file.</li>
+<li><code>rewind(FILE *f)</code> - Rewinds to the beginning of the file.</li>
+</ul>	</section>
 {% endblock %}

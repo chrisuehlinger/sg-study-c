@@ -18,8 +18,8 @@ class Example(utils.Model):
 	def warmup(cls):
 		if Example.query().count()==0:
 			logging.info("Warming up Examples")
-			path = os.path.join(os.path.split(__file__)[0], '/json/examples.json')
-			path = os.path.split(__file__)[0] + '/json/examples.json'
+			path = os.path.join(os.path.dirname(__file__), 'json', 'examples.json')
+			# path = os.path.split(__file__)[0] + '/json/examples.json'
 			warmups = json.loads(open(path, 'r').read())
 
 			for e in warmups:

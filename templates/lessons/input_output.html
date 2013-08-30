@@ -10,7 +10,7 @@
 <p>The easiest way to do output is with the <em>printf()</em> function, like this:</p>
 <pre><code>printf("Hello World!");
 </code></pre>
-<p>When using printf(), you can include variables in your output by using *format strings</span>:</p>
+<p>When using printf(), you can include variables in your output by using <em>format strings</em>:</p>
 <pre><code>printf("Your name is %s and your age is %d.", name, age);
 </code></pre>
 <p>The following format strings are used by printf() and scanf() for dealing with variables:</p>
@@ -25,7 +25,7 @@
 <li><code>\n</code> - Newline (The Enter key)</li>
 <li><code>\t</code> - Tab</li>
 <li><code>\"</code> - Use this if you want double quotes inside of a String.</li>
-<li><code>\&amp;rsquo;</code> - Use this if you want single quotes inside of a String.</li>
+<li><code>\'</code> - Use this if you want single quotes inside of a String.</li>
 <li><code>\\</code> - Use this if you want a backslash inside of a String.</li>
 <li><code>\0</code> - NULL character (We don&rsquo;t use this very often)</li>
 </ul>	</section>
@@ -49,7 +49,8 @@
 <p>This will read one line of input and store it in the String. If you needed an int or float, you can get them using the <em>atoi()</em> (Alpha to Integer) and <em>atof()</em> (Alpha to Floating-Point) functions like this:</p>
 <pre><code>char string[1000];
 
-printf("Enter your age: "); fgets(string, 1000, stdin);
+printf("Enter your age: ");
+fgets(string, 1000, stdin);
 int age = atoi(string);
 
 printf("How much money do you have? ");

@@ -99,8 +99,7 @@ Let's look at how the computer thinks about the string "Hello World":</p>		<figu
 			</table>
 		</figure>
 <p>In fact, we could even use an array of Integers as a String, and the program would work normally!</p>
-<pre><code>int hello[] = {72, 101, 108, 108, 111, 32,
-87, 111, 114, 108, 100, 33, 0 };
+<pre><code>int hello[] = {72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100, 33, 0 };
 
 printf(“%s”, (char *)hello);
 </code></pre>	</section>
@@ -316,16 +315,10 @@ printf(“%s”, (char *)hello);
 	</section>
 	<section>
 <h2>Writing a UNICODE program</h2>
-<p>In order to use UNICODE in our program, we'll have to change the way we've been dealing with Strings:</p>
-<pre><code>We have to use a new type called *`wchar_t`*, the wide character type.
-
-These "wide" strings have to be written with an L before them.
-
-Each character is written as \uxxxx, where the x's are the UNICODE number.
-
-We have to use special "wide" input and output functions, like `wprintf()` and `fwgets()`.
+<p>In order to use UNICODE in our program, we'll have to change the way we've been dealing with Strings.</p>
+<p>We have to use a new type called wchar_t, the wide character type. These "wide" strings have to be written with an L before them. Each character is written as \uxxxx, where the x's are the UNICODE number.We have to use special "wide" input and output functions, like wprintf() and fwgets().</p>
+<pre><code>wchar_t hello[1000] = L"\u0E2A\u0E27\u0E31\u0E2A\u0E14\u0E35\u0E42\u0E25\u0E01";
+wprintf(L"%s", hello);
 </code></pre>
-<p>wchar_t hello[1000] = L“\u0E2A\u0E27\u0E31\u0E2A\u0E14\u0E35\u0E42\u0E25\u0E01”;
-wprintf(L”%s”, hello);</p>
 <p>Depending on what computer you use, writing UNICODE programs might be easy or impossible. On Mac or Linux computers, UNICODE programs are easy to write. On Windows, your output will be wrong, but you can still do File I/O if you do it right.</p>	</section>
 {% endblock %}
