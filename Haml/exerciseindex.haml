@@ -1,0 +1,9 @@
+-extends "base.html"
+-block content
+	%section
+		%h2 Practice Exercises
+		%p These are some practice exercises to test your code writing skills:
+		%ul
+			-for e in exercises
+				%li
+					%a{href:"/exercises/={e.url}"}= e.name

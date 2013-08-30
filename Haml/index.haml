@@ -1,0 +1,13 @@
+-extends "base.html"
+-block content
+	%section
+		%p This website has information on everything we have been learning about C this semester.
+		-for g in groups
+			%span= g['group']
+			%ul
+				-for t in g['topics']
+					%li
+						%a{href:'/lessons/{{t["url"]}}'}= t['topic_name']
+
+		%h3
+			%a{href:"/exercises"} Practice Exercises

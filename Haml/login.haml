@@ -1,0 +1,21 @@
+-extends "base.html"
+-block content
+	.login-area
+		If you don't have an account, 
+		%a{href:"/signup", class:"login-link"}Sign up
+		!
+	%form{method:"post", class:"auth-form"}
+		%label
+			Username:
+			%input{type:"text", name:"username", value:'={username}'}
+
+		%label
+			Password:
+			%input{type:"password", name:"password", value:'={password}'}
+			.error= error
+		%br
+		%br
+		%input{type:"submit", value:"Submit"}
+
+	%p
+		%a{href:"/recover_password"} I forgot my password.

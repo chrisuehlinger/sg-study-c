@@ -1,0 +1,66 @@
+-extends "base.html"
+-block content
+	%section
+		:markdown
+			In this lesson, we'll learn how to make our programs read and write files. This is very important if you want to let users open and save files with your program.
+
+			We use *File Pointers* to talk about files like variables.
+
+				FILE *r_file, *w_file;
+
+	%section
+		:markdown
+			Opening an Closing Files
+			------------------------
+
+			We open files with *`fopen()`* and close them with *`fclose()`* when we've finished using them:
+
+				r_file = fopen("Readable.txt", "r");
+				w_file = fopen("Writeable.txt", "w");
+				...
+				fclose(r_file);
+				fclose(w_file);
+			
+
+			`fopen()` has 2 parameters: The file name and the *file permission*. The file permission tells our program what we can do with the file. There are six options:
+
+			+ "r" - Open a file for reading. The file must exist.
+			+ "w" - Create an empty file for writing. If the file already exists it is erased before writing.
+			+ "a" - Append to a file. Writing operations append data at the end of the file. The file is created if it does not exist.
+			+ "r+" - Open a file for update both reading and writing. The file must exist.
+			+ "w+" - Create an empty file for both reading and writing.
+			+ "a+" - Open a file for reading and appending.
+
+			It's also very important to check that your file opened correctly. If it did not, it will cause an error later. To prevent errors, we will close the program with `exit()`:
+
+				r_file = fopen("Readable.txt", "r");
+				if(r_file==NULL) {
+					printf("Cannot open file.");
+					exit(0);
+				}
+
+
+	%section
+		:markdown
+			File I/O
+			--------
+
+			We use *`fgets()`* to read from a file, and *`fprintf()`* to write to the file.
+
+				fgets(string,1000, r_file); // file -> string
+				fprintf(w_file, "Hello File!");
+
+			`for` Loops are The Right Tool for The Job when you want to read/write a file or work with an array.
+
+				for(i=0; !feof(r_file); i++) 
+					fgets(line[i], 1000, r_file);
+
+			The function *`feof()`* tells us if we are at `EOF` (End Of File). 
+
+			There are a number of other File I/O functions you may find useful: (For `fread()` and `fwrite()` you need to know how pointers work)
+
+				+ `char fgetc(FILE *f)` - This function reads the next character of the file.
+				+ `fputc(char c, FILE *f)` - This function writes one letter to the file.
+				+ `fread(void *ptr, int size, int num_members, FILE *f)` - Reads the whole file and stores it ptr.
+				+ `fwrite(void *ptr, int size, int num_members, FILE *f)` - Writes the values pointed to by ptr to the file.
+				+ `rewind(FILE *f)` - Rewinds to the beginning of the file.
