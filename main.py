@@ -26,6 +26,8 @@ import user
 from user import User
 import datetime, time
 
+""" Hope this works"""
+
 class LessonHandler(user.UserHandler):
 	def user_get(self, *args):
 		if args[0] is None:
