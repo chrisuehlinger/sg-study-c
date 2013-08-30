@@ -2,12 +2,11 @@ from utils import db
 import utils
 import user
 import logging
+import string
 from ideoneclient import IdeoneClient
+import os
+import json
 
-warmups = [{'name':'Hello World',
-			'url':'hello',
-			'description':'This program will output "Hello World".',
-			'start_code':'#import<stdio.h>\n\nint main()\n{\n\tprintf("Hello World");\n\treturn 0;\n}'}]
 
 class Example(utils.Model):
 	name = db.StringProperty(required=True)
@@ -17,10 +16,13 @@ class Example(utils.Model):
 
 	@classmethod
 	def warmup(cls):
-		if db.Query(Example).count()==0:
+		if Example.query().count()==0:
 			logging.info("Warming up Examples")
+			path = os.path.join(os.path.split(__file__)[0], '/json/examples.json')
+			path = os.path.split(__file__)[0] + '/json/examples.json'
+			warmups = json.loads(open(path, 'r').read())
+
 			for e in warmups:
-				
 				example = Example(name=e['name'], 
 									url=e['url'], 
 									description=string.replace(e['description'], '\n', '<br>'),
@@ -42,7 +44,7 @@ class AddExampleHandler(user.AdminHandler):
 		example.put()
 		time.sleep(5)
 		self.redirect('/example/'+exercise.url)
-		
+
 class ExampleHandler(user.UserHandler):
 	def user_get(self, *args):
 		pagename = args[0]

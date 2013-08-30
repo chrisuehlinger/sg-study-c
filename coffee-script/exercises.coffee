@@ -7,6 +7,7 @@ $(document).ready ->
     'theme':codeMirrorTheme
     'lineNumbers':true
     'mode':'clike'
+    'indentUnit':4
     'value':$('#editor').text()
     'autofocus':true
   myCodeMirror = CodeMirror.fromTextArea myTextArea, codeMirrorConfig

@@ -159,7 +159,7 @@ class Exercise(utils.Model):
 
 	@classmethod
 	def warmup(cls):
-		if db.Query(Exercise).count()==0:
+		if Exercise.query().count()==0:
 			logging.info("Warming up Exercises")
 			for e in warmups:
 				used_methods = list()

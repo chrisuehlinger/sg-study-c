@@ -18,7 +18,7 @@ import utils
 import json
 from utils import index, db
 import logging
-import examples
+import example
 import exercises
 import exercisehandlers
 import ideoneclient
@@ -39,14 +39,33 @@ class LessonHandler(user.UserHandler):
 						page = topic
 
 			if page:
+				inline_examples = []
+				for e in page['examples']:
+					ex = example.Example.query().filter('url = ', e).get()
+					inline_examples.append(ex)
+					logging.info(ex)
+
 				now = datetime.datetime.now()
 				now_stamp = int(time.mktime(now.timetuple()))
-				self.render_with_user("lessons/" + args[0] + ".html", { 'page':page, 
+				self.render_with_user("lessons/" + args[0] + ".html", { 'page': page, 
 																		'curr_time-formatted': now, 
-																		'curr_timestamp': now_stamp})
+																		'curr_timestamp': now_stamp,
+																		'examples': inline_examples})
 			else:
 				page = {'url':'404', 'topic_name':"Error 404"}
 				self.render_with_user("404.html", {'page': page})
+
+	def user_post(self, *args):
+		submission = self.request.get('code')
+		message = ''
+		client = ideoneclient.IdeoneClient()
+		response = client.submit(submission, self.request.get('input'))
+		if response['error'] != "OK" or int(response['result']) != 15 or response['output'] is None:
+			message = response['error_message']
+
+		response['message'] = message
+
+		self.write_json(response);
 
 class MainHandler(user.UserHandler):
 	def user_get(self, *args):
@@ -78,7 +97,7 @@ app = utils.webapp2.WSGIApplication(
 		('/addexample', example.AddExampleHandler),
 
 		# Examples
-		('/example/', example.ExampleHandler),
+		('/example/([a-zA-Z0-9_]+)?', example.ExampleHandler),
 
 		# Suggestions
 		('/suggestion', user.SuggestionHandler),
