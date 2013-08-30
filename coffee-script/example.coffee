@@ -1,14 +1,15 @@
 myCodeMirror = {}
 
 $(document).ready -> 
-  myTextArea = document.getElementById 'editor'
+  myTextArea = document.getElementById 'example'
+  start_code = $('#example').text()
   codeMirrorTheme = $('meta[name="CodeMirrorTheme"]').attr 'content'
   codeMirrorConfig = 
     'theme':codeMirrorTheme
     'lineNumbers':true
     'mode':'clike'
     'indentUnit':4
-    'value':$('#editor').text()
+    'value':start_code
     'autofocus':true
   myCodeMirror = CodeMirror.fromTextArea myTextArea, codeMirrorConfig
 
@@ -24,33 +25,26 @@ $(document).ready ->
       type: 'POST'
       data: {'action':'test', 'code': myCodeMirror.getValue()}
       dataType: 'application/json'
-      beforeSend: beforeSubmit
-      success: receiveResponse
-      error: receiveError
+      beforeSend: beforeSubmitExample
+      success: receiveResponseExample
+      error: receiveErrorExample
 
-  $('input#submit-check').click (e) ->
+  $('input#reset').click (e) ->
     e.preventDefault()
-    request = $.ajax 
-      url: document.URL
-      type: 'POST'
-      data: {'action':'check', 'code': myCodeMirror.getValue(), 'input':$('#input').text() }
-      dataType: 'application/json'
-      beforeSend: beforeSubmit
-      success: receiveResponse
-      error: receiveError
+    myCodeMirror.setValue start_code
 
     false
 
 #AJAX methods
-beforeSubmit = ->
+beforeSubmitExample = ->
   document.getElementById('submit-test').disabled = true
-  document.getElementById('submit-check').disabled = true
+  document.getElementById('reset').disabled = true
   document.getElementById('input').disabled = true
   $('#output').hide()
   $('#cmpinfo').hide()
   $('#message').text "Submitting..."
 
-receiveResponse = (data) ->
+receiveResponseExample = (data) ->
   response = JSON.parse data
   if response.cmpinfo?
     $('#cmpinfo').show()
@@ -63,13 +57,13 @@ receiveResponse = (data) ->
     $('#output').show()
     $('#output').find('div.code').html response.output 
   document.getElementById('submit-test').disabled = false
-  document.getElementById('submit-check').disabled = false
+  document.getElementById('reset').disabled = false
   document.getElementById('input').disabled = false
   $('#message').html response.message 
 
-receiveError = (jqXHR, textStatus, errorThrown) ->
+receiveErrorExample = (jqXHR, textStatus, errorThrown) ->
   document.getElementById('submit-test').disabled = false
-  document.getElementById('submit-check').disabled = false
+  document.getElementById('reset').disabled = false
   document.getElementById('input').disabled = false
   $('#message').text "Site Error: #{textStatus} - #{errorThrown}"
 

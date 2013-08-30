@@ -1,0 +1,324 @@
+-extends "base.html"
+-block content
+	%section
+		:markdown
+			You've probably noticed that all of our programs have been doing input and output with only English letters (in programming we call them *Latin characters*). However, many programs you use in daily life allow you to do input and output with Thai letters. In this section we're going to talk about UNICODE, which is the way your computer thinks about Thai letters.
+
+			We'll have to cover a few topics on this page:
+
+			- ASCII - How the computer thinks about Latin characters.
+			- Hexidecimal - How the computer thinks about data and numbers.
+			- UNICODE - How the computer thinks about non-Latin characters.
+			- Finally, well talk about how to use UNICODE in a C program.
+
+	%section
+		:markdown
+			Why should I learn this?
+			--------
+
+			If you do decide to become a programmer, you will have many opportunities doing *Localization*, translating big programs so that Thai people can use them. Big companies like Microsoft, Apple, Google and Facebook all need people who can:
+
+			- speak English
+			- speak Thai fluently
+			- write programs
+
+			Many of these companies have a hard time finding people with all three of these skills. Not many foreigners can speak Thai well enough, so the companies need Thai people to help them. Every day more websites and programs are being translated into Thai, and there are tons of jobs available. However, in order to do these kinds of jobs, you'll need to know how the computer thinks about Thai characters.
+
+
+	%section
+		:markdown
+			ASCII
+			--------
+
+			To store Latin characters, the computer uses a system called *ASCII* (American Standard Code for Information Interchange). ASCII assigns every letter, digit, punctuation mark, etc. to a different number. For example:
+
+			- 'A' = 65, 'B' = 66, 'C' = 67 ...
+			- 'a' = 97, 'b' = 98, 'c' = 99 ...
+			- '0' = 48, '1' = 49, '2' = 50 ...
+			- '(' = 40, ')' = 41, '*' = 42, '+' = 43
+
+			You can find the complete list at [asciitable.com](http://www.asciitable.com/). There are 256 (2^8) characters in the ASCII table, so a normal char only needs 8 bits to store a character.
+			Let's look at how the computer thinks about the string "Hello World":
+		
+		%figure
+			%h3 "Hello World"
+			%table.array
+				%tr
+				%th 0
+				%th 1
+				%th 2
+				%th 3
+				%th 4
+				%th 5
+				%th 6
+				%th 7
+				%th 8
+				%th 9
+				%th 10
+				%th 11
+				%th 12
+				
+				%tr
+					%td 'H'
+					%td 'e'
+					%td 'l'
+					%td 'l'
+					%td 'o'
+					%td ' '
+					%td 'W'
+					%td 'o'
+					%td 'r'
+					%td 'l'
+					%td 'd'
+					%td '!'
+					%td '\0'
+
+			%table.array
+				%tr
+					%th 0
+					%th 1
+					%th 2
+					%th 3
+					%th 4
+					%th 5
+					%th 6
+					%th 7
+					%th 8
+					%th 9
+					%th 10
+					%th 11
+					%th 12
+				
+				%tr
+					%td 72
+					%td 101
+					%td 108
+					%td 108
+					%td 111
+					%td 32
+					%td 87
+					%td 111
+					%td 114
+					%td 108
+					%td 100
+					%td 33
+					%td 0
+
+		:markdown
+			In fact, we could even use an array of Integers as a String, and the program would work normally!
+
+				int hello[] = {72, 101, 108, 108, 111, 32,
+				87, 111, 114, 108, 100, 33, 0 };
+
+				printf(“%s”, (char *)hello);
+
+	%section
+		:markdown
+			Hexidecimal Numbers
+			--------
+
+			Normally when we count, we use the *decimal* number system, which is base-10. This means, there are 10 digits that we use to count: 0,1,2,3,4,5,6,7,8,9.
+
+			When our computer stores data--int, char, float or anything else--it uses *binary*, a base-2 number system. This means, there are only 2 digits: 1 and 0.
+
+			Because binary is base-2, we need to use more digits. This means that numbers quickly become very long. For example, the number 61 is 1111101. When we want to use less space, we use a number system called *Hexidecimal*, which is base-16. The digits are 0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F.
+
+			In the following table, we'll look at how each number system thinks about different numbers
+
+		%figure
+			%table
+				%tr
+					%th Decimal
+					%th Binary
+					%th Hexidecimal
+				
+				%tr
+					%td 1
+					%td 1
+					%td 1
+				
+				%tr
+					%td 2
+					%td 10
+					%td 2
+				
+				%tr
+					%td 3
+					%td 11
+					%td 3
+				
+				%tr
+					%td 4
+					%td 100
+					%td 4
+				
+				%tr
+					%td 5
+					%td 101
+					%td 5
+				
+				%tr
+					%td 6
+					%td 110
+					%td 6
+				
+				%tr
+					%td 7
+					%td 111
+					%td 7
+				
+				%tr
+					%td 8
+					%td 1000
+					%td 8
+				
+				%tr
+					%td 9
+					%td 1001
+					%td 9
+				
+				%tr
+					%td 10
+					%td 1010
+					%td A
+				
+			%table
+				%tr
+					%th Decimal
+					%th Binary
+					%th Hexidecimal
+				
+				%tr
+					%td 11
+					%td 1011
+					%td B
+				
+				%tr
+					%td 12
+					%td 1100
+					%td C
+				
+				%tr
+					%td 13
+					%td 1101
+					%td D
+				
+				%tr
+					%td 14
+					%td 1110
+					%td E
+				
+				%tr
+					%td 15
+					%td 1111
+					%td F
+				
+				%tr
+					%td 16
+					%td 10000
+					%td 10
+				
+				%tr
+					%td 17
+					%td 10001
+					%td 11
+				
+				%tr
+					%td 18
+					%td 10010
+					%td 12
+				
+				%tr
+					%td 19
+					%td 10011
+					%td 13
+				
+				%tr
+					%td 20
+					%td 10100
+					%td 14
+
+		%p Hexidecimal numbers are very important. If you continue programming, you will see them very often.
+
+
+	%section
+		:markdown
+			UNICODE
+			--------
+
+			While ASCII has enough space for all of the Latin characters (and all the European accent characters), there isn't enough room for other languages. We can solve this problem with *UNICODE*, a huge table with room for 110,000 different characters. With UNICODE, we can write programs that input and output in languages like Chinese, Arabic, Sanskrit and Thai.
+
+			The UNICODE table is broken up into many pieces, here is the [Thai UNICODE page](http://jrgraphix.net/r/Unicode/0E00-0E7F). Each letter has a Hexidecimal number assigned to it. For example, &#x0E01; is assigned 0E01, which would be 3585 in decimal numbers.
+
+			Let's look at our "Hello World!" example, but now in Thai using UNICODE numbers.
+
+		%figure
+			%table.array
+				%tr
+					%th 0
+					%th 1
+					%th 2
+					%th 3
+					%th 4
+					%th 5
+					%th 6
+					%th 7
+					%th 8
+					%th 9
+				
+				%tr
+					%td '&#x0E2A;'
+					%td '&#x0E27;'
+					%td '&nbsp;&nbsp;&#x0E31;&nbsp;'
+					%td '&#x0E2A;'
+					%td '&#x0E14;'
+					%td '&nbsp;&nbsp;&nbsp;&#x0E35;'
+					%td '&#x0E42;'
+					%td '&#x0E25;'
+					%td '&#x0E01;'
+					%td '\0'
+				
+			%table.array
+				%tr
+					%th 0
+					%th 1
+					%th 2
+					%th 3
+					%th 4
+					%th 5
+					%th 6
+					%th 7
+					%th 8
+					%th 9
+				
+				%tr
+					%td 0E2A
+					%td 0E27
+					%td 0E31
+					%td 0E2A
+					%td 0E14
+					%td 0E35
+					%td 0E42
+					%td 0E25
+					%td 0E01
+					%td 0000
+
+	%section
+		:markdown
+			Writing a UNICODE program
+			--------
+
+			In order to use UNICODE in our program, we'll have to change the way we've been dealing with Strings:
+		 	
+		 	We have to use a new type called *`wchar_t`*, the wide character type.
+		 	
+		 	These "wide" strings have to be written with an L before them.
+		 	
+		 	Each character is written as \uxxxx, where the x's are the UNICODE number.
+
+		 	We have to use special "wide" input and output functions, like `wprintf()` and `fwgets()`.
+
+			wchar_t hello[1000] = L“\u0E2A\u0E27\u0E31\u0E2A\u0E14\u0E35\u0E42\u0E25\u0E01”;
+			wprintf(L”%s”, hello);
+
+			Depending on what computer you use, writing UNICODE programs might be easy or impossible. On Mac or Linux computers, UNICODE programs are easy to write. On Windows, your output will be wrong, but you can still do File I/O if you do it right.

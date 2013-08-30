@@ -38,28 +38,34 @@ codemirror_themes = [
 'xq-light'
 ]
 
-index = [	{'group':'The Basics', 'topics': [	#{'url':"whatis", 'topic_name':"What is C?"},
-												{'url':"basic_syntax", 'topic_name':"Basic Syntax"},
-												{'url':"math", 'topic_name':"Basic Math in C"},
-												{'url':"compiler", 'topic_name':"The Compiler"},
-												{'url':"errors", 'topic_name':"Fixing Errors"}]},
-			{'group':'Values', 'topics': [		{'url':"variables", 'topic_name':"Variables and Types"},
-												{'url':"constants", 'topic_name':"Constants"},
-												{'url':"input_output", 'topic_name':"Input and Output"}]},
-			{'group':'Control Flow', 'topics':[ {'url':"conditions", 'topic_name':"If, Else and Conditions"},
-												{'url':"switch_case", 'topic_name':"Switch-Case Statements"},
-												{'url':"while", 'topic_name':"While and Do-While Loops"},
-												{'url':"for", 'topic_name':"For Loops"}]},
-			{'group':'Other Topics', 'topics':[ {'url':"random", 'topic_name':"Random Numbers"},
-												{'url':"functions", 'topic_name':"Functions and Recursion"},
-												{'url':"arrays", 'topic_name':"Arrays and Strings"},
-												{'url':"files", 'topic_name':"File Input/Output"}]},
-			{'group':'Advanced Topics','topics':[{'url':'time', 'topic_name':'Time in C'},
+index = [	{'group':'The Basics', 'topics': [	#{'url':"whatis", 'topic_name':"What is C?", 'examples':[]},
+												{'url':"basic_syntax", 'topic_name':"Basic Syntax", 'examples':[]},
+												{'url':"math", 'topic_name':"Basic Math in C", 'examples':[]},
+												{'url':"compiler", 'topic_name':"The Compiler", 'examples':[]},
+												{'url':"errors", 'topic_name':"Fixing Errors", 'examples':[]}]
+			},
+			{'group':'Values', 'topics': [		{'url':"variables", 'topic_name':"Variables and Types", 'examples':[]},
+												{'url':"constants", 'topic_name':"Constants", 'examples':['constant']},
+												{'url':"input_output", 'topic_name':"Input and Output", 'examples':[]}]
+			}, 
+			{'group':'Control Flow', 'topics':[ {'url':"conditions", 'topic_name':"If, Else and Conditions", 'examples':['logical_operators', 'strcmp']},
+												{'url':"switch_case", 'topic_name':"Switch-Case Statements", 'examples':[]},
+												{'url':"while", 'topic_name':"While and Do-While Loops", 'examples':[]},
+												{'url':"for", 'topic_name':"For Loops", 'examples':[]}]
+			},
+			{'group':'Other Topics', 'topics':[ {'url':"random", 'topic_name':"Random Numbers", 'examples':[]},
+												{'url':"functions", 'topic_name':"Functions and Recursion", 'examples':[]},
+												{'url':"arrays", 'topic_name':"Arrays and Strings", 'examples':[]},
+												{'url':"files", 'topic_name':"File Input/Output", 'examples':[]}]
+			},
+			{'group':'Advanced Topics','topics':[{'url':'time', 'topic_name':'Time in C', 'examples':[]},
 			# {'url':"preprocessor", 'topic_name':"Pre-Processor Commands"},
-			 									{'url':"structs", 'topic_name':"Structs"},
-												{'url':"unicode", 'topic_name':"UNICODE"}]},
-			{'group':'The Final', 'topics':[	{'url':"final_project", 'topic_name':"THE FINAL PROJECT"},
-												{'url':"whatsnext", 'topic_name':"What's Next?"}]}
+			 									{'url':"structs", 'topic_name':"Structs", 'examples':[]},
+												{'url':"unicode", 'topic_name':"UNICODE", 'examples':[]}]
+			},
+			{'group':'The Final', 'topics':[	{'url':"final_project", 'topic_name':"THE FINAL PROJECT", 'examples':[]},
+												{'url':"whatsnext", 'topic_name':"What's Next?", 'examples':[]}]
+			}
 		]
 
 jinja_environment = jinja2.Environment(	autoescape=True,
@@ -99,6 +105,7 @@ class Handler(webapp2.RequestHandler):
 		self.response.out.write(output)
 
 	def write_json(self,object={}):
+		self.response.headers['Content-Type'] = 'application/json'
 		self.write(json.dumps(object))
 
 	def render(self,template_name, template_values={}):

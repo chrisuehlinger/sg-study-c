@@ -76,13 +76,17 @@
 </code></pre>
 <p>I could also write it like this with the "Not Equal To" relational operator:</p>
 <pre><code>(cars != 3)
-</code></pre>	</section>
+</code></pre>		{{ example(examples[0]) }}
+
+	</section>
 	<section>
 <h2>Comparing Strings</h2>
 <p>We cannot use relational operators (==, &gt;, &lt;, etc.) to compare Strings (This is because Strings are not normal variables, they are Arrays). We must use the <em><code>strcmp()</code></em> (short for "String Compare") function. The <code>strcmp()</code> function takes two strings as input, and returns 0 if they are the same. So we can compare two strings like this:</p>
 <pre><code>(strcmp(string1, string2) == 0)
 </code></pre>
-<p>If <code>string1</code> and <code>string2</code> are the same, this condition will be True.</p>	</section>
+<p>If <code>string1</code> and <code>string2</code> are the same, this condition will be True.</p>		{{ example(examples[1]) }}
+
+	</section>
 	<section>
 <h2>If-Else Statements</h2>
 <p>We can use conditions to write <code>if</code> statements. An <em><code>if</code> statement</em> will check if the condition it contains is True. If the condition is true, it will run the code that comes after it:</p>

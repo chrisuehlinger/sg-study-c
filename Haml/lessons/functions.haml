@@ -1,0 +1,137 @@
+-extends "base.html"
+-block content
+	%section
+		:markdown
+			What is a Function
+			------------------
+
+			A *Function* is a piece of code that does one particular job. A Function is like a small program. We have used many Functions before:
+			
+			- printf(), scanf(), getchar() and getline() - I/O
+			- strlen() and strcmp() - Strings
+			- atoi(), atof() - Change types
+			- rand() - Random Numbers
+			
+
+			You've probably seen functions in Math class, they're written like this:
+			
+			- f(n) = 2n + 6
+			- f(0) = 2*0 + 6 = 6
+			- f(4) = 2*4 + 6 = 14
+			
+			If this function was in our program, the computer would think about it like this:
+
+				int number = f(4);
+				int number = 2*4 + 6;
+				int number = 14;
+
+	%section
+		:markdown
+			Parts of a Function
+			---------
+
+				ReturnType function_name(parameters)
+				{ 
+					return ReturnValue;
+				}
+			
+			+ The first line of this code is called the function's *Prototype*.
+			- A function takes *Parameters* as input.
+			- A function gives a *Return Value* as output.
+			- The Return Value must be of the *Return Type*.
+			
+
+			After the return statement, the function is done, and will do nothing more.
+
+	%section
+		:markdown
+			Examples of Functions
+			---------
+
+			If a function has no Return Value, its Return type is *void*:
+
+				void this_does_nothing()
+				{  
+					printf(&quot;This function does nothing.\n&quot;);
+				}
+
+			Here are a couple of functions that have return values, but no parameters:
+
+				float this_returns_pi()
+				{  
+					return 3.14159268;
+				}
+
+				int this_returns_twelve()
+				{  
+					return 20 - 8; 
+				}
+
+			Finally, this function has a return value and parameters:
+			
+				int add(int n1, int n2)
+				{  
+					int sum = n1 + n2;  
+					return sum; 
+				}
+
+	%section
+		:markdown
+			Local Variables and Scope
+			---------
+
+			A *Local Variable* is a variable created inside of a function. A Local Variable can only be used inside the function where it is created. In this function, sum and avg are local variables:
+
+				float average(float n1, float n2, float n3)
+				{  
+					float sum = n1 + n2 + n3;  
+					float avg = sum / 3;  
+					return avg;
+				}
+
+			A function's *Scope* is the group of variables and functions that it knows about. A function only knows about:
+			
+			- Its Parameters
+			- Its Local Variables
+			
+			For example: If you create a variable in main(), you cannot use it in average(), unless you give it as a Parameter. A function only knows about other functions if they are before it in the code.
+
+	%section
+		:markdown
+			Recursion
+			---------
+
+			Sometimes, you can solve a problem by having a function call itself. This method of solving a problem is called *Recursion*. Let's look at how we can do that with Factorials:
+			
+			- 5! = 5 * 4 * 3 * 2 * 1
+			- 5! = 5 * (4 * 3 * 2 * 1) 
+			- 5! = 5 * 4! 
+			- 4! = 4 * 3! 
+			- 3! = 3 * 2! 
+			- 2! = 2 * 1! 
+			- 1! = 1
+
+			Now there are two cases for any number n:
+			
+			- If n>1, n! = n * (n-1)!
+			- If n=1, n! = 1
+			
+			This means, we can write the function like this:
+
+				int factorial(int n) 
+				{  
+					if(n > 1)  
+						return n * factorial(n-1);  
+					else 
+						return 1; 
+				}
+
+			Recursion is also perfect for computing sequences like [The Fibonacci Numbers](http://en.wikipedia.org/wiki/Fibonacci_numbers):
+
+				int fibonacci(int n) 
+				{  
+					if(n > 2)  
+						return fibonacci(n-2) + fibonacci(n-1);  
+					else  
+						return 1; 
+				}

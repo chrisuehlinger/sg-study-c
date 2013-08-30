@@ -1,0 +1,24 @@
+-extends "base.html"
+-block content
+	%section
+		%h2 Users
+		%ul
+			-for u in user_list
+				-if not u.admin_priv
+					%li
+						%a{href:"/user/{{u.username}}"} {{u.username}}</a> - M 5/{{u.room}} - #{{u.number}}
+
+	%section
+		%h2 Exercises
+		%ul
+			-for e in exercise_list
+				%li
+					%a{href:"/exercises/{{e.url}}"}= e.name
+
+		%a{href:"/addexercise"} Add an Exercise
+
+	%section
+		%h2 Suggestions
+		%ul
+			-for s in suggestion_list
+				%li "{{s.content}}" --{{s.submitter_string()}} on {{s.page}}

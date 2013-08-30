@@ -1,0 +1,74 @@
+-extends "base.html"
+-block scripts
+	%script{type:"text/javascript", language:"Javascript", src:"/static/js/random_demo.js"}
+
+-block content
+	%section
+		:markdown
+			If you want to make a program that involves chance (like a dice or card game, or a game with a computer player) you will need to use *random numbers*. The function *`rand()`* creates a Random number between 0 and 32767 (2^15 - 1).
+
+			<div id="rand-no-bound" class="code">//Creates a number between 0 and 32767
+			int number = rand(); 
+			number -> <span class="rand">1</span>
+			</div>
+
+			Random numbers are great for making games on the computer. They are used for things like:
+
+			- Generating Random events (Pokemon in the wild)
+			- Controlling Enemy AI (First Person Shooters)
+			- Procedurally Generated Maps ([FTL:Faster Than Light](http://www.youtube.com/watch?v=lQ4FRcu_bjs) and Minecraft)
+
+	%section
+		:markdown
+			Getting the number we want
+			-----------
+
+			We don't usually want a number as big as 30000, so we can use a math formula to get the numbers we want. We will need to use the Modulo Operator '%' to make the numbers smaller.
+
+			<div id="rand-bound-100" class="code">//Creates a number between 0 and 99
+			int number = rand() % 100; 
+			number -> <span class="rand">1</span>
+			</div>
+
+			What if we want numbers between 50 and 100? We need to start thinking about our *minimum*, *maximum* and *range*. Here is the formula we will use:
+
+			<div class="code">int range = (max - min) + 1;
+			int random = (rand() % range) + min;</div>
+
+			So if we want random numbers between 50 and 100, we would do this:
+
+			<div id="rand-50-100"class="code">//Creates a number between 50 and 100
+			int range = (100 - 50) + 1;
+			int number = (rand() % range) + 50; // (rand() % 51) + 50
+			number -> <span class="rand">51</span>
+			</div>
+
+			So if I wanted to get a random number between 1 and 6, I could write this function:
+
+			<div id="dice" class="code">//Creates a number between 1 and 6
+			int range = (6 - 1) + 1;
+			int dice = (rand() % range) + 1; // (rand() % 6) + 1
+			dice -> <span class="rand">1</span>
+			</div>
+
+	%section
+		:markdown
+			Random Seed
+			-----------
+
+			If you use `rand()` in your program, it will generate the same random numbers every time you run the program. Usually, this is not what you want. If you want `rand()` to make different numbers every time you run the program, you must give it a different seed number every time you run. We can set the seed value with the `srand()` function:
+
+			<div id="dice" class="code">srand(seed);</div>
+
+			A good seed to use is the time, because it will be different every time you run the program. Here is a program with that uses `srand()` and the `time()`:
+
+				#include<stdlib.h> //For rand() and srand()
+				#include<time.h> //For time()
+
+				main() {
+					// time(NULL) returns the time right now
+					srand(time(NULL));
+
+					// Creates a number between 1 and 6
+					int dice = (rand() % 6) + 1
+				}

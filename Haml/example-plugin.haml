@@ -1,0 +1,27 @@
+-macro example(e)
+	%figure.example{id:"{{e.url}}"}
+		%h3 Try it!
+		%p= e.description | safe
+		-if e.flowchart
+			%img{src:"/serve/{{e.flowchart.key()}}"}
+		%form{method:"post"}
+			%textarea#example-editor{name:"code"}= e.start_code
+			%br
+			%label Input:
+				%br
+				%textarea#std-input
+			%br
+			%input{id:"submit-test", type:"submit", value:"Compile and Run"}
+			%input{id:"reset", type:"button", value:"Reset"}
+
+		#message= message
+		#cmpinfo Compiler:
+			.code= cmpinfo
+		#std-output Output:
+			.code= output
+
+		%p Powered by 
+			%a{href:"http://ideone.com"} www.ideone.com
+			&copy; by 
+			%a{href:"http://sphere-research.com"} Sphere Research Labs
+{% endmacro %}

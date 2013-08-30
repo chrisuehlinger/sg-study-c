@@ -1,0 +1,141 @@
+-extends "base.html"
+-block content
+	%section
+		:markdown
+			Conditions
+			----------
+
+			Many statements in C use Conditions. A *Condition* is a question with two possible answers: True or False. For example, "How old are you?" is not a Condition. However, "Are you 16?" is a Condition: It can be answered Yes or No. We could write this condition like this:
+
+				(age == 16)
+
+	%section
+		:markdown
+			Relational Operators
+			--------------------
+
+			When we write conditions, we use *Relational Operators*. Here is a list of them:
+
+			- == - Equal to *
+			- != - Not equal to
+			- &gt; - Greater Than
+			- < - Less Than
+			- &gt;= - Greater or Equal
+			- <= - Less or Equal
+
+			*Remember to write "==" not "=" or your code will not work the way you want!
+
+			So if we wanted to write the condition "Is height greater than or equal to 182cm?" We could write it like this:
+
+				(height >= 182)
+
+	%section
+		:markdown
+			Logical Operators
+			-----------------
+
+			We can combine two or more conditions using the *Logical Operators*: &amp;&amp; - AND, || - OR. These tables will show you how they work:
+
+		%figure#truth-tables
+			%table
+				%tr 
+					%th{colspan:"2"} AND - &amp;&amp;
+				%tr 
+					%td True &amp;&amp; True
+					%td True
+				%tr 
+					%td True &amp;&amp; False
+					%td False
+				%tr 
+					%td False &amp;&amp; True
+					%td False
+				%tr 
+					%td False &amp;&amp; False
+					%td False
+
+			%table
+				%tr 
+					%th{colspan:"2"} OR - ||
+				%tr 
+					%td True || True
+					%td True
+				%tr 
+					%td True || False
+					%td True
+				%tr 
+					%td False || True
+					%td True
+				%tr 
+					%td False || False
+					%td False
+			%span.stretch
+
+		:markdown
+			So if I wanted to write a condition like this: "Do you have 3 shirts AND 5 jackets?" I could write it like this:
+
+				(shirts == 3 && jackets == 5)
+
+			There is one more logical operator: NOT - ! This operator changes True to False and False to True. If I wanted to write the condition "Do you NOT have 3 cars?" I could write it like this:
+
+				(!(cars == 3))
+
+			I could also write it like this with the "Not Equal To" relational operator:
+
+				(cars != 3)
+
+		=example(examples[0])
+
+	%section
+		:markdown
+			Comparing Strings
+			-----------------
+
+			We cannot use relational operators (==, >, <, etc.) to compare Strings (This is because Strings are not normal variables, they are Arrays). We must use the *`strcmp()`* (short for "String Compare") function. The `strcmp()` function takes two strings as input, and returns 0 if they are the same. So we can compare two strings like this:
+
+				(strcmp(string1, string2) == 0)
+
+			If `string1` and `string2` are the same, this condition will be True.
+
+		=example(examples[1])
+
+	%section
+		:markdown
+			If-Else Statements
+			------------------
+
+			We can use conditions to write `if` statements. An *`if` statement* will check if the condition it contains is True. If the condition is true, it will run the code that comes after it:
+
+				if(cars != 3)
+				{  
+					printf("Time to buy a new car!\n"); 
+				}
+
+			We can also write *`else` statements* that will run if the condition is false. Here is an example:
+
+				if(height > 150) 
+				{  
+					printf("You can ride this roller coaster!\n"); 
+				}else 
+				{  
+					printf("You are too short to ride this roller coaster.\n"); 
+				}
+
+			If you do not follow your `if` and `else` statements with curly braces ("{" and "}"), they will run the next line of code and nothing else. We could rewrite the above code like this:
+
+				if(height > 150)  
+					printf("You can ride this roller coaster!\n"); 
+				else  
+					printf("You are too short to ride this roller coaster.\n");
+
+			One last note: You can put if statements after your else statements, like this:
+
+				if(score > 90)  
+					grade = "A"; 
+				else if(score > 80)  
+					grade = "B"; 
+				else if(score > 70)  
+					grade = "C"; 
+				else if(score > 60)  
+					grade = "D"; 
+				else  
+					grade = "F";

@@ -14,12 +14,12 @@
 			"selector": "source.coffee"
 		},
 		{
-			"cmd": 
+			"cmd":
 			[
-				"sass", 
+				"sass",
 				"--update",
 				"$file:static/stylesheets/$file_base_name.css",
-				"--stop-on-error", 
+				"--stop-on-error",
 				"--style",
 				"--compass",
 				"--precision 6",
@@ -28,9 +28,9 @@
 			"selector": "source.sass, source.scss"
 		},
 		{
-			"cmd": 
+			"cmd":
 			[
-				"hamlpy", 
+				"hamlpy",
 				"$file",
 				"templates/$file_base_name.html"
 			],
@@ -39,10 +39,6 @@
 	],
 	"folders":
 	[
-		{
-			"name": "Python",
-			"path": "/Users/Chris/sg-study-c"
-		},
 		{
 			"name": "HTML",
 			"path": "templates"
@@ -54,6 +50,10 @@
 		{
 			"name": "JavaScript",
 			"path": "static/js"
+		},
+		{
+			"name": "Python",
+			"path": "/Users/Chris/sg-study-c"
 		},
 		{
 			"path": "Haml"
