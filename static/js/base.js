@@ -16,9 +16,48 @@
       codeMirrorConfig = {
         'theme': $('meta[name="CodeMirrorTheme"]').attr('content'),
         'lineNumbers': true,
-        'mode': 'clike',
+        'mode': {
+          'name': 'text/x-csrc',
+          'keywords': {
+            'auto': 'auto',
+            'break': 'break',
+            'case': 'case',
+            'char': 'char',
+            'const': 'const',
+            'continue': 'continue',
+            'default': 'default',
+            'do': 'do',
+            'double': 'double',
+            'else': 'else',
+            'enum': 'enum',
+            'extern': 'extern',
+            'float': 'float',
+            'for': 'for',
+            'goto': 'goto',
+            'if': 'if',
+            'int': 'int',
+            'long': 'long',
+            'register': 'register',
+            'return': 'return',
+            'short': 'short',
+            'signed': 'signed',
+            'sizeof': 'sizeof',
+            'static': 'static',
+            'struct': 'struct',
+            'switch': 'switch',
+            'typedef': 'typedef',
+            'union': 'union',
+            'unsigned': 'unsigned',
+            'void': 'void',
+            'volatile': 'volatile',
+            'while': 'while'
+          },
+          'useCPP': true
+        },
         'indentUnit': 4,
-        'value': this.start_code
+        'value': this.start_code,
+        'autoCloseBrackets': true,
+        'matchBrackets': true
       };
       this.codeMirror = CodeMirror.fromTextArea(this.textArea, codeMirrorConfig);
       $(this.figure).find('#std-output').hide();
@@ -88,21 +127,19 @@
         'suggestion': $('#suggestion-input').val(),
         'page_url': window.location.pathname
       },
-      dataType: 'application/json',
+      dataType: 'json',
       beforeSend: function() {
         document.getElementById('suggestion-submit').disabled = true;
         document.getElementById('suggestion-input').disabled = true;
         return $('#suggestion-input').val("Submitting...");
       },
       success: function(data) {
-        var response;
         console.log("Received");
         document.getElementById('suggestion-submit').disabled = false;
         document.getElementById('suggestion-input').disabled = false;
-        response = JSON.parse(data);
-        return $('#suggestion-input').val(response.message);
+        return $('#suggestion-input').val(data.message);
       },
-      error: function() {
+      error: function(jqXHR, textStatus, errorThrown) {
         console.log("Error");
         document.getElementById('suggestion-submit').disabled = false;
         document.getElementById('suggestion-input').disabled = false;

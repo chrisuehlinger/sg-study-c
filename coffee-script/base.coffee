@@ -5,9 +5,14 @@ class Example
     codeMirrorConfig = 
       'theme': $('meta[name="CodeMirrorTheme"]').attr 'content'
       'lineNumbers':true
-      'mode':'clike'
+      'mode':
+        'name':'text/x-csrc'
+        'keywords': {'auto', 'break', 'case', 'char', 'const', 'continue', 'default', 'do', 'double', 'else', 'enum', 'extern', 'float', 'for', 'goto', 'if', 'int', 'long', 'register', 'return', 'short', 'signed', 'sizeof', 'static', 'struct', 'switch', 'typedef', 'union', 'unsigned', 'void', 'volatile', 'while'}
+        'useCPP':true
       'indentUnit':4
       'value': @start_code
+      'autoCloseBrackets': true
+      'matchBrackets':true
 
     @codeMirror = CodeMirror.fromTextArea @textArea, codeMirrorConfig
 
@@ -73,7 +78,7 @@ submitSuggestion = ->
       url: '/suggestion'
       type: 'POST'
       data: {'suggestion': $('#suggestion-input').val(), 'page_url':window.location.pathname}
-      dataType: 'application/json'
+      dataType: 'json'
       beforeSend: ->
         document.getElementById('suggestion-submit').disabled = true
         document.getElementById('suggestion-input').disabled = true
@@ -82,9 +87,8 @@ submitSuggestion = ->
         console.log "Received"
         document.getElementById('suggestion-submit').disabled = false
         document.getElementById('suggestion-input').disabled = false
-        response = JSON.parse data
-        $('#suggestion-input').val response.message
-      error: ->
+        $('#suggestion-input').val data.message
+      error: (jqXHR, textStatus, errorThrown) ->
         console.log "Error"
         document.getElementById('suggestion-submit').disabled = false
         document.getElementById('suggestion-input').disabled = false

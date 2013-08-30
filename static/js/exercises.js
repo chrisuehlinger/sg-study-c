@@ -11,7 +11,44 @@
     codeMirrorConfig = {
       'theme': codeMirrorTheme,
       'lineNumbers': true,
-      'mode': 'clike',
+      'mode': {
+        'name': 'text/x-csrc',
+        'keywords': {
+          'auto': 'auto',
+          'break': 'break',
+          'case': 'case',
+          'char': 'char',
+          'const': 'const',
+          'continue': 'continue',
+          'default': 'default',
+          'do': 'do',
+          'double': 'double',
+          'else': 'else',
+          'enum': 'enum',
+          'extern': 'extern',
+          'float': 'float',
+          'for': 'for',
+          'goto': 'goto',
+          'if': 'if',
+          'int': 'int',
+          'long': 'long',
+          'register': 'register',
+          'return': 'return',
+          'short': 'short',
+          'signed': 'signed',
+          'sizeof': 'sizeof',
+          'static': 'static',
+          'struct': 'struct',
+          'switch': 'switch',
+          'typedef': 'typedef',
+          'union': 'union',
+          'unsigned': 'unsigned',
+          'void': 'void',
+          'volatile': 'volatile',
+          'while': 'while'
+        },
+        'useCPP': true
+      },
       'indentUnit': 4,
       'value': $('#editor').text(),
       'autofocus': true
@@ -29,7 +66,7 @@
           'action': 'test',
           'code': myCodeMirror.getValue()
         },
-        dataType: 'application/json',
+        dataType: 'json',
         beforeSend: beforeSubmit,
         success: receiveResponse,
         error: receiveError
@@ -46,7 +83,7 @@
           'code': myCodeMirror.getValue(),
           'input': $('#input').text()
         },
-        dataType: 'application/json',
+        dataType: 'json',
         beforeSend: beforeSubmit,
         success: receiveResponse,
         error: receiveError
@@ -66,7 +103,7 @@
 
   receiveResponse = function(data) {
     var response;
-    response = JSON.parse(data);
+    response = data;
     if (response.cmpinfo != null) {
       $('#cmpinfo').show();
       $('#cmpinfo').find('div.code').html(response.cmpinfo);

@@ -6,7 +6,10 @@ $(document).ready ->
   codeMirrorConfig = 
     'theme':codeMirrorTheme
     'lineNumbers':true
-    'mode':'clike'
+    'mode':
+      'name':'text/x-csrc'
+      'keywords':{'auto', 'break', 'case', 'char', 'const', 'continue', 'default', 'do', 'double', 'else', 'enum', 'extern', 'float', 'for', 'goto', 'if', 'int', 'long', 'register', 'return', 'short', 'signed', 'sizeof', 'static', 'struct', 'switch', 'typedef', 'union', 'unsigned', 'void', 'volatile', 'while'}
+      'useCPP':true
     'indentUnit':4
     'value':$('#editor').text()
     'autofocus':true
@@ -23,7 +26,7 @@ $(document).ready ->
       url: document.URL
       type: 'POST'
       data: {'action':'test', 'code': myCodeMirror.getValue()}
-      dataType: 'application/json'
+      dataType: 'json'
       beforeSend: beforeSubmit
       success: receiveResponse
       error: receiveError
@@ -34,7 +37,7 @@ $(document).ready ->
       url: document.URL
       type: 'POST'
       data: {'action':'check', 'code': myCodeMirror.getValue(), 'input':$('#input').text() }
-      dataType: 'application/json'
+      dataType: 'json'
       beforeSend: beforeSubmit
       success: receiveResponse
       error: receiveError
@@ -51,7 +54,7 @@ beforeSubmit = ->
   $('#message').text "Submitting..."
 
 receiveResponse = (data) ->
-  response = JSON.parse data
+  response = data
   if response.cmpinfo?
     $('#cmpinfo').show()
     $('#cmpinfo').find('div.code').html response.cmpinfo

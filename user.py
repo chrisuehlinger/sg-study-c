@@ -52,7 +52,7 @@ class User(utils.Model):
 	#Preferences
 	pref_css=db.StringProperty(default="old_reliable")
 	pref_codemirror_css=db.StringProperty(default="night")
-	pref_codemirror_addons=db.ListProperty(unicode)
+	pref_codemirror_addons=db.ListProperty(str)
 
 
 	def reset_pw(self):

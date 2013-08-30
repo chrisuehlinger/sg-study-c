@@ -1,0 +1,219 @@
+
+@import "codemirror"
+/*used on every page */
+html {
+    font-size: 100%;
+}
+
+body {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 1em; /*16px*/
+    tab-size: 4;
+    color: #333;
+}
+
+header {
+    text-align: center;
+}
+
+h2 {
+    font-size: 1.5em; /*24px*/
+    font-weight: bold;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #333;
+}
+
+header h2 {
+    border-bottom: none;
+}
+
+#sidebar-wrapper {
+    position: absolute;
+    width: 100%;
+}
+
+nav {
+    width: 18%;
+    padding: 0 1% 0;
+    top: 80px;
+    position: absolute;
+    border: 2px solid #333;
+    border-radius: 6px;
+}
+
+nav.fixed {
+    position: fixed;
+    top: 10px;
+}
+
+nav h2 {
+    text-align: center;
+    margin: 0 0 10px;
+}
+
+nav ul {
+    margin: 0 5px 10px;
+    padding-left: 15px;
+    list-style-position: inside;
+    text-indent: -1em;
+}
+
+article {
+    position: relative;
+    width: 56%;
+    margin: 0 auto;
+    padding: 10px 2%;
+}
+
+section {
+    border: 2px solid #333;
+    border-radius: 6px;
+    padding: 5px;
+    -webkit-box-shadow: 3px 3px 1px #666;
+    box-shadow: 3px 3px 1px #666;
+    margin: 10px 0;
+}
+
+figure {
+    border: 2px solid #333;
+    border-radius: 6px;
+    padding: 5px;
+}
+
+a {
+    color: gray;
+    text-decoration: none;
+}
+
+a:visited {
+    color: gray;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+em, .keyword {
+    font-weight: bold;
+    font-style: normal;
+}
+
+code, .code {
+    font-family: Courier, monospace;
+}
+
+pre, div.code, textarea.code {
+    background-color: #333;
+    color: #fff;
+    padding: 1%; /*5px*/
+    border-radius: 4px;
+    white-space: pre;
+    word-wrap: break-word;
+}
+
+table {
+    text-align: center;
+    border-collapse: collapse;
+}
+
+td {
+    border: 2px solid #333;
+}
+
+textarea {
+    width:50%;
+    height:15em;
+    font-size: 1em;
+}
+
+/*login not yet implemented*/
+.login-area {
+    font-size: 0.9em; /*13px*/
+    color: gray;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.login-link {
+    color: gray;
+    text-decoration: none;
+}
+
+.login-link:visited {
+    color: gray;
+}
+
+.login-link:hover {
+    text-decoration: underline;
+}
+
+/*used on the conditions page*/
+#truth-tables {
+    display: inline-block;
+    text-align: center;
+    width: 95%;
+    margin: 0;
+}
+
+#truth-tables table {
+    margin: 10px 10%;
+    vertical-align: top;
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+}
+
+.stretch {
+    width: 100%;
+    display: inline-block;
+    font-size: 0;
+    line-height: 0;
+}
+
+/* used to highlight running code in animations */
+.running {
+    color: orange;
+    font-weight: bold;
+}
+
+/*used on the Arrays page */
+table.array {
+    margin: 10px auto;
+}
+
+table.array td,table.array th {
+    height: 1.5em; /*25px*/
+    width: 1.5em; /*25px*/
+}
+
+.selected-index {
+    color: blue;
+    font-weight: bold;
+}
+
+.changed {
+    color: red;
+    font-weight: bold;
+}
+
+/*used on the Random page */
+.rand {
+    color: orange;
+    font-weight: bold;
+}
+
+/*used on the compiler page */
+#pre-processor {
+    height: 650px;
+}
+
+#compiler {
+    height: 1225px;
+}
+
+#compiler div {
+    word-wrap: break-word;
+    overflow: hidden;
+    max-height: 700px;
+}
