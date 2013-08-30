@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block content %}
+	<section>
+<p>Many computers today have multiple <em>CPU Cores</em>. You may hear about a computer being "Dual Core" or "Quad Core", this is what they're talking about. A "Dual Core" computer has two cores, so it can do two things at the same time. This is called <em>Multithreading</em>, because we are doing multiple things at once.</p>	</section>
+	<section>
+<h2>Processes</h2>
+<p>To understand how this will work, you must understand how the computer knows how many programs are running. Each time you open a program, the computer creates a new <em>process</em>, which has a number called its <em>process ID</em>.  The process ID is unique, no two processes can have the same ID.</p>	</section>
+	<section>
+<h2><code>fork()</code></h2>
+<p>To make a multithreaded program, we have to use the function <code>fork</code> which is in <code>uninstd.h</code>. <code>fork()</code> makes a "clone" of your program, creating a new process. Then both processes will run the rest of the code:</p>
+<pre><code>#include&lt;stdio.h&gt;
+#include&lt;unistd.h&gt;
+
+int main()
+{
+    fork();
+    printf("This will be printed two times!\n");
+    return 0;
+}
+</code></pre>
+<p>However, there's still a problem, what if we want our two processes to do different things. We'll need a way to tell which process is the "real" process, and which one is the "clone" process.</p>
+<p>I may get around to finishing this section later. However, the computers at school cannot use <code>fork()</code>, as it only works on Mac or Linux computers. If you have a non-Windows computer at home, here's an example program from <a href="http://en.wikipedia.org/wiki/Fork_%28operating_system%29#Example_in_C">the Wikipedia page about fork()</a>:</p>
+<pre><code>#include &lt;stdio.h&gt;   /* printf, stderr, fprintf */
+#include &lt;sys/types.h&gt; /* pid_t */
+#include &lt;unistd.h&gt;  /* _exit, fork */
+#include &lt;stdlib.h&gt;  /* exit */
+#include &lt;errno.h&gt;   /* errno */
+
+int main(void)
+{
+            pid_t  pid;
+
+            /* Output from both the child and the parent process
+                * will be written to the standard output,
+                * as they both run at the same time.
+                */
+            pid = fork();
+
+            if (pid == -1)
+            {
+                        /* Error:
+                            * When fork() returns -1, an error happened
+                            * (for example, number of processes reached the limit).
+                            */
+                        fprintf(stderr, "can't fork, error %d\n", errno);
+                        exit(EXIT_FAILURE);
+            }
+            else if (pid == 0)
+            {
+                        /* Child process:
+                            * When fork() returns 0, we are in
+                            * the child process.
+                            */
+                        int  j;
+                        for (j = 0; j &lt; 10; j++)
+                        {
+                                    printf("child: %d\n", j);
+                                    sleep(1);
+                        }
+                        _exit(0);  /* Note that we do not use exit() */
+            }
+            else
+            {
+                        /* When fork() returns a positive number, we are in the parent process
+                            * (the fork return value is the PID of the newly created child process)
+                            * Again we count up to ten.
+                            */
+                        int  i;
+                        for (i = 0; i &lt; 10; i++)
+                        {
+                                    printf("parent: %d\n", i);
+                                    sleep(1);
+                        }
+                        exit(0);
+            }
+            return 0;
+}
+</code></pre>
+<p>Also <a href="http://www.gnu.org/software/libc/manual/html_node/Creating-a-Process.html">this page</a> talks about how non-Windows computers deal with <code>fork()</code>.</p>	</section>
+{% endblock %}
