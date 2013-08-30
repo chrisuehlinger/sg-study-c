@@ -1,0 +1,30 @@
+{% macro example(e) %}
+	<figure id='{{e.url}}' class='example'>
+		<h3>Try it!</h3>
+		<p>{{ e.description | safe }}</p>
+		{% if e.flowchart %}
+			<img src='/serve/{{e.flowchart.key()}}' />
+		{% endif %}
+		<form method='post'>
+			<textarea id='example-editor' name='code'>{{ e.start_code }}</textarea>
+			<br />
+			<label>Input:				<br />
+				<textarea id='std-input'></textarea>
+</label>
+			<br />
+			<input id='submit-test' type='submit' value='Compile and Run' />
+			<input id='reset' type='button' value='Reset' />
+
+		</form>
+		<div id='message'>{{ message }}</div>
+		<div id='cmpinfo'>Compiler:			<div class='code'>{{ cmpinfo }}</div>
+</div>
+		<div id='std-output'>Output:			<div class='code'>{{ output }}</div>
+
+</div>
+		<p>Powered by			<a href='http://ideone.com'>www.ideone.com</a>
+			&copy; by
+			<a href='http://sphere-research.com'>Sphere Research Labs</a>
+</p>
+	</figure>
+{% endmacro %}
