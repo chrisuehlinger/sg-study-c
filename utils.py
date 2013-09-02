@@ -46,6 +46,7 @@ index = [	{'group':'The Basics', 'topics': [	#{'url':"whatis", 'topic_name':"Wha
 			},
 			{'group':'Values', 'topics': [		{'url':"variables", 'topic_name':"Variables and Types", 'examples':[]},
 												{'url':"constants", 'topic_name':"Constants", 'examples':['constant']},
+												#{'url':"strings", 'topic_name':"Strings", 'examples':[]},
 												{'url':"input_output", 'topic_name':"Input and Output", 'examples':[]}]
 			}, 
 			{'group':'Control Flow', 'topics':[ {'url':"conditions", 'topic_name':"If, Else and Conditions", 'examples':['logical_operators', 'strcmp']},
@@ -54,12 +55,12 @@ index = [	{'group':'The Basics', 'topics': [	#{'url':"whatis", 'topic_name':"Wha
 												{'url':"for", 'topic_name':"For Loops", 'examples':[]}]
 			},
 			{'group':'Other Topics', 'topics':[ {'url':"random", 'topic_name':"Random Numbers", 'examples':[]},
-												{'url':"functions", 'topic_name':"Functions and Recursion", 'examples':[]},
-												{'url':"arrays", 'topic_name':"Arrays and Strings", 'examples':[]},
+												{'url':"functions", 'topic_name':"Functions", 'examples':[]},
+												{'url':"arrays", 'topic_name':"Arrays", 'examples':[]},
 												{'url':"files", 'topic_name':"File Input/Output", 'examples':[]}]
 			},
 			{'group':'Advanced Topics','topics':[{'url':'time', 'topic_name':'Time in C', 'examples':[]},
-			# {'url':"preprocessor", 'topic_name':"Pre-Processor Commands"},
+			# 									{'url':"preprocessor", 'topic_name':"Pre-Processor Commands"},
 			 									{'url':"structs", 'topic_name':"Structs", 'examples':[]},
 			 									{'url':"fork", 'topic_name':"fork() and Multithreading", 'examples':[]},
 												{'url':"unicode", 'topic_name':"UNICODE", 'examples':[]}]

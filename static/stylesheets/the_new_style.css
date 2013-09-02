@@ -775,7 +775,6 @@ code, .code {
 
 pre, div.code, textarea.code {
   border: 1px solid #d6d6d6;
-  color: #333333;
   padding: 1%;
   border-radius: 4px;
   white-space: pre;

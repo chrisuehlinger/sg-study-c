@@ -94,9 +94,21 @@ submitSuggestion = ->
         document.getElementById('suggestion-input').disabled = false
         $('#suggestion-input').val "Site Error: #{textStatus} - #{errorThrown}"
 
+sample = (el) ->
+  $(el).addClass 'cm-s-neat'
+  the_code = $(el).find('code').text()
+  the_mode = 
+    'name':'text/x-csrc'
+    'keywords': {'auto', 'break', 'case', 'char', 'const', 'continue', 'default', 'do', 'double', 'else', 'enum', 'extern', 'float', 'for', 'goto', 'if', 'int', 'long', 'register', 'return', 'short', 'signed', 'sizeof', 'static', 'struct', 'switch', 'typedef', 'union', 'unsigned', 'void', 'volatile', 'while'}
+    'useCPP':true
+  CodeMirror.runMode(the_code, 'text/x-csrc', el)
+
 $(document).ready -> 
   $('figure.example').each ->
-    this_example = new Example(@)
+    this_example = new Example @
+
+  $('pre').each ->
+    sample @
 
   # suggestion box
   $('form#suggestion-box').submit (e) ->

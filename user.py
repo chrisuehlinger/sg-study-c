@@ -50,7 +50,7 @@ class User(utils.Model):
 	exercises_completed=db.ListProperty(db.Key)
 
 	#Preferences
-	pref_css=db.StringProperty(default="old_reliable")
+	pref_css=db.StringProperty(default="the_new_style")
 	pref_codemirror_css=db.StringProperty(default="night")
 	pref_codemirror_addons=db.ListProperty(str)
 

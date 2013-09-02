@@ -8,8 +8,12 @@
 		%link{rel:"stylesheet", type:"text/css", href:"/static/stylesheets/={stylesheet}.css"}
 		%script{type:"text/javascript", language:"Javascript", src:"https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"}
 		%script{type:"text/javascript", language:"Javascript", src:"/static/js/codemirror-compressed.js"}
+		
 		%link{rel:"stylesheet", href:"/static/codemirror/theme/={codemirror_theme}.css"}
 		%meta{name:"CodeMirrorTheme", content:"={codemirror_theme}"}
+		-if codemirror_theme != 'neat'
+			%link{rel:"stylesheet", href:"/static/codemirror/theme/neat.css"}
+
 		%script{type:"text/javascript", language:"Javascript", src:"/static/js/base.js"}
 		-block scripts
 
