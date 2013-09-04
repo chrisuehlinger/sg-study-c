@@ -63,17 +63,17 @@ class SignupHandler(utils.Handler):
 		page = {'url':'exercises', 'topic_name':'Signup'}
 		input_username = self.request.get("username")
 		input_password = self.request.get("password")
-		input_verify = self.request.get("verify")
-		input_email = self.request.get("email")
-		input_room = self.request.get("room")
-		input_number = self.request.get("number")
+		input_verify   = self.request.get("verify")
+		input_email    = self.request.get("email")
+		input_room     = self.request.get("room")
+		input_number   = self.request.get("number")
 
 		username = valid_username(input_username)
 		password = valid_password(input_password)
-		verify = verify_password(input_password, input_verify)
-		email = valid_email(input_email)
-		room = valid_number(input_room)
-		number = valid_number(input_number)
+		verify   = verify_password(input_password, input_verify)
+		email    = valid_email(input_email)
+		room     = valid_number(input_room)
+		number   = valid_number(input_number)
 
 		name_free = None
 		if username:
@@ -84,7 +84,9 @@ class SignupHandler(utils.Handler):
 			room_number_free = User.unique_student(input_room, input_number)
 			
 
-		if not (username and name_free and password and verify and email and room and number and room_number_free):
+		if not (username and name_free and password and verify and
+			email and room and number and room_number_free):
+
 			username_error = ""
 			if not username:
 				username_error = "Invalid Username."

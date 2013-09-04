@@ -9,16 +9,16 @@ import re
 
 warmups = [{ 'username':'chris',
 			 'password':'1234',
-				'email':'',
-				'admin':True,
-				'room':0,
-				'number':0},
-		   { 'username':'testStudent',
+			 'email':'',
+			 'admin':True,
+			 'room':0,
+			 'number':0},
+			{'username':'testStudent',
 			 'password':'1234',
-				'email':'',
-				'admin':False,
-				'room':3,
-				'number':42}]
+			 'email':'',
+			 'admin':False,
+			 'room':3,
+			 'number':42}]
 
 PASS_RE = re.compile(r"^.{3,20}$")
 def valid_password(password):
@@ -104,7 +104,9 @@ class Suggestion(utils.Model):
 
 	def submitter_string(self):
 		if self.submitter:
-			return "{0}, M 5/{1} #{2}".format(self.submitter.username, self.submitter.room, self.submitter.number)
+			return "{0}, M 5/{1} #{2}".format(self.submitter.username, 
+											  self.submitter.room,
+											  self.submitter.number)
 		else:
 			return "Anonymous"
 

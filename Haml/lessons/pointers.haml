@@ -1,0 +1,234 @@
+-extends "base.html"
+-block content
+	%section
+		:markdown
+			C is very different from most other languages we use today, because of how it uses memory. C is very fast and efficient compared to languages like Java. However, with great power comes great responsibility. C is very hard to use, because it makes you do a lot of the hard work yourself. Basically just remember these two points:
+
+			- C lets you write very fast programs, faster than pretty much any other language.
+			- C is harder to write than many other languages.
+
+			Pointers and memory management are a huge topic, and this lesson will be a brief overview. I won't be covering things like void pointers and function pointers in here. If you want to know more about how pointers work, the website [A Tutorial on Pointers and Arrays in C](http://pw1.netcom.com/~tjensen/ptr/pointers.htm) is a good place to look. 
+
+	%section
+		:markdown
+			Memory Management
+			-----------------
+
+			Let's look at how we work with Strings right now:
+
+				char address[1000] = "565 Thanon Samsen";
+
+			Good, we now have a string that we can use. But what if we need to store many strings? What if we don't know how many? We should make it 1000 strings, just to be safe:
+
+				char addresslist[1000][1000];
+
+			Some computers will run this, others will run out of space in the Stack. The *Stack* is where our programs store variables. It is rather small and inefficient, and many programs will run out of space when they try to use it. We need somewhere else to store data.
+
+			If we want to store a lot of data, we can put it in the *Heap*, which is much larger and easier to access. Using the Heap, we can store gigabytes of data, as much as our computer can keep in its RAM.
+
+			The Heap is like a giant array. It can hold billions of items, each of them one byte in size. When we want to use part of the heap, we have to *allocate* (or reserve) part of the array for our program. There are three functions that let us do this:
+
+			- `malloc(size)` - This function gets us a big chunk of memory, `size` bytes long.
+			- `calloc(num_items, item_size)` - This function is good for allocating arrays. It multiplies the number of items by the size of each item and reserves that many bytes.
+			- `realloc(array, new_size)` - This function is good if you need to make an array larger.
+
+			Each of these functions returns a *memory address*, a number that tells us where our part of the memory starts. If we reserved bytes 600-800, it would return 600.
+
+			These addresses are integers, right? Well, no. They're a new type that we're about to learn about.
+
+	%section
+		:markdown
+			Pointers
+			--------
+
+			*Pointers* are variables that tell us where something is in the Heap. They can be a little bit hard to understand, so I'll include some links to helpful pages if you're still having trouble.
+
+			First, let's talk about the syntax of pointers. If I want to make a new pointer, I can do it like this:
+
+				int *age;
+
+			However, I can't do this:
+
+				int *age;
+				age = 23;
+
+			`age` is not an `int`, its just pointing at one. Actually, right now it is pointing at nothing, we need to allocate some memory for it:
+
+				int *age = (int *)malloc(sizeof(int));
+
+			Let's look at what we just did:
+
+			1. We used `malloc()` to allocate some space in memory.
+			2. How much space? `sizeof(int)` or "enough space for one `int`"
+			3. `malloc()` has a return type of `void *` (void pointer), but we wanted an `int *`, so we typecasted it with `(int *)`
+
+			Now we can write `age = 23;`, right? Not quite, we need to store `23` in the space `age` is pointing to, like this:
+				
+				*age = 23;
+
+			We use the ` * ` to *dereference* the pointer, that is, to talk about what it is pointing at:
+
+				printf("Your age is: %d.", *age);
+
+			You might be asking, "Why would we ever do this?" Here's a good reason, check out this function:
+
+				void add_one(int *x)
+				{
+					*x = *x + 1;
+				}
+
+			This function will actually change whatever variable you give it. Even though it has no return value, it can still affect how the program runs.
+
+			Also, we can have many pointers that point to the same address. We talk about a pointer's address using the `&` syntax:
+
+				int *age = (int *)malloc(sizeof(int));
+				*age = 23;
+
+				int *ptr = &age;
+				*ptr = 100;
+
+				printf("Your age is now: %d.", *age);
+
+			This will print: "Your age is now: 100." In case you were wondering, this is why we use `&` in `scanf()`.
+
+	%section
+		:markdown
+			Pointers with Arrays and `struct`s
+			----------------------------------
+
+			The real benefit to using pointers is managing arrays and `struct`s. Here's an example of a string with pointers:
+
+				char *name = (char *)calloc(strlen("Chris")+1, sizeof(char));
+				strcpy(name, "Chris");
+
+			Alright, that's a lot of weird stuff, let's walk through it one piece at a time:
+
+			1. We use `calloc()` because we want `name` to point to an array.
+			2. `strlen("Chris")+1` is the number of items in the array (5 letters in "Chris", plus one for the NULL character `'\0'` at the end). 
+			3. `sizeof(char)` is the size of each item in the array.
+			4. We use typecasting to make this pointer into a `(char *)`.
+			5. We use `strcpy()` to copy the string `"Chris"` to the place `name` is pointing to.
+
+			Making pointers to `struct`s can be a bit more difficult. Let's look at this `struct`:
+
+				struct person {
+					char *name;
+					int age;
+					float balance;
+				};
+
+				typedef struct person Person;
+
+			Let's make a `Person` and allocate space for them:
+
+				Person *new_person = (Person *)malloc(sizeof(Person));
+			
+			In that one line, we allocated space for a pointer, an `int` and a `float`. We still need to allocate space for `name`, because right now it is pointing to nothing:
+
+				Person *new_person = (Person *)malloc(sizeof(Person));
+
+				new_person->name = (char *)calloc(strlen("Chris")+1, sizeof(char));
+				strcpy(new_person->name, "Chris");
+
+			Notice that we use `->` to talk about parts of a `struct` when we are using pointers. Here's what the "create a `Person`" code should look like when we're done:
+
+				Person *new_person = (Person *)malloc(sizeof(Person));
+
+				new_person->name = (char *)calloc(strlen("Chris")+1, sizeof(char));
+				strcpy(new_person->name, "Chris");
+
+				new_person->age = 23;
+				new_person->balance = 999.99;
+
+			We don't want to write this every time we need a new `Person`, so it's a good idea to put it in a function like this:
+
+				Person *create_person(char *new_name, int new_age, float new_balance)
+				{
+					Person *new_person = (Person *)malloc(sizeof(Person));
+
+					new_person->name = (char *)calloc(strlen(new_name)+1, sizeof(char));
+					strcpy(new_person->name, new_name);
+
+					new_person->age = new_age;
+					new_person->balance = new_balance;
+
+					return new_person;
+				}
+
+			When you study Object Oriented Programming, this kind of function is called a *constructor*, it builds a new Object.
+
+	%section
+		:markdown
+			`free()` and memory leaks
+			--------------------------
+
+			At the end of your program you need to make sure you give back any memory you've borrowed from the computer using the `free()` function. For example, with the `age` pointer above, we could free it like this:
+
+				free(age);
+
+			Now `age` points to nothing, and the memory can be used for other programs. If you have a `struct`, you need to `free()` any pointers inside it first. Here's an example with our `Person` `struct`:
+
+				void delete(Person *p)
+				{
+					free(p->name);
+					free(p);
+				}
+
+			If you forget to use `free()`, the memory cannot be used by any other program, this is called a *memory leak*. Over time, memory leaks can slow down your computer. The only way to get the memory back is to shut down and restart the computer.
+
+	%section
+		:markdown
+			Common Problems with Pointers
+			-----------------------------
+
+			Pointers are very powerful, but they make our programs more complicated. Here are some common problems that come up when you use pointers:
+
+			### Segmentation Fault
+
+			This is an error you may receive when you run your program. It means something is wrong, and it probably has to do with pointers and memory. Most often these come from dereferencing NULL pointers. In other words, you tried to use a pointer, but it was pointing at nothing. Here's an example:
+
+				int *age;
+				printf("Your age is: %d.", *age);
+
+			It can also happen if you try to access an array index that doesn't exist, like this:
+
+				char name[100] = "Chris";
+				printf("The 500th letter in your name is: %c.", name[500]);
+
+			### Accidental memory leaks
+
+			Let's look at these two integer pointers:
+
+			int *a, *b;
+			a = (int *)malloc(sizeof(int));
+			*a = 5;
+
+			b = (int *)malloc(sizeof(int));
+			*b = 7;
+
+			Now see if you can spot the problem in this code:
+
+			int *a, *b;
+			a = (int *)malloc(sizeof(int));
+			*a = 5;
+
+			b = (int *)malloc(sizeof(int));
+			*b = 7;
+
+			b = &a;
+
+			Now `b` is pointing to the same thing as `a`. What about the space that `b` was pointing to? It is lost. Somewhere in the memory, the number `7` is floating around, with nothing pointing to it. Nobody can use that memory until the computer restarts.
+
+			These kinds of memory leaks can be hard to spot, so keep an eye out for them, and try using tools like [memwatch](http://www.linkdata.se/sourcecode/memwatch/) to find leaks in your program.
+
+			### Running out of memory
+
+			If your computer has no memory left, it will return nothing when you try to allocate space for a pointer. This is rare, but you should make sure it doesn't happen by checking EVERY pointer after you allocate space for it, like this:
+
+				a = (int *)malloc(sizeof(int));
+				if(a == NULL)
+				{
+					printf("Out of memory.");
+					exit(1);
+				}
+

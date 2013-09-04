@@ -1,0 +1,70 @@
+-extends "base.html"
+-block content
+	%section
+		:markdown
+			We use strings a lot, so it is important to know how to use them correctly. In this section we will cover a number of important C functions that work with strings.
+
+			Here is a list of some good functions from `string.h`:
+		
+			- `int strlen(string)` - String Length, this function returns the length of `string`.
+			- `strcpy(new_string, old_string)` - String Copy, this function makes `new_string` into a copy of `old_string`.
+			- `int strcmp(string1, string2)` - String Compare, this function tells us if two strings are the same. If they are, it returns `0`, if they are not, it returns `1` or `-1`.
+			- `strcat(string, extra)` - String Concatenation, this puts two strings together. It adds `extra` to the end of `string`.
+			- `strtok()` - String Tokenizer, this is useful for breaking down a string into pieces. Its good for breaking strings down into words.
+			
+			### `strlen()`
+
+			It is important to remember that the "length" of the string and the "size" of the string are different. Here's an example
+
+				char name[1000] = "Chris";
+				int length = strlen(name); // 5
+				int size = sizeof(name)/sizeof(char); // 1000
+
+			The string `name` has a length of 5 but a size of 1000. Your strings should all have a size of about 1000 (at least until you learn about pointers) to make sure you always have enough space.
+
+			### `strcpy()`
+
+			This function may seem a little strange, but it's very useful when you work with pointers. It is also useful when you have an array of strings:
+
+				char students[1000][1000];
+				strcpy(students[0], "John");
+
+			### `strcmp()`
+
+			We talked about this function in the section about conditions. `strcmp()` takes two strings and compares them. It then returns an `int`:
+
+			- `0` if the two strings are the same
+			- `-1` if the first string is before the second in alphabetical order
+			- `1` if the second string is before the first in alphabetical order
+
+			The +/-1 returns are useful for sorting strings by alphabetical order.
+
+			### `strcat()`
+
+			This is also a very useful function for working with strings:
+
+				char part1[1000], part2[1000], part3[1000];
+				
+				strcpy(part1, "Apples");
+				strcpy(part2, "And");
+				strcpy(part3, "Pears");
+				
+				strcat(part1, part2);
+				strcat(part1, part3);
+				
+				printf(part1); // ApplesAndPears
+			
+			### strtok()
+
+			This is an advanced function, but if you can use it right, it will work wonders. Let's say you want to take a sentence and print each word on a separate line. We could use `strtok()` to do this. It is a strange function, because it remembers the string in between times when you use it. When it reaches the end of the string, it will return NULL.
+
+				char sentence[1000] = "This is an advanced function, but if you can use it right, it will work wonders.";
+				char delimiters[1000] = ",.'() "; //These are the characters that come between words.
+
+				char *word;
+				word = strtok(sentence, delimiters);
+				while(word != NULL)
+				{
+					printf("%s\n", word);
+					word = strtok(NULL, delimiters);
+				}

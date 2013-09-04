@@ -10,10 +10,8 @@
 		<script src='/static/js/codemirror-compressed.js' type='text/javascript' language='Javascript'></script>
 		<link href='/static/codemirror/theme/{{ codemirror_theme }}.css' rel='stylesheet' />
 		<meta content='{{ codemirror_theme }}' name='CodeMirrorTheme' />
-		{% if codemirror_theme != 'neat' %}
-			<link href='/static/codemirror/theme/neat.css' rel='stylesheet' />
-
-		{% endif %}
+<!-- -if codemirror_theme != 'neat' -->
+<!-- %link{rel:"stylesheet", href:"/static/codemirror/theme/neat.css"} -->
 		<script src='/static/js/base.js' type='text/javascript' language='Javascript'></script>
 		{% block scripts %}
 

@@ -21,16 +21,24 @@ class Example
 
     $(@figure).find('input#submit-test').click (e) =>
       e.preventDefault()
-  
+      input = ''
+      if $(@figure).find('input#std-input')
+        input = $(@figure).find('input#std-input').text()
+
       request = $.ajax 
         url: document.URL
         type: 'POST'
-        data: {'action':'test', 'code': @codeMirror.getValue()}
+        data: {'action':'test', 'code': @codeMirror.getValue(), 'input':input}
         dataType: 'json'
       
       @beforeSubmitExample()
       request.done @receiveResponseExample
       request.fail @receiveErrorExample
+
+      # http = new XMLHttpRequest()
+      # http.open "POST", "http://coliru.stacked-crooked.com/compile", false
+      # http.send(JSON.stringify({ "cmd": "cat main.cpp > main.c; gcc-4.8 main.c", "src": "#include<stdio.h>\nint main() { \nprintf(\"Hello World\"); return 0; }" }))
+      # alert http.response
 
       false
 
@@ -101,11 +109,11 @@ sample = (el) ->
     'name':'text/x-csrc'
     'keywords': {'auto', 'break', 'case', 'char', 'const', 'continue', 'default', 'do', 'double', 'else', 'enum', 'extern', 'float', 'for', 'goto', 'if', 'int', 'long', 'register', 'return', 'short', 'signed', 'sizeof', 'static', 'struct', 'switch', 'typedef', 'union', 'unsigned', 'void', 'volatile', 'while'}
     'useCPP':true
-  CodeMirror.runMode(the_code, 'text/x-csrc', el)
+  # CodeMirror.runMode(the_code, 'text/x-csrc', el)
 
 $(document).ready -> 
   $('figure.example').each ->
-    this_example = new Example @
+    new Example @
 
   $('pre').each ->
     sample @

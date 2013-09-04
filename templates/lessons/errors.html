@@ -1,13 +1,33 @@
 {% extends "base.html" %}
 {% block content %}
 	<section>
-<p>I'm going to write this part later. For now, here's a link with some common C mistakes: <a href="http://www.drpaulcarter.com/cs/common-c-errors.php">Common C Errors</a></p>	</section>
-	<section>
-<h2>Common errors</h2>
+<p>Sometimes your program works perfectly. However, usually you will have to fix errors before your program will run. This lesson will teach you how to fix errors.</p>
+<h3>I have SO MANY errors!</h3>
+<p>Don't worry! Sometimes if you have one error at the beginning of the program, the compiler will panic and tell you that you have many errors. You should start at the top of the program, and fix one error at a time. Usually, this will make the other errors go away by themself.</p>
+<h3>Warnings vs. Errors</h3>
+<p>When you compile your program, there are two ways the compiler will tell you if there is a problem:</p>
 <ul>
-<li>Remember to end every statement with a Semicolon “;”</li>
-<li>If you forget a semi-colon, Dev-C++ won’t notice the Error until the next line of code.</li>
-<li>“Everything that has a beginning, must have an end.” If you have an open Curly Brace ‘{‘ with no close Curly Brace ‘}’ you will get an error.</li>
-<li>95% of all errors are spelling mistakes. If you get an error, check that you have spelled the variable names correctly.</li>
-</ul>	</section>
+<li><em>Warnings</em> - Your program will still compile, but it may crash when you try to run it.</li>
+<li><em>Errors</em> - Your program has a serious problem and cannot compile.</li>
+</ul>
+<p>We will talk about both kinds of problems in this lesson, but it is good to know the difference.</p>	</section>
+	<section>
+<h2>Common errors and warnings</h2>
+<p>If you are having problems with an error, check if you are getting one of these messages:</p>
+<pre><code>error: expected ',' or ';'' before '*something*'
+</code></pre>
+<p>This error means you forgot a semicolon. The 'something' part is usually on the line AFTER the missing semicolon.</p>
+<pre><code>error: '*something*' undeclared (first use in this function)
+</code></pre>
+<p>This usually happens because you spelled something wrong. It means you are talking about a variable that you never created.</p>
+<pre><code>error: expected declaration or statement at end of input
+</code></pre>
+<p>This means you have an open brace "{" with no closing brace "}". Check your <code>if</code>-<code>else</code> statements, loops, etc. and try to find where there is a missing brace.</p>
+<pre><code>error: missing terminating " character
+</code></pre>
+<p>This means you started a string with " but didn't end it. Check your printf() functions and anywhere you talk about strings.</p>
+<pre><code>warning: unused variable ‘*something*’
+</code></pre>
+<p>This means you created a variable and then never used it. This shouldn't cause any real problems when you run the program, but you might want to check why you didn't use it.</p>
+<p>If you are getting a message that isn't on this page, let me know and I can add it in!</p>	</section>
 {% endblock %}

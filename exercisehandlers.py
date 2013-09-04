@@ -28,21 +28,33 @@ class FlowchartUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 		for o in string.replace(self.request.get('output'), '\r', '').split(';'):
 			outputs.append(db.Text(o))
 
-		checker = ExerciseChecker(	test_methods=used_methods,
-									inputs=inputs,
-									outputs=outputs,
-									keywords=string.replace(self.request.get('keywords'), '\r', '').split(';'))
-		checker.put()
-		exercise = Exercise(name=self.request.get('name'), 
-							url=self.request.get('url'), 
-							description=string.replace(string.replace(self.request.get('description'), '\r', ''), '\n', '<br>'),
-							start_code=string.replace(self.request.get('start_code'), '\r', ''),
-							checker=checker)
-		if len(upload_files):
-			exercise.flowchart = upload_files[0].key()
-		exercise.put()
-		time.sleep(5)
-		self.redirect('/exercises/'+exercise.url)
+		if len(inputs) != len(outputs):
+			self.write("Error: Number of inputs did not match number of outputs.")
+		else:
+			keywords = string.replace(self.request.get('keywords'), '\r', '').split(';')
+			checker = ExerciseChecker(	test_methods=used_methods,
+										inputs=inputs,
+										outputs=outputs,
+										keywords=keywords)
+			checker.put()
+
+			start_code=string.replace(self.request.get('start_code'), '\r', '')
+
+			description = self.request.get('description')
+			description = string.replace(description, '\r', '')
+			description = string.replace(description, '\n', '<br>')
+
+			exercise = Exercise(name=self.request.get('name'), 
+								url=self.request.get('url'), 
+								description=description,
+								start_code=start_code,
+								checker=checker)
+
+			if len(upload_files):
+				exercise.flowchart = upload_files[0].key()
+			exercise.put()
+			time.sleep(5)
+			self.redirect('/exercises/'+exercise.url)
 
 class FlowchartServeHandler(blobstore_handlers.BlobstoreDownloadHandler):
 	def get(self, blob_key):
@@ -56,7 +68,9 @@ class AddExerciseHandler(user.AdminHandler):
 	def admin_get(self):
 		upload_url = blobstore.create_upload_url('/upload')
 		page = {'topic_name': 'Create an Exercise'}
-		self.render_with_user("addexercise.html", {'page':page, 'test_methods':test_methods, 'upload_url': upload_url})
+		self.render_with_user("addexercise.html", { 'page':page, 
+													'test_methods':test_methods,
+													'upload_url': upload_url})
 
 class ExerciseHandler(user.UserHandler):
 	def user_get(self, *args):
@@ -64,14 +78,15 @@ class ExerciseHandler(user.UserHandler):
 		if pagename is None:
 			exercise_list = Exercise.query().order('name')
 			page = {'url':'exercises', 'topic_name':'Practice Exercises'}
-			self.render_with_user("exerciseindex.html", {'page':page, 'exercises':exercise_list})
+			self.render_with_user("exerciseindex.html", {'page':page,
+														 'exercises':exercise_list})
 		else:
 			exercise = Exercise.query().filter("url = ",pagename).get()
 			if exercise is None:
 				self.write("No Exercise named '%s'" % pagename)
 			else:
 				logging.info("Serving exercise: " + repr(exercise.name))
-				logging.info("Serving exercise: " + repr(string.replace(exercise.start_code, '\r', '')))
+				logging.info("Serving exercise: " + repr(exercise.start_code))
 				logging.info("Serving exercise: " + repr(exercise.description))
 				self.render_with_user("exercise.html", {'page':exercise})
 
@@ -80,25 +95,29 @@ class ExerciseHandler(user.UserHandler):
 		if args[0] is None:
 			pagename=""
 
+		exercise = Exercise.query().filter("url = ",pagename).get()
 		submission = self.request.get('code')
+		program = exercise.outside_code.format(submission)
 		action = self.request.get('action')
 
 		response = dict()
 		if action == 'check':
-			exercise = Exercise.query().filter("url = ",pagename).get()
-			response = exercise.checker.checkWork(submission)
+			response = exercise.checker.checkWork(program)
 			if response['passed']:
 				user = User.query().filter('username = ', self.username).get()
-				if not exercise.key() in user.exercises_completed:
+				if user and (not exercise.key() in user.exercises_completed):
 					user.exercises_completed.append(exercise.key())
 					user.put()
 
 		elif action == 'test':
 			message = ''
 			client = IdeoneClient()
-			response = client.submit(submission, self.request.get('input'))
-			if response['error'] != "OK" or int(response['result']) != 15 or response['output'] is None:
-				message = response['error_message']
+			response = client.submit(program, self.request.get('input'))
+			
+			if (response['error'] != "OK" or 
+				int(response['result']) != 15 or 
+				response['output'] is None):
+					message = response['error_message']
 
 			response['message'] = message
 

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block content %}
+	<section>
+<p>We use strings a lot, so it is important to know how to use them correctly. In this section we will cover a number of important C functions that work with strings.</p>
+<p>Here is a list of some good functions from <code>string.h</code>:</p>
+<ul>
+<li><code>int strlen(string)</code> - String Length, this function returns the length of <code>string</code>.</li>
+<li><code>strcpy(new_string, old_string)</code> - String Copy, this function makes <code>new_string</code> into a copy of <code>old_string</code>.</li>
+<li><code>int strcmp(string1, string2)</code> - String Compare, this function tells us if two strings are the same. If they are, it returns <code>0</code>, if they are not, it returns <code>1</code> or <code>-1</code>.</li>
+<li><code>strcat(string, extra)</code> - String Concatenation, this puts two strings together. It adds <code>extra</code> to the end of <code>string</code>.</li>
+<li><code>strtok()</code> - String Tokenizer, this is useful for breaking down a string into pieces. Its good for breaking strings down into words.</li>
+</ul>
+<h3><code>strlen()</code></h3>
+<p>It is important to remember that the "length" of the string and the "size" of the string are different. Here's an example</p>
+<pre><code>char name[1000] = "Chris";
+int length = strlen(name); // 5
+int size = sizeof(name)/sizeof(char); // 1000
+</code></pre>
+<p>The string <code>name</code> has a length of 5 but a size of 1000. Your strings should all have a size of about 1000 (at least until you learn about pointers) to make sure you always have enough space.</p>
+<h3><code>strcpy()</code></h3>
+<p>This function may seem a little strange, but it's very useful when you work with pointers. It is also useful when you have an array of strings:</p>
+<pre><code>char students[1000][1000];
+strcpy(students[0], "John");
+</code></pre>
+<h3><code>strcmp()</code></h3>
+<p>We talked about this function in the section about conditions. <code>strcmp()</code> takes two strings and compares them. It then returns an <code>int</code>:</p>
+<ul>
+<li><code>0</code> if the two strings are the same</li>
+<li><code>-1</code> if the first string is before the second in alphabetical order</li>
+<li><code>1</code> if the second string is before the first in alphabetical order</li>
+</ul>
+<p>The +/-1 returns are useful for sorting strings by alphabetical order.</p>
+<h3><code>strcat()</code></h3>
+<p>This is also a very useful function for working with strings:</p>
+<pre><code>char part1[1000], part2[1000], part3[1000];
+
+strcpy(part1, "Apples");
+strcpy(part2, "And");
+strcpy(part3, "Pears");
+
+strcat(part1, part2);
+strcat(part1, part3);
+
+printf(part1); // ApplesAndPears
+</code></pre>
+<h3>strtok()</h3>
+<p>This is an advanced function, but if you can use it right, it will work wonders. Let's say you want to take a sentence and print each word on a separate line. We could use <code>strtok()</code> to do this. It is a strange function, because it remembers the string in between times when you use it. When it reaches the end of the string, it will return NULL.</p>
+<pre><code>char sentence[1000] = "This is an advanced function, but if you can use it right, it will work wonders.";
+char delimiters[1000] = ",.'() "; //These are the characters that come between words.
+
+char *word;
+word = strtok(sentence, delimiters);
+while(word != NULL)
+{
+    printf("%s\n", word);
+    word = strtok(NULL, delimiters);
+}
+</code></pre>	</section>
+{% endblock %}

@@ -63,14 +63,19 @@
       $(this.figure).find('#std-output').hide();
       $(this.figure).find('#cmpinfo').hide();
       $(this.figure).find('input#submit-test').click(function(e) {
-        var request;
+        var input, request;
         e.preventDefault();
+        input = '';
+        if ($(_this.figure).find('input#std-input')) {
+          input = $(_this.figure).find('input#std-input').text();
+        }
         request = $.ajax({
           url: document.URL,
           type: 'POST',
           data: {
             'action': 'test',
-            'code': _this.codeMirror.getValue()
+            'code': _this.codeMirror.getValue(),
+            'input': input
           },
           dataType: 'json'
         });
@@ -152,7 +157,7 @@
     var the_code, the_mode;
     $(el).addClass('cm-s-neat');
     the_code = $(el).find('code').text();
-    the_mode = {
+    return the_mode = {
       'name': 'text/x-csrc',
       'keywords': {
         'auto': 'auto',
@@ -190,13 +195,11 @@
       },
       'useCPP': true
     };
-    return CodeMirror.runMode(the_code, 'text/x-csrc', el);
   };
 
   $(document).ready(function() {
     $('figure.example').each(function() {
-      var this_example;
-      return this_example = new Example(this);
+      return new Example(this);
     });
     $('pre').each(function() {
       return sample(this);

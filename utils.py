@@ -40,13 +40,13 @@ codemirror_themes = [
 
 index = [	{'group':'The Basics', 'topics': [	#{'url':"whatis", 'topic_name':"What is C?", 'examples':[]},
 												{'url':"basic_syntax", 'topic_name':"Basic Syntax", 'examples':[]},
-												{'url':"math", 'topic_name':"Basic Math in C", 'examples':[]},
+												{'url':"math", 'topic_name':"Basic Math in C", 'examples':['math', 'modulo', 'increment']},
 												{'url':"compiler", 'topic_name':"The Compiler", 'examples':[]},
 												{'url':"errors", 'topic_name':"Fixing Errors", 'examples':[]}]
 			},
 			{'group':'Values', 'topics': [		{'url':"variables", 'topic_name':"Variables and Types", 'examples':[]},
 												{'url':"constants", 'topic_name':"Constants", 'examples':['constant']},
-												#{'url':"strings", 'topic_name':"Strings", 'examples':[]},
+												{'url':"strings", 'topic_name':"Strings", 'examples':['strcmp']},
 												{'url':"input_output", 'topic_name':"Input and Output", 'examples':[]}]
 			}, 
 			{'group':'Control Flow', 'topics':[ {'url':"conditions", 'topic_name':"If, Else and Conditions", 'examples':['logical_operators', 'strcmp']},
@@ -62,6 +62,7 @@ index = [	{'group':'The Basics', 'topics': [	#{'url':"whatis", 'topic_name':"Wha
 			{'group':'Advanced Topics','topics':[{'url':'time', 'topic_name':'Time in C', 'examples':[]},
 			# 									{'url':"preprocessor", 'topic_name':"Pre-Processor Commands"},
 			 									{'url':"structs", 'topic_name':"Structs", 'examples':[]},
+			 									{'url':"pointers", 'topic_name':"Pointers and Memory", 'examples':[]},
 			 									{'url':"fork", 'topic_name':"fork() and Multithreading", 'examples':[]},
 												{'url':"unicode", 'topic_name':"UNICODE", 'examples':[]}]
 			},
@@ -117,15 +118,18 @@ class Handler(webapp2.RequestHandler):
 		self.write(render_str(template_name, template_values))
 
 	def set_secure_cookie(self, name, value):
-		cookie = make_secure_val(value)
-		self.response.headers.add_header("Set-Cookie", str("%s=%s; Path=/" % (name,cookie)))
+		secure_value = make_secure_val(value)
+		cookie = str("%s=%s; Path=/" % (name,secure_value))
+
+		self.response.headers.add_header("Set-Cookie", cookie)
 
 	def get_cookie(self, name):
 		cookie = self.request.cookies.get(name, 0)
 		return check_secure_val(cookie)
 
 	def delete_cookie(self, name):
-		self.response.headers.add_header("Set-Cookie", str("%s=; Path=/" % name))
+		cookie = str("%s=; Path=/" % name)
+		self.response.headers.add_header("Set-Cookie", cookie)
 
 class Model(db.Model):
 	@classmethod

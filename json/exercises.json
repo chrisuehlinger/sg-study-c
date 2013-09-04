@@ -1,0 +1,20 @@
+[
+{	"name":"Hello World",
+	"url":"hello",
+	"description":"Write a program that outputs \"Hello World!\".",
+	"start_code":"#include<stdio.h>\n\nint main()\n{\n\t//Code here\n\n\treturn 0;\n}",
+	"checker":{	"test_methods":["Input/Output"],
+				"test_input":"none",
+				"output":"Hello World!",
+				"keywords":""}
+},
+{	"name":"If Statements",
+	"url":"if",
+	"description":"Write a program that asks the user:\n\nHow old are you?\n\nIf the user is 18 or older, the program should say:\n\nYou can drive a car.\n\nIf the user is under 18 years old, the program should say:\n\nYou will have to walk.",
+	"start_code":"#include<stdio.h>\n\nint main()\n{\n\tprintf(\"How old are you?\\n\");\n\n\treturn 0;\n}",
+	"checker":{	"test_methods":["Input/Output", "Check Keywords"],
+				"test_input":"23;5;18",
+				"output":"How old are you?You can drive a car.;How old are you?You will have to walk.;How old are you?You can drive a car.",
+				"keywords":"if;else"}
+}
+]

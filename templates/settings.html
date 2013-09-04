@@ -32,22 +32,24 @@
 							<option selected='selected' value='{{k}}'>{{ styles[k] }}</option>
 						{% else %}
 							<option value='{{k}}'>{{ styles[k] }}</option>
-
 						{% endif %}
 					{% endfor %}
 				</select>
 </label>
+			<br />
+
 			<label>CodeMirror Theme:				<select name='cm_theme'>
 					{% for t in themes %}
 						{% if t == codemirror_theme %}
 							<option selected='selected' value='{{t}}'>{{ t }}</option>
 						{% else %}
 							<option value='{{t}}'>{{ t }}</option>
-
 						{% endif %}
 					{% endfor %}
 				</select>
 </label>
+			<br />
+
 			<input type='submit' value='Submit' />
 		</form>
 	</section>

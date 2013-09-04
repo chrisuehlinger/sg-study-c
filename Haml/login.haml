@@ -1,14 +1,14 @@
 -extends "base.html"
 -block content
-	.login-area
+	%p
 		If you don't have an account, 
-		%a{href:"/signup", class:"login-link"}Sign up
-		!
-	%form{method:"post", class:"auth-form"}
+		%a.login-link{href:"/signup"}
+			Sign up!
+	%form.auth-form{method:"post"}
 		%label
 			Username:
 			%input{type:"text", name:"username", value:'{{username}}'}
-
+		%br
 		%label
 			Password:
 			%input{type:"password", name:"password", value:'{{password}}'}

@@ -7,26 +7,26 @@ from ideoneclient import IdeoneClient
 import os
 import json
 
-
 class Example(utils.Model):
-	name = db.StringProperty(required=True)
-	url = db.StringProperty(required=True)
+	name        = db.StringProperty(required=True)
+	url         = db.StringProperty(required=True)
 	description = db.TextProperty(required=True)
-	start_code = db.TextProperty(required=True)
+	start_code  = db.TextProperty(required=True)
+	takes_input = db.BooleanProperty(default=False)
 
 	@classmethod
 	def warmup(cls):
 		if Example.query().count()==0:
 			logging.info("Warming up Examples")
 			path = os.path.join(os.path.dirname(__file__), 'json', 'examples.json')
-			# path = os.path.split(__file__)[0] + '/json/examples.json'
 			warmups = json.loads(open(path, 'r').read())
 
 			for e in warmups:
 				example = Example(name=e['name'], 
 									url=e['url'], 
 									description=string.replace(e['description'], '\n', '<br>'),
-									start_code=e['start_code'])
+									start_code=db.Text(e['start_code']),
+									takes_input=e['takes_input'])
 				example.put()
 
 class AddExampleHandler(user.AdminHandler):
@@ -36,10 +36,16 @@ class AddExampleHandler(user.AdminHandler):
 		self.render_with_user("addexample.html", {'page':page})
 
 	def admin_post(self):
+		start_code=string.replace(self.request.get('start_code'), '\r', '')
+
+		description = self.request.get('description')
+		description = string.replace(description, '\r', '')
+		description = string.replace(description, '\n', '<br>')
+
 		example = Example(	name=self.request.get('name'), 
 							url=self.request.get('url'), 
-							description=string.replace(string.replace(self.request.get('description'), '\r', ''), '\n', '<br>'),
-							start_code=string.replace(self.request.get('start_code'), '\r', '')
+							description=description,
+							start_code=start_code
 						 )
 		example.put()
 		time.sleep(5)
@@ -58,7 +64,7 @@ class ExampleHandler(user.UserHandler):
 				self.write("No Example named '%s'" % pagename)
 			else:
 				logging.info("Serving example: " + repr(example.name))
-				logging.info("Serving example: " + repr(string.replace(example.start_code, '\r', '')))
+				logging.info("Serving example: " + repr(example.start_code))
 				logging.info("Serving example: " + repr(example.description))
 				self.render_with_user("example.html", {'page':example})
 
@@ -72,8 +78,10 @@ class ExampleHandler(user.UserHandler):
 		message = ''
 		client = IdeoneClient()
 		response = client.submit(submission, self.request.get('input'))
-		if response['error'] != "OK" or int(response['result']) != 15 or response['output'] is None:
-			message = response['error_message']
+		if (response['error'] != "OK" or 
+			int(response['result']) != 15 or 
+			response['output'] is None):
+				message = response['error_message']
 
 		response['message'] = message
 

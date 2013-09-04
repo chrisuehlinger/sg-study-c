@@ -3,6 +3,7 @@ import time
 import utils
 import urllib
 import re
+import os
 import string
 from utils import db
 import logging
@@ -13,60 +14,11 @@ from google.appengine.ext.webapp import blobstore_handlers
 
 test_methods = ['Input/Output', 'Check Keywords', 'Randomness Test']
 
-warmups = [
-{	'name':'Hello World',
-	'url':'hello',
-	'description':'Write a program that outputs "Hello World!".',
-	'start_code':'''#include<stdio.h>
-
-int main()
-{
-	//Code here
-
-	return 0;
-}''',
-	'checker':{	'test_methods':['Input/Output'],
-				'test_input':'none',
-				'output':'Hello World!',
-				'keywords':''}
-},
-{	'name':'If Statements',
-	'url':'if',
-	'description':'''Write a program that asks the user:
-
-How old are you?
-
-If the user is 18 or older, the program should say:
-
-You can drive a car.
-
-If the user is under 18 years old, the program should say:
-
-You will have to walk.''',
-	'start_code':'''#include<stdio.h>
-
-int main()
-{
-	printf("How old are you?\\n");
-
-	return 0;
-}''',
-	'checker':{	'test_methods':['Input/Output', 'Check Keywords'],
-				'test_input':'23;5;18',
-				'output':'''How old are you?
-You can drive a car.;How old are you?
-You will have to walk.;How old are you?
-You can drive a car.''',
-				'keywords':'if;else'}
-}
-]
-
 class ExerciseChecker(utils.Model):
 	test_methods = db.ListProperty(str)
-	outside_code = db.ListProperty(db.Text)
-	inputs = db.ListProperty(db.Text)
-	outputs = db.ListProperty(db.Text)
-	keywords = db.ListProperty(unicode)
+	inputs       = db.ListProperty(db.Text)
+	outputs      = db.ListProperty(db.Text)
+	keywords     = db.ListProperty(unicode)
 
 	def checkWork(self, submission):
 		message = ''
@@ -101,18 +53,20 @@ class ExerciseChecker(utils.Model):
 		return response
 
 	def ioTest(self, submission):
-		client = IdeoneClient()
-		passed = True
-		message = ""
+		client   = IdeoneClient()
+		passed   = True
+		message  = ""
 		response = dict()
 		for i in self.inputs:
 			response = client.submit(submission, i)
 			expected_output = string.replace(self.outputs[self.inputs.index(i)], '\n', '')
 
-			if response['error'] != "OK" or int(response['result']) != 15 or response['output'] is None:
-				passed = False
-				message = "Sorry, try again.\n\n" + response['error_message']
-				break
+			if (response['error'] != "OK" or 
+				int(response['result']) != 15 or 
+				response['output'] is None):
+					passed = False
+					message = "Sorry, try again.\n\n" + response['error_message']
+					break
 			else:
 				student_output = string.replace(response['output'], '\n', '')
 				if student_output != expected_output:
@@ -137,47 +91,45 @@ class ExerciseChecker(utils.Model):
 		return {'passed':passed, 'message':message}
 
 	def checkRandom(self, submission):
+		client = IdeoneClient()
 		message = ''
 		passed = True
-		response = list(response.append(client.submit(submission)))
+
+		response = list(client.submit(submission))
 		for x in xrange(1,3):
 			response.append(client.submit(submission))
 			for y in xrange(0,x-1):
-				if response[x] == response[y]:
-					passed=False
-					message= "This program has the same output every time, it is not random."
+				if (not response[x]['output'] or 
+					not response[y]['output'] or 
+					response[x]['output'] == response[y]['output']):
+						passed=False
+						message= "This program has the same output every time, it is not random."
 		return {'passed':passed, 'message':message, 'response':response}
 
 class Exercise(utils.Model):
-	name = db.StringProperty(required=True)
-	url = db.StringProperty(required=True)
-	description = db.TextProperty(required=True)
-	start_code = db.TextProperty(required=True)
-	checker = db.ReferenceProperty(ExerciseChecker)
-	flowchart = blobstore.BlobReferenceProperty()
-	due_date = db.DateTimeProperty()
+	name         = db.StringProperty(required=True)
+	url          = db.StringProperty(required=True)
+	description  = db.TextProperty(required=True)
+	start_code   = db.TextProperty(required=True)
+	checker      = db.ReferenceProperty(ExerciseChecker)
+	flowchart    = blobstore.BlobReferenceProperty()
+	outside_code = db.TextProperty(default="{0}")
+	due_date     = db.DateTimeProperty()
 
 	@classmethod
 	def warmup(cls):
 		if Exercise.query().count()==0:
 			logging.info("Warming up Exercises")
+			path = os.path.join(os.path.dirname(__file__), 'json', 'exercises.json')
+			warmups = json.loads(open(path, 'r').read())
 			for e in warmups:
-				used_methods = list()
 				c = e['checker']
-				for method in c['test_methods']:
-					used_methods.append(method)
+				used_methods = [method for method in c['test_methods']]
 
-				inputs = list()
-				for i in c['test_input'].split(';'):
-					inputs.append(db.Text(i))
+				inputs = [db.Text(i) for i in c['test_input'].split(';')]
+				outputs = [db.Text(o) for o in c['output'].split(';')]
+				keywords = [unicode(k) for k in c['keywords'].split(';')]
 
-				outputs = list()
-				for o in c['output'].split(';'):
-					outputs.append(db.Text(o))
-
-				keywords = list()
-				for k in c['keywords'].split(';'):
-					keywords.append(unicode(k))
 
 				checker = ExerciseChecker(	test_methods=used_methods,
 												inputs=inputs,

@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+{% block content %}
+	<section>
+<p>C is very different from most other languages we use today, because of how it uses memory. C is very fast and efficient compared to languages like Java. However, with great power comes great responsibility. C is very hard to use, because it makes you do a lot of the hard work yourself. Basically just remember these two points:</p>
+<ul>
+<li>C lets you write very fast programs, faster than pretty much any other language.</li>
+<li>C is harder to write than many other languages.</li>
+</ul>
+<p>Pointers and memory management are a huge topic, and this lesson will be a brief overview. I won't be covering things like void pointers and function pointers in here. If you want to know more about how pointers work, the website <a href="http://pw1.netcom.com/~tjensen/ptr/pointers.htm">A Tutorial on Pointers and Arrays in C</a> is a good place to look.</p>	</section>
+	<section>
+<h2>Memory Management</h2>
+<p>Let's look at how we work with Strings right now:</p>
+<pre><code>char address[1000] = "565 Thanon Samsen";
+</code></pre>
+<p>Good, we now have a string that we can use. But what if we need to store many strings? What if we don't know how many? We should make it 1000 strings, just to be safe:</p>
+<pre><code>char addresslist[1000][1000];
+</code></pre>
+<p>Some computers will run this, others will run out of space in the Stack. The <em>Stack</em> is where our programs store variables. It is rather small and inefficient, and many programs will run out of space when they try to use it. We need somewhere else to store data.</p>
+<p>If we want to store a lot of data, we can put it in the <em>Heap</em>, which is much larger and easier to access. Using the Heap, we can store gigabytes of data, as much as our computer can keep in its RAM.</p>
+<p>The Heap is like a giant array. It can hold billions of items, each of them one byte in size. When we want to use part of the heap, we have to <em>allocate</em> (or reserve) part of the array for our program. There are three functions that let us do this:</p>
+<ul>
+<li><code>malloc(size)</code> - This function gets us a big chunk of memory, <code>size</code> bytes long.</li>
+<li><code>calloc(num_items, item_size)</code> - This function is good for allocating arrays. It multiplies the number of items by the size of each item and reserves that many bytes.</li>
+<li><code>realloc(array, new_size)</code> - This function is good if you need to make an array larger.</li>
+</ul>
+<p>Each of these functions returns a <em>memory address</em>, a number that tells us where our part of the memory starts. If we reserved bytes 600-800, it would return 600.</p>
+<p>These addresses are integers, right? Well, no. They're a new type that we're about to learn about.</p>	</section>
+	<section>
+<h2>Pointers</h2>
+<p><em>Pointers</em> are variables that tell us where something is in the Heap. They can be a little bit hard to understand, so I'll include some links to helpful pages if you're still having trouble.</p>
+<p>First, let's talk about the syntax of pointers. If I want to make a new pointer, I can do it like this:</p>
+<pre><code>int *age;
+</code></pre>
+<p>However, I can't do this:</p>
+<pre><code>int *age;
+age = 23;
+</code></pre>
+<p><code>age</code> is not an <code>int</code>, its just pointing at one. Actually, right now it is pointing at nothing, we need to allocate some memory for it:</p>
+<pre><code>int *age = (int *)malloc(sizeof(int));
+</code></pre>
+<p>Let's look at what we just did:</p>
+<ol>
+<li>We used <code>malloc()</code> to allocate some space in memory.</li>
+<li>How much space? <code>sizeof(int)</code> or "enough space for one <code>int</code>"</li>
+<li><code>malloc()</code> has a return type of <code>void *</code> (void pointer), but we wanted an <code>int *</code>, so we typecasted it with <code>(int *)</code></li>
+</ol>
+<p>Now we can write <code>age = 23;</code>, right? Not quite, we need to store <code>23</code> in the space <code>age</code> is pointing to, like this:</p>
+<pre><code>*age = 23;
+</code></pre>
+<p>We use the <code>*</code> to <em>dereference</em> the pointer, that is, to talk about what it is pointing at:</p>
+<pre><code>printf("Your age is: %d.", *age);
+</code></pre>
+<p>You might be asking, "Why would we ever do this?" Here's a good reason, check out this function:</p>
+<pre><code>void add_one(int *x)
+{
+    *x = *x + 1;
+}
+</code></pre>
+<p>This function will actually change whatever variable you give it. Even though it has no return value, it can still affect how the program runs.</p>
+<p>Also, we can have many pointers that point to the same address. We talk about a pointer's address using the <code>&amp;</code> syntax:</p>
+<pre><code>int *age = (int *)malloc(sizeof(int));
+*age = 23;
+
+int *ptr = &amp;age;
+*ptr = 100;
+
+printf("Your age is now: %d.", *age);
+</code></pre>
+<p>This will print: "Your age is now: 100." In case you were wondering, this is why we use <code>&amp;</code> in <code>scanf()</code>.</p>	</section>
+	<section>
+<h2>Pointers with Arrays and <code>struct</code>s</h2>
+<p>The real benefit to using pointers is managing arrays and <code>struct</code>s. Here's an example of a string with pointers:</p>
+<pre><code>char *name = (char *)calloc(strlen("Chris")+1, sizeof(char));
+strcpy(name, "Chris");
+</code></pre>
+<p>Alright, that's a lot of weird stuff, let's walk through it one piece at a time:</p>
+<ol>
+<li>We use <code>calloc()</code> because we want <code>name</code> to point to an array.</li>
+<li><code>strlen("Chris")+1</code> is the number of items in the array (5 letters in "Chris", plus one for the NULL character <code>'\0'</code> at the end).</li>
+<li><code>sizeof(char)</code> is the size of each item in the array.</li>
+<li>We use typecasting to make this pointer into a <code>(char *)</code>.</li>
+<li>We use <code>strcpy()</code> to copy the string <code>"Chris"</code> to the place <code>name</code> is pointing to.</li>
+</ol>
+<p>Making pointers to <code>struct</code>s can be a bit more difficult. Let's look at this <code>struct</code>:</p>
+<pre><code>struct person {
+    char *name;
+    int age;
+    float balance;
+};
+
+typedef struct person Person;
+</code></pre>
+<p>Let's make a <code>Person</code> and allocate space for them:</p>
+<pre><code>Person *new_person = (Person *)malloc(sizeof(Person));
+</code></pre>
+<p>In that one line, we allocated space for a pointer, an <code>int</code> and a <code>float</code>. We still need to allocate space for <code>name</code>, because right now it is pointing to nothing:</p>
+<pre><code>Person *new_person = (Person *)malloc(sizeof(Person));
+
+new_person-&gt;name = (char *)calloc(strlen("Chris")+1, sizeof(char));
+strcpy(new_person-&gt;name, "Chris");
+</code></pre>
+<p>Notice that we use <code>-&gt;</code> to talk about parts of a <code>struct</code> when we are using pointers. Here's what the "create a <code>Person</code>" code should look like when we're done:</p>
+<pre><code>Person *new_person = (Person *)malloc(sizeof(Person));
+
+new_person-&gt;name = (char *)calloc(strlen("Chris")+1, sizeof(char));
+strcpy(new_person-&gt;name, "Chris");
+
+new_person-&gt;age = 23;
+new_person-&gt;balance = 999.99;
+</code></pre>
+<p>We don't want to write this every time we need a new <code>Person</code>, so it's a good idea to put it in a function like this:</p>
+<pre><code>Person *create_person(char *new_name, int new_age, float new_balance)
+{
+    Person *new_person = (Person *)malloc(sizeof(Person));
+
+    new_person-&gt;name = (char *)calloc(strlen(new_name)+1, sizeof(char));
+    strcpy(new_person-&gt;name, new_name);
+
+    new_person-&gt;age = new_age;
+    new_person-&gt;balance = new_balance;
+
+    return new_person;
+}
+</code></pre>
+<p>When you study Object Oriented Programming, this kind of function is called a <em>constructor</em>, it builds a new Object.</p>	</section>
+	<section>
+<h2><code>free()</code> and memory leaks</h2>
+<p>At the end of your program you need to make sure you give back any memory you've borrowed from the computer using the <code>free()</code> function. For example, with the <code>age</code> pointer above, we could free it like this:</p>
+<pre><code>free(age);
+</code></pre>
+<p>Now <code>age</code> points to nothing, and the memory can be used for other programs. If you have a <code>struct</code>, you need to <code>free()</code> any pointers inside it first. Here's an example with our <code>Person</code> <code>struct</code>:</p>
+<pre><code>void delete(Person *p)
+{
+    free(p-&gt;name);
+    free(p);
+}
+</code></pre>
+<p>If you forget to use <code>free()</code>, the memory cannot be used by any other program, this is called a <em>memory leak</em>. Over time, memory leaks can slow down your computer. The only way to get the memory back is to shut down and restart the computer.</p>	</section>
+	<section>
+<h2>Common Problems with Pointers</h2>
+<p>Pointers are very powerful, but they make our programs more complicated. Here are some common problems that come up when you use pointers:</p>
+<h3>Segmentation Fault</h3>
+<p>This is an error you may receive when you run your program. It means something is wrong, and it probably has to do with pointers and memory. Most often these come from dereferencing NULL pointers. In other words, you tried to use a pointer, but it was pointing at nothing. Here's an example:</p>
+<pre><code>int *age;
+printf("Your age is: %d.", *age);
+</code></pre>
+<p>It can also happen if you try to access an array index that doesn't exist, like this:</p>
+<pre><code>char name[100] = "Chris";
+printf("The 500th letter in your name is: %c.", name[500]);
+</code></pre>
+<h3>Accidental memory leaks</h3>
+<p>Let's look at these two integer pointers:</p>
+<p>int <em>a, </em>b;
+a = (int <em>)malloc(sizeof(int));
+</em>a = 5;</p>
+<p>b = (int <em>)malloc(sizeof(int));
+</em>b = 7;</p>
+<p>Now see if you can spot the problem in this code:</p>
+<p>int <em>a, </em>b;
+a = (int <em>)malloc(sizeof(int));
+</em>a = 5;</p>
+<p>b = (int <em>)malloc(sizeof(int));
+</em>b = 7;</p>
+<p>b = &a;</p>
+<p>Now <code>b</code> is pointing to the same thing as <code>a</code>. What about the space that <code>b</code> was pointing to? It is lost. Somewhere in the memory, the number <code>7</code> is floating around, with nothing pointing to it. Nobody can use that memory until the computer restarts.</p>
+<p>These kinds of memory leaks can be hard to spot, so keep an eye out for them, and try using tools like <a href="http://www.linkdata.se/sourcecode/memwatch/">memwatch</a> to find leaks in your program.</p>
+<h3>Running out of memory</h3>
+<p>If your computer has no memory left, it will return nothing when you try to allocate space for a pointer. This is rare, but you should make sure it doesn't happen by checking EVERY pointer after you allocate space for it, like this:</p>
+<pre><code>a = (int *)malloc(sizeof(int));
+if(a == NULL)
+{
+    printf("Out of memory.");
+    exit(1);
+}
+</code></pre>	</section>
+{% endblock %}

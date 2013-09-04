@@ -31,6 +31,7 @@
 							%option{value:"{{k}}", selected:"selected"}= styles[k]
 						-else
 							%option{value:"{{k}}"}= styles[k]
+			%br
 
 			%label CodeMirror Theme:
 				%select{name:'cm_theme'}
@@ -39,5 +40,6 @@
 							%option{value:"{{t}}", selected:"selected"}= t
 						-else
 							%option{value:"{{t}}"}= t
-
+			%br
+			
 			%input{type:'submit', value:'Submit'}

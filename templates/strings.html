@@ -1,10 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
 	<section>
-		strcpy()
-		strcat()
-		strlen()
-		strcmp()
-		strtok()
-	</section>
+<p>We use strings a lot, so it is important to know how to use them correctly. In this section we will cover a number of important C functions that work with strings.</p>
+<p>Here is a list of some good functions from <code>string.h</code>:</p>
+<ul>
+<li><code>int strlen(string)</code> - String Length, this function returns the length of <code>string</code>.</li>
+<li><code>strcpy(new_string, old_string)</code> - String Copy, this function makes <code>new_string</code> into a copy of <code>old_string</code>.</li>
+<li><code>int strcmp(string1, string2)</code> - String Compare, this function tells us if two strings are the same. If they are, it returns <code>0</code>, if they are not, it returns <code>1</code> or <code>-1</code>.</li>
+<li><code>strcat()</code> - String Concatenation, this puts two strings together.</li>
+<li><code>strtok()</code> - String Tokenizer, this is useful for breaking down a string into pieces. Its good for breaking strings down into words.</li>
+</ul>	</section>
 {% endblock %}

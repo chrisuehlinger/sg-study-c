@@ -67,6 +67,14 @@ class LessonHandler(user.UserHandler):
 
 		self.write_json(response);
 
+class WarmupHandler(utils.Handler):
+	def get(self):
+		exercises.Exercise.warmup()
+		user.User.warmup()
+		example.Example.warmup()
+		utils.warmup_index()
+		self.redirect('/')
+
 class MainHandler(user.UserHandler):
 	def user_get(self, *args):
 		page = {'url':'/', 'topic_name':"Welcome!"}
@@ -105,14 +113,13 @@ app = utils.webapp2.WSGIApplication(
 		# Lessons
 		('/lessons/([a-zA-Z0-9_]+)?', LessonHandler),
 
+		# Warmup database
+		('/warmup', WarmupHandler),
+
 		# Index
 		('/', MainHandler)
 	
 	], debug=True)
-
-exercises.Exercise.warmup()
-user.User.warmup()
-example.Example.warmup()
 
 def main():
  	run_wsgi_app(application) 

@@ -1,16 +1,18 @@
 -macro example(e)
 	%figure.example{id:"{{e.url}}"}
-		%h3 Try it!
+		%h3 Try it out: 
+			={e.name}
 		%p= e.description | safe
 		-if e.flowchart
 			%img{src:"/serve/{{e.flowchart.key()}}"}
 		%form{method:"post"}
 			%textarea#example-editor{name:"code"}= e.start_code
 			%br
-			%label Input:
+			-if e.takes_input
+				%label Input:
+					%br
+					%textarea#std-input
 				%br
-				%textarea#std-input
-			%br
 			%input{id:"submit-test", type:"submit", value:"Compile and Run"}
 			%input{id:"reset", type:"button", value:"Reset"}
 

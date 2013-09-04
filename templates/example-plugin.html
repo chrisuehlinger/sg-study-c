@@ -1,6 +1,7 @@
 {% macro example(e) %}
 	<figure id='{{e.url}}' class='example'>
-		<h3>Try it!</h3>
+		<h3>Try it out:			{{ e.name }}
+</h3>
 		<p>{{ e.description | safe }}</p>
 		{% if e.flowchart %}
 			<img src='/serve/{{e.flowchart.key()}}' />
@@ -8,10 +9,12 @@
 		<form method='post'>
 			<textarea id='example-editor' name='code'>{{ e.start_code }}</textarea>
 			<br />
-			<label>Input:				<br />
-				<textarea id='std-input'></textarea>
+			{% if e.takes_input %}
+				<label>Input:					<br />
+					<textarea id='std-input'></textarea>
 </label>
-			<br />
+				<br />
+			{% endif %}
 			<input id='submit-test' type='submit' value='Compile and Run' />
 			<input id='reset' type='button' value='Reset' />
 

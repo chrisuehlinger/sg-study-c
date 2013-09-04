@@ -11,8 +11,8 @@
 		
 		%link{rel:"stylesheet", href:"/static/codemirror/theme/={codemirror_theme}.css"}
 		%meta{name:"CodeMirrorTheme", content:"={codemirror_theme}"}
-		-if codemirror_theme != 'neat'
-			%link{rel:"stylesheet", href:"/static/codemirror/theme/neat.css"}
+		/ -if codemirror_theme != 'neat'
+		/ 	%link{rel:"stylesheet", href:"/static/codemirror/theme/neat.css"}
 
 		%script{type:"text/javascript", language:"Javascript", src:"/static/js/base.js"}
 		-block scripts

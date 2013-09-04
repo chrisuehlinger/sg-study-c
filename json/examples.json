@@ -2,21 +2,43 @@
 	{	"name":"Hello World",
 		"url":"hello",
 		"description":"This program will output \"Hello World\".",
-		"start_code":"#include<stdio.h>\n\nint main()\n{\n\tprintf(\"Hello World\");\n\treturn 0;\n}"
+		"start_code":"#include<stdio.h>\n\nint main()\n{\n\tprintf(\"Hello World\");\n\treturn 0;\n}",
+		"takes_input":false
+	},
+	{	"name":"Basic Math",
+		"url":"math",
+		"description":"Here are some examples of basic math in C.",
+		"start_code":"#include<stdio.h>\n\nint main()\n{\n\tfloat a = 5, b = 7, c = 10, d = 2;\n\tfloat result = (a + c) / (b * b) - d;\n\tprintf(\"Result = %f\\n\", result);\n\treturn 0;\n}",
+		"takes_input":false
+	},
+	{	"name":"Modulo",
+		"url":"modulo",
+		"description":"This program uses Modulo to check if a number is even or odd.",
+		"start_code":"#include<stdio.h>\n\nint main()\n{\n\tint a = 7;\n\tif(a % 2 == 0)\n\t\tprintf(\"%d is an even number.\\n\", a);\n\telse\n\t\tprintf(\"%d is an odd number.\\n\", a);\n\treturn 0;\n}",
+		"takes_input":false
+	},
+	{	"name":"Increment and Decrement",
+		"url":"increment",
+		"description":"This program changes age using the increment operator.",
+		"start_code":"#include<stdio.h>\n\nint main()\n{\n\tint age = 16;\n\tprintf(\"Age is %d.\\n\", age);\n\n\tage++;\n\tprintf(\"Now age is %d.\\n\", age);\n\treturn 0;\n}",
+		"takes_input":false
 	},
 	{	"name":"Constants",
 		"url":"constant",
 		"description":"This program will use constants",
-		"start_code":"#inclue<stdio.h>\n#define AGE 23\n\nint main()\n{\n\tprintf(\"Hello you are %d years old.\", AGE);\n\treturn 0;\n}"
+		"start_code":"#include<stdio.h>\n#define AGE 23\n\nint main()\n{\n\tprintf(\"Hello you are %d years old.\", AGE);\n\treturn 0;\n}",
+		"takes_input":false
 	},
 	{	"name":"Logical Operators",
 		"url":"logical_operators",
 		"description":"Here is a piece of code that uses the AND and OR operators. Change the values of the variables and see what happens.",
-		"start_code":"#include<stdio.h>\n\nint main()\n{\n\tint shirts = 5, pants = 2;\n\tif(shirts > 4 && pants >= 3)\n\t\tprintf(\"You are done shopping!\\n\");\n\telse\n\t\tprintf(\"You need to buy more clothes!\\n\");\n\n\tfloat money_you_have = 1478.40, money_you_spent = 2000.10;\n\tif(money_you_have < money_you_spent || money_you_have < 0)\n\t\tprintf(\"You need to save money!\\n\");\n\telse\n\t\tprintf(\"You have a good budget!\\n\");\n\n\tchar chores_done = 'Y'; // 'Y' for Yes\n\tif(!(chores_done == 'Y'))\n\t\tprintf(\"Do your chores!\\n\");\n\treturn 0;\n}"
+		"start_code":"#include<stdio.h>\n\nint main()\n{\n\tint shirts = 5, pants = 2;\n\tif(shirts > 4 && pants >= 3)\n\t\tprintf(\"You are done shopping!\\n\");\n\telse\n\t\tprintf(\"You need to buy more clothes!\\n\");\n\n\tfloat money_you_have = 1478.40, money_you_spent = 2000.10;\n\tif(money_you_have < money_you_spent || money_you_have < 0)\n\t\tprintf(\"You need to save money!\\n\");\n\telse\n\t\tprintf(\"You have a good budget!\\n\");\n\n\tchar chores_done = 'Y'; // 'Y' for Yes\n\tif(!(chores_done == 'Y'))\n\t\tprintf(\"Do your chores!\\n\");\n\treturn 0;\n}",
+		"takes_input":false
 	},
 	{	"name":"String Comparisons",
 		"url":"strcmp",
 		"description":"This program uses strcmp to compare strings. Change the string to see what happens.",
-		"start_code":"#include<stdio.h>\n#include<string.h>\n\nint main()\n{\n\tchar country[1000] = \"America\";\n\n\tif(strcmp(country, \"Thailand\") == 0)\n\t\tprintf(\"Welcome home!\\n\");\n\telse\n\t\tprintf(\"Have fun on your holiday!\\n\");\n\treturn 0;\n}"
+		"start_code":"#include<stdio.h>\n#include<string.h>\n\nint main()\n{\n\tchar country[1000] = \"America\";\n\n\tif(strcmp(country, \"Thailand\") == 0)\n\t\tprintf(\"Welcome home!\\n\");\n\telse\n\t\tprintf(\"Have fun on your holiday!\\n\");\n\treturn 0;\n}",
+		"takes_input":false
 	}
 ]
