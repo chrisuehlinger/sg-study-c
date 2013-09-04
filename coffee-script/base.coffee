@@ -37,7 +37,7 @@ class Example
 
       # http = new XMLHttpRequest()
       # http.open "POST", "http://coliru.stacked-crooked.com/compile", false
-      # http.send(JSON.stringify({ "cmd": "cat main.cpp > main.c; gcc-4.8 main.c", "src": "#include<stdio.h>\nint main() { \nprintf(\"Hello World\"); return 0; }" }))
+      # http.send(JSON.stringify({ "cmd": "cat main.cpp > main.c; gcc-4.8 main.c", "src": "#include<stdio.h>\\nint main() { \\nprintf(\\"Hello World\\"); return 0; }" }))
       # alert http.response
 
       false

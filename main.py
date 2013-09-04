@@ -15,67 +15,25 @@
 # limitations under the License.
 #
 import utils
-import json
-from utils import index, db
 import logging
-import example
-import exercises
-import exercisehandlers
+import lesson.views
+import example.models
+import example.views
+import exercise.models
+import exercise.views
 import ideoneclient
-import auth
-import user
-from user import User
-import datetime, time
-
-class LessonHandler(user.UserHandler):
-	def user_get(self, *args):
-		if args[0] is None:
-			self.redirect('/')
-		else:
-			page = None
-			for group in index:
-				for topic in group['topics']:
-					if topic['url']==args[0]:
-						page = topic
-
-			if page:
-				inline_examples = []
-				for e in page['examples']:
-					ex = example.Example.query().filter('url = ', e).get()
-					inline_examples.append(ex)
-					logging.info(ex)
-
-				now = datetime.datetime.now()
-				now_stamp = int(time.mktime(now.timetuple()))
-				self.render_with_user("lessons/" + args[0] + ".html", { 'page': page, 
-																		'curr_time_formatted': time.strftime("%b %d %Y %H:%M:%S", now.timetuple()), 
-																		'curr_timestamp': now_stamp,
-																		'examples': inline_examples})
-			else:
-				page = {'url':'404', 'topic_name':"Error 404"}
-				self.render_with_user("404.html", {'page': page})
-
-	def user_post(self, *args):
-		submission = self.request.get('code')
-		message = ''
-		client = ideoneclient.IdeoneClient()
-		response = client.submit(submission, self.request.get('input'))
-		if response['error'] != "OK" or int(response['result']) != 15 or response['output'] is None:
-			message = response['error_message']
-
-		response['message'] = message
-
-		self.write_json(response);
+from user.views import UserHandler, AdminHandler
+import user.views
+from user.models import User
 
 class WarmupHandler(utils.Handler):
 	def get(self):
-		exercises.Exercise.warmup()
-		user.User.warmup()
-		example.Example.warmup()
-		utils.warmup_index()
+		exercise.models.Exercise.warmup()
+		User.warmup()
+		example.models.Example.warmup()
 		self.redirect('/')
 
-class MainHandler(user.UserHandler):
+class MainHandler(UserHandler):
 	def user_get(self, *args):
 		page = {'url':'/', 'topic_name':"Welcome!"}
 		self.render_with_user("index.html", {'page':page})
@@ -83,35 +41,35 @@ class MainHandler(user.UserHandler):
 app = utils.webapp2.WSGIApplication(
 	[	
 		# User Authentication
-		('/signup', auth.SignupHandler),
-		('/login', auth.LoginHandler),
-		('/logout', auth.LogoutHandler),
-		('/recover_password', auth.PasswordRecoveryHandler),
+		('/signup', user.views.SignupHandler),
+		('/login', user.views.LoginHandler),
+		('/logout', user.views.LogoutHandler),
+		('/recover_password', user.views.PasswordRecoveryHandler),
 
 		# User pages
-		('/user/([a-zA-Z0-9_]+)?', user.UserPageHandler),
-		('/admin', user.AdminPageHandler),
-		('/settings', user.SettingsHandler),
+		('/user/([a-zA-Z0-9_]+)?', user.views.UserPageHandler),
+		('/admin', user.views.AdminPageHandler),
+		('/settings', user.views.SettingsHandler),
 
 		# Adding new exercises and Ideone Accounts
-		('/upload', exercisehandlers.FlowchartUploadHandler),
-		('/serve/([^/]+)?', exercisehandlers.FlowchartServeHandler),
-		('/addexercise', exercisehandlers.AddExerciseHandler),
+		('/upload', exercise.views.FlowchartUploadHandler),
+		('/serve/([^/]+)?', exercise.views.FlowchartServeHandler),
+		('/addexercise', exercise.views.AddExerciseHandler),
 
 		# Exercise Pages
-		('/exercises/?([a-zA-Z0-9_]+)?', exercisehandlers.ExerciseHandler),
+		('/exercises/?([a-zA-Z0-9_]+)?', exercise.views.ExerciseHandler),
 
 		# Adding new Examples
-		('/addexample', example.AddExampleHandler),
+		('/addexample', example.views.AddExampleHandler),
 
 		# Examples
-		('/example/([a-zA-Z0-9_]+)?', example.ExampleHandler),
+		('/example/([a-zA-Z0-9_]+)?', example.views.ExampleHandler),
 
 		# Suggestions
-		('/suggestion', user.SuggestionHandler),
+		('/suggestion', user.views.SuggestionHandler),
 
 		# Lessons
-		('/lessons/([a-zA-Z0-9_]+)?', LessonHandler),
+		('/lessons/([a-zA-Z0-9_]+)?', lesson.views.LessonHandler),
 
 		# Warmup database
 		('/warmup', WarmupHandler),

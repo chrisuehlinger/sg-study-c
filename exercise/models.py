@@ -120,7 +120,7 @@ class Exercise(utils.Model):
 	def warmup(cls):
 		if Exercise.query().count()==0:
 			logging.info("Warming up Exercises")
-			path = os.path.join(os.path.dirname(__file__), 'json', 'exercises.json')
+			path = os.path.join(os.path.dirname(__file__), 'exercises.json')
 			warmups = json.loads(open(path, 'r').read())
 			for e in warmups:
 				c = e['checker']

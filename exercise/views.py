@@ -7,9 +7,9 @@ import logging
 import difflib
 from google.appengine.ext import blobstore
 from google.appengine.ext.webapp import blobstore_handlers
-from exercises import Exercise, ExerciseChecker
-from user import User
-import user
+from models import Exercise, ExerciseChecker
+from user.models import User
+from user.views import UserHandler, AdminHandler
 from ideoneclient import IdeoneClient
 
 class FlowchartUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
@@ -64,7 +64,7 @@ class FlowchartServeHandler(blobstore_handlers.BlobstoreDownloadHandler):
 		else:
 			self.send_blob(blobstore.BlobInfo.get(blob_key), save_as=True)
 
-class AddExerciseHandler(user.AdminHandler):
+class AddExerciseHandler(AdminHandler):
 	def admin_get(self):
 		upload_url = blobstore.create_upload_url('/upload')
 		page = {'topic_name': 'Create an Exercise'}
@@ -72,7 +72,7 @@ class AddExerciseHandler(user.AdminHandler):
 													'test_methods':test_methods,
 													'upload_url': upload_url})
 
-class ExerciseHandler(user.UserHandler):
+class ExerciseHandler(UserHandler):
 	def user_get(self, *args):
 		pagename = args[0]
 		if pagename is None:

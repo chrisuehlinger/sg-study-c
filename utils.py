@@ -38,8 +38,7 @@ codemirror_themes = [
 'xq-light'
 ]
 
-index = [	{'group':'The Basics', 'topics': [	#{'url':"whatis", 'topic_name':"What is C?", 'examples':[]},
-												{'url':"basic_syntax", 'topic_name':"Basic Syntax", 'examples':[]},
+index = [	{'group':'The Basics', 'topics': [	{'url':"basic_syntax", 'topic_name':"Basic Syntax", 'examples':[]},
 												{'url':"math", 'topic_name':"Basic Math in C", 'examples':['math', 'modulo', 'increment']},
 												{'url':"compiler", 'topic_name':"The Compiler", 'examples':[]},
 												{'url':"errors", 'topic_name':"Fixing Errors", 'examples':[]}]
@@ -60,7 +59,6 @@ index = [	{'group':'The Basics', 'topics': [	#{'url':"whatis", 'topic_name':"Wha
 												{'url':"files", 'topic_name':"File Input/Output", 'examples':[]}]
 			},
 			{'group':'Advanced Topics','topics':[{'url':'time', 'topic_name':'Time in C', 'examples':[]},
-			# 									{'url':"preprocessor", 'topic_name':"Pre-Processor Commands"},
 			 									{'url':"structs", 'topic_name':"Structs", 'examples':[]},
 			 									{'url':"pointers", 'topic_name':"Pointers and Memory", 'examples':[]},
 			 									{'url':"fork", 'topic_name':"fork() and Multithreading", 'examples':[]},

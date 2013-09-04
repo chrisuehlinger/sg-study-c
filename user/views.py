@@ -1,114 +1,14 @@
 import utils
 import logging
 from google.appengine.ext import db
+from google.appengine.api import mail
 import hashlib
 import random
 import string
-from exercises import Exercise
+from models import User, Suggestion
+from exercise.models import Exercise
 import re
-
-warmups = [{ 'username':'chris',
-			 'password':'1234',
-			 'email':'',
-			 'admin':True,
-			 'room':0,
-			 'number':0},
-			{'username':'testStudent',
-			 'password':'1234',
-			 'email':'',
-			 'admin':False,
-			 'room':3,
-			 'number':42}]
-
-PASS_RE = re.compile(r"^.{3,20}$")
-def valid_password(password):
-	return PASS_RE.match(password)
-
-def verify_password(password, verify):
-	if password and verify and password == verify:
-		return True
-	else:
-		return False
-
-def make_salt():
-	return ''.join(random.choice(string.letters) for x in xrange(5))
-
-def make_pw_hash(name, pw, salt=make_salt()):
-	h = hashlib.sha256(name + pw + salt).hexdigest()
-	return '%s,%s' % (h, salt)
-
-class User(utils.Model):
-	username=db.StringProperty(required=True)
-	password=db.StringProperty(required=True)
-	email=db.StringProperty()
-	created=db.DateTimeProperty(auto_now_add=True)
-	admin_priv=db.BooleanProperty(default=False)
-
-	room=db.IntegerProperty()
-	number=db.IntegerProperty()
-
-	exercises_completed=db.ListProperty(db.Key)
-
-	#Preferences
-	pref_css=db.StringProperty(default="the_new_style")
-	pref_codemirror_css=db.StringProperty(default="night")
-	pref_codemirror_addons=db.ListProperty(str)
-
-
-	def reset_pw(self):
-		new_pw = ''.join(random.choice(string.letters) for x in xrange(5))
-		self.password = make_pw_hash(self.username, new_pw)
-		self.put()
-		return new_pw
-
-	def valid_pw(self, name, pw):
-		if make_pw_hash(name,pw,self.password.split(',')[1]) == self.password:
-			return True
-
-	@classmethod
-	def username_free(cls, username):
-		if not User.query().filter('username = ', username).count():
-			return True
-
-	@classmethod
-	def unique_student(cls, room, number):
-		unique = True
-		user_list = User.query()
-		for u in user_list:
-			if u.room == int(room) and u.number == int(number):
-				return False
-		return True
-
-	@classmethod
-	def register(cls, username, password, email=None):
-		if username and password:
-			hash = make_pw_hash(username, password)
-			return User(username=username, password=hash, email=email)
-
-	@classmethod
-	def warmup(cls):
-		if User.query().count() == 0:
-			logging.info("Warming up Users")
-			for u in warmups:
-				user = User.register(u['username'], u['password'], u['email'])
-				user.admin_priv = u['admin']
-				user.room = u['room']
-				user.number = u['number']
-				user.put()
-
-class Suggestion(utils.Model):
-	content = db.StringProperty(required=True)
-	submitter = db.ReferenceProperty(User)
-	page = db.StringProperty()
-	posted_date = db.DateTimeProperty(auto_now_add=True)
-
-	def submitter_string(self):
-		if self.submitter:
-			return "{0}, M 5/{1} #{2}".format(self.submitter.username, 
-											  self.submitter.room,
-											  self.submitter.number)
-		else:
-			return "Anonymous"
+import time
 
 class SuggestionHandler(utils.Handler):
 	def post(self):
@@ -291,4 +191,194 @@ class AdminPageHandler(AdminHandler):
 													'user_list':user_list, 
 													'exercise_list':exercise_list, 
 													'suggestion_list':suggestion_list})
+
+
+"""User Authentication"""
+
+USER_RE = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
+def valid_username(username):
+	return USER_RE.match(username)
+
+PASS_RE = re.compile(r"^.{3,20}$")
+def valid_password(password):
+	return PASS_RE.match(password)
+
+def verify_password(password, verify):
+	if password and verify and password == verify:
+		return True
+	else:
+		return False
+
+EMAIL_RE = re.compile(r"^[\S]+@[\S]+\.[\S]+$")
+def valid_email(email):
+	if email:
+		return EMAIL_RE.match(email)
+	else:
+		return True
+
+def valid_number(number):
+	try:
+		int(number)
+		return number
+	except Exception, e:
+		return False
+
+
+class SignupHandler(UserHandler):
+	def get(self):
+		page = {'url':'exercises', 'topic_name':'Signup'}
+		self.render("signup.html", {"page":page})
+
+	def post(self):
+		page = {'url':'exercises', 'topic_name':'Signup'}
+		input_username = self.request.get("username")
+		input_password = self.request.get("password")
+		input_verify   = self.request.get("verify")
+		input_email    = self.request.get("email")
+		input_room     = self.request.get("room")
+		input_number   = self.request.get("number")
+
+		username = valid_username(input_username)
+		password = valid_password(input_password)
+		verify   = verify_password(input_password, input_verify)
+		email    = valid_email(input_email)
+		room     = valid_number(input_room)
+		number   = valid_number(input_number)
+
+		name_free = None
+		if username:
+			name_free = User.username_free(input_username)
+		
+		room_number_free = None
+		if room and number:
+			room_number_free = User.unique_student(input_room, input_number)
+			
+
+		if not (username and name_free and password and verify and
+			email and room and number and room_number_free):
+
+			username_error = ""
+			if not username:
+				username_error = "Invalid Username."
+
+			if username and not name_free:
+				username_error = "User name taken."
+
+			password_error = ""
+			if not password:
+				password_error = "Invalid Password."
+
+			verify_error = ""
+			if not verify:
+				verify_error = "Passwords do not match."
+
+			email_error = ""
+			if not email:
+				email_error = "Invalid Email."
+
+			room_error = ""
+			if not room:
+				room_error = "Not a number."
+
+			number_error = ""
+			if not number:
+				number_error = "Not a number."
+
+			if room and number and not room_number_free:
+				number_error = "M 5/{0} #{1} has already signed up.".format(input_room, input_number)
+
+			self.render("signup.html",{	"username": input_username,
+										"password": input_password,
+										"verify": input_verify,
+										"email": input_email,
+										"room": input_room,
+										"number": input_number,
+										"usernameerror": username_error,
+										"passworderror": password_error,
+										"verifyerror": verify_error,
+										"emailerror": email_error,
+										'roomerror':room_error,
+										'numbererror':number_error,										
+										'groups':utils.index, 
+										"page":page})
+		else:
+			new_user = User.register(input_username, input_password, input_email)
+			new_user.room = int(input_room)
+			new_user.number = int(input_number)
+			new_user.put()
+			self.set_secure_cookie("username", input_username)
+			self.set_secure_cookie("css", new_user.pref_css)
+			self.set_secure_cookie('cm_theme', new_user.pref_codemirror_css)
+			self.redirect('/')
+
+class LoginHandler(UserHandler):
+	def get(self):
+		page = {'url':'exercises', 'topic_name':'Login'}
+		self.render("login.html", {"page":page})
+
+	def post(self):
+		page = {'url':'exercises', 'topic_name':'Login'}
+		valid=False
+		input_username = self.request.get("username")
+		input_password = self.request.get("password")
+
+		if valid_username(input_username) and valid_password(input_password):
+			the_user = User.query().filter('username = ',input_username).get()
+			if the_user and the_user.valid_pw(input_username, input_password):
+					valid=True
+					self.set_secure_cookie("username", input_username)
+					self.set_secure_cookie("css", the_user.pref_css)
+					self.set_secure_cookie('cm_theme', the_user.pref_codemirror_css)
+					if the_user.admin_priv:
+						self.redirect('/admin')
+						self.set_secure_cookie("admin", "yes")
+					else:
+						self.redirect('/user/%s' % input_username)
+					
+		if not valid:
+			error = "Invalid username or password"
+			self.render("login.html", {'username':input_username, 
+										'password':input_password, 
+										'error': error, 
+										"page":page})
+
+class LogoutHandler(UserHandler):
+	def get(self):
+		self.delete_cookie("username")
+		self.delete_cookie("admin")
+		self.delete_cookie("css")
+		self.delete_cookie('cm_theme')
+		self.redirect('/')
+
+class WelcomeHandler(UserHandler):
+	def get(self):
+		username = self.get_cookie("username")
+		if username:
+			self.redirect("/")
+		else:
+			self.redirect("/signup")
+
+class PasswordRecoveryHandler(UserHandler):
+	def get(self):
+		page = {'url':'/recover_password', 'topic_name':'Recover Password'}
+		self.render("recover_password.html", {'page':page})
+
+	def post(self):
+		email = self.request.get('email')
+		user = None
+		user_list = User.query()
+		for u in user_list:
+			if u.email == email:
+				user = u
+
+		if user:
+			message = mail.EmailMessage(sender="no-reply@sg-study-c.appspotmail.com",
+                            		subject="Password Reset")
+
+			message.to = user.email
+			message.body = "Your password for {0} has been reset to: {1}\n\nTry to log in again.".format(user.username, user.reset_pw())
+			message.send()
+			self.write_json({'message':'Password reset, check your email.'})
+		else:
+			self.write_json({'message':'Failed to reset password, try again.'})
 

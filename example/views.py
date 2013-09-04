@@ -1,35 +1,12 @@
 from utils import db
 import utils
-import user
+from user.views import UserHandler, AdminHandler
 import logging
 import string
 from ideoneclient import IdeoneClient
-import os
-import json
+from models import Example
 
-class Example(utils.Model):
-	name        = db.StringProperty(required=True)
-	url         = db.StringProperty(required=True)
-	description = db.TextProperty(required=True)
-	start_code  = db.TextProperty(required=True)
-	takes_input = db.BooleanProperty(default=False)
-
-	@classmethod
-	def warmup(cls):
-		if Example.query().count()==0:
-			logging.info("Warming up Examples")
-			path = os.path.join(os.path.dirname(__file__), 'json', 'examples.json')
-			warmups = json.loads(open(path, 'r').read())
-
-			for e in warmups:
-				example = Example(name=e['name'], 
-									url=e['url'], 
-									description=string.replace(e['description'], '\n', '<br>'),
-									start_code=db.Text(e['start_code']),
-									takes_input=e['takes_input'])
-				example.put()
-
-class AddExampleHandler(user.AdminHandler):
+class AddExampleHandler(AdminHandler):
 	def admin_get(self):
 		upload_url = blobstore.create_upload_url('/upload')
 		page = {'topic_name': 'Create an Example'}
@@ -51,7 +28,7 @@ class AddExampleHandler(user.AdminHandler):
 		time.sleep(5)
 		self.redirect('/example/'+exercise.url)
 
-class ExampleHandler(user.UserHandler):
+class ExampleHandler(UserHandler):
 	def user_get(self, *args):
 		pagename = args[0]
 		if pagename is None:
