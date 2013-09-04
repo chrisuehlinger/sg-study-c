@@ -5,6 +5,7 @@ from google.appengine.api import mail
 import hashlib
 import random
 import string
+from ideoneclient import IdeoneAccount, IdeoneClient
 from models import User, Suggestion
 from exercise.models import Exercise
 import re
@@ -98,9 +99,45 @@ class SettingsHandler(UserHandler):
 				self.change_password(user)
 			elif self.request.get("form_id") == "css":
 				self.change_css(user)
+			elif self.request.get("form_id") == "ideone":
+				self.create_ideone_acct(user)
 			
 		else:
 			self.redirect('/')
+
+	def create_ideone_acct(self, user):
+		page = {'url':'settings', 'topic_name':'Settings'}
+
+		name = self.request.get('ideone_username')
+		pw = self.request.get('ideone_password')
+		if name and pw:
+			acct = IdeoneAccount(user=name, password=pw)
+
+			client = IdeoneClient()
+			if client.test_account(acct):
+				acct.put()
+
+				user.ideone_acct = acct
+				user.put()
+
+				self.render_with_user("settings.html", {'page':page,
+														'styles':utils.styles,
+														'themes':utils.codemirror_themes,
+														'ideone_message':'Success!'})
+			else:
+				self.render_with_user("settings.html", {'page':page,
+														'styles':utils.styles,
+														'themes':utils.codemirror_themes,
+														'ideone_username':name,
+														'ideone_password':pw,
+														'ideone_error':'Wrong Username or Password'})
+		else:
+			self.render_with_user("settings.html", {'page':page,
+														'styles':utils.styles,
+														'themes':utils.codemirror_themes,
+														'ideone_username':name,
+														'ideone_password':pw,
+														'ideone_error':'Invalid Username or Password'})
 
 	def change_css(self, user):
 		page = {'url':'settings', 'topic_name':'Settings'}

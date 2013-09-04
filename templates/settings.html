@@ -51,6 +51,26 @@
 			<br />
 
 			<input type='submit' value='Submit' />
+
 		</form>
+	</section>
+	<section>
+		<h2>Ideone Account</h2>
+		<form action='/settings' method='POST'>
+			<input type='hidden' name='form_id' value='ideone' />
+
+			<label>Username:				<input type='text' name='ideone_username' value='{{ideone_username}}' />
+</label>
+			<br />
+
+			<label>API Password:				<input type='password' name='ideone_password' value='{{ideone_password}}' />
+</label>
+			<br />
+			<div class='error'>{{ ideone_error }}</div>
+
+			<input type='submit' value='Submit' />
+		</form>
+		<p>{{ ideone_message }}</p>
+
 	</section>
 {% endblock %}

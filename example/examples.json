@@ -40,5 +40,12 @@
 		"description":"This program uses strcmp to compare strings. Change the string to see what happens.",
 		"start_code":"#include<stdio.h>\n#include<string.h>\n\nint main()\n{\n\tchar country[1000] = \"America\";\n\n\tif(strcmp(country, \"Thailand\") == 0)\n\t\tprintf(\"Welcome home!\\n\");\n\telse\n\t\tprintf(\"Have fun on your holiday!\\n\");\n\treturn 0;\n}",
 		"takes_input":false
+	},
+	{	"name":"A conversation with your computer",
+		"url":"conversation",
+		"description":"You can think about printf() as the computer talking and scanf() as the computer listening.",
+		"start_code":"#include<stdio.h>\n\nint main()\n{\n\tprintf(\"Hello, what is your name?\\n\");\n\n\tchar name[1000];\n\tscanf(\"%s\", name);\n\n\tprintf(\"What room are you in, %s?\\n\", name);\n\n\tint room = 0;\n\tscanf(\"%d\", &room);\n\n\tprintf(\"Room %d is a good room!\\n\", room);\n\treturn 0;\n}",
+		"takes_input":true,
+		"test_input":"Joe\n10\n"
 	}
 ]

@@ -89,8 +89,7 @@ strcpy(name, "Chris");
 };
 
 typedef struct person Person;
-</code></pre>
-<p>Let's make a <code>Person</code> and allocate space for them:</p>
+</code></pre><p>Let's make a <code>Person</code> and allocate space for them:</p>
 <pre><code>Person *new_person = (Person *)malloc(sizeof(Person));
 </code></pre>
 <p>In that one line, we allocated space for a pointer, an <code>int</code> and a <code>float</code>. We still need to allocate space for <code>name</code>, because right now it is pointing to nothing:</p>
@@ -150,18 +149,23 @@ printf("The 500th letter in your name is: %c.", name[500]);
 </code></pre>
 <h3>Accidental memory leaks</h3>
 <p>Let's look at these two integer pointers:</p>
-<p>int <em>a, </em>b;
-a = (int <em>)malloc(sizeof(int));
-</em>a = 5;</p>
-<p>b = (int <em>)malloc(sizeof(int));
-</em>b = 7;</p>
+<pre><code>int *a, *b;
+a = (int *)malloc(sizeof(int));
+*a = 5;
+
+b = (int *)malloc(sizeof(int));
+*b = 7;
+</code></pre>
 <p>Now see if you can spot the problem in this code:</p>
-<p>int <em>a, </em>b;
-a = (int <em>)malloc(sizeof(int));
-</em>a = 5;</p>
-<p>b = (int <em>)malloc(sizeof(int));
-</em>b = 7;</p>
-<p>b = &a;</p>
+<pre><code>int *a, *b;
+a = (int *)malloc(sizeof(int));
+*a = 5;
+
+b = (int *)malloc(sizeof(int));
+*b = 7;
+
+b = &amp;a;
+</code></pre>
 <p>Now <code>b</code> is pointing to the same thing as <code>a</code>. What about the space that <code>b</code> was pointing to? It is lost. Somewhere in the memory, the number <code>7</code> is floating around, with nothing pointing to it. Nobody can use that memory until the computer restarts.</p>
 <p>These kinds of memory leaks can be hard to spot, so keep an eye out for them, and try using tools like <a href="http://www.linkdata.se/sourcecode/memwatch/">memwatch</a> to find leaks in your program.</p>
 <h3>Running out of memory</h3>

@@ -119,6 +119,7 @@
 
 				typedef struct person Person;
 
+		:markdown
 			Let's make a `Person` and allocate space for them:
 
 				Person *new_person = (Person *)malloc(sizeof(Person));
@@ -199,23 +200,23 @@
 
 			Let's look at these two integer pointers:
 
-			int *a, *b;
-			a = (int *)malloc(sizeof(int));
-			*a = 5;
+				int *a, *b;
+				a = (int *)malloc(sizeof(int));
+				*a = 5;
 
-			b = (int *)malloc(sizeof(int));
-			*b = 7;
+				b = (int *)malloc(sizeof(int));
+				*b = 7;
 
 			Now see if you can spot the problem in this code:
 
-			int *a, *b;
-			a = (int *)malloc(sizeof(int));
-			*a = 5;
+				int *a, *b;
+				a = (int *)malloc(sizeof(int));
+				*a = 5;
 
-			b = (int *)malloc(sizeof(int));
-			*b = 7;
+				b = (int *)malloc(sizeof(int));
+				*b = 7;
 
-			b = &a;
+				b = &a;
 
 			Now `b` is pointing to the same thing as `a`. What about the space that `b` was pointing to? It is lost. Somewhere in the memory, the number `7` is floating around, with nothing pointing to it. Nobody can use that memory until the computer restarts.
 

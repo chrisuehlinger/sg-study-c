@@ -25,7 +25,7 @@ $(document).ready ->
     request = $.ajax 
       url: document.URL
       type: 'POST'
-      data: {'action':'test', 'code': myCodeMirror.getValue()}
+      data: {'action':'test', 'code': myCodeMirror.getValue(), 'input':$('#input').val()}
       dataType: 'json'
       beforeSend: beforeSubmit
       success: receiveResponse
@@ -36,7 +36,7 @@ $(document).ready ->
     request = $.ajax 
       url: document.URL
       type: 'POST'
-      data: {'action':'check', 'code': myCodeMirror.getValue(), 'input':$('#input').text() }
+      data: {'action':'check', 'code': myCodeMirror.getValue()}
       dataType: 'json'
       beforeSend: beforeSubmit
       success: receiveResponse
@@ -49,12 +49,13 @@ beforeSubmit = ->
   document.getElementById('submit-test').disabled = true
   document.getElementById('submit-check').disabled = true
   document.getElementById('input').disabled = true
+
   $('#output').hide()
   $('#cmpinfo').hide()
   $('#message').text "Submitting..."
+  $('.attribution').text ""
 
-receiveResponse = (data) ->
-  response = data
+receiveResponse = (response) ->
   if response.cmpinfo?
     $('#cmpinfo').show()
     $('#cmpinfo').find('div.code').html response.cmpinfo
@@ -69,6 +70,7 @@ receiveResponse = (data) ->
   document.getElementById('submit-check').disabled = false
   document.getElementById('input').disabled = false
   $('#message').html response.message 
+  $('.attribution').html response.provider
 
 receiveError = (jqXHR, textStatus, errorThrown) ->
   document.getElementById('submit-test').disabled = false

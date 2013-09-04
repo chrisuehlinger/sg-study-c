@@ -100,9 +100,10 @@ class ExerciseHandler(UserHandler):
 		program = exercise.outside_code.format(submission)
 		action = self.request.get('action')
 
+
 		response = dict()
 		if action == 'check':
-			response = exercise.checker.checkWork(program)
+			response = exercise.checker.checkWork(program, self.username)
 			if response['passed']:
 				user = User.query().filter('username = ', self.username).get()
 				if user and (not exercise.key() in user.exercises_completed):
@@ -111,8 +112,8 @@ class ExerciseHandler(UserHandler):
 
 		elif action == 'test':
 			message = ''
-			client = IdeoneClient()
-			response = client.submit(program, self.request.get('input'))
+			logging.info(self.request.get('input'))
+			response = exercise.checker.submit(program, self.username, self.request.get('input'))
 			
 			if (response['error'] != "OK" or 
 				int(response['result']) != 15 or 

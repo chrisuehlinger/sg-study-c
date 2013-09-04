@@ -53,6 +53,8 @@ class ExampleHandler(UserHandler):
 		submission = self.request.get('code')
 
 		message = ''
+
+
 		client = IdeoneClient()
 		response = client.submit(submission, self.request.get('input'))
 		if (response['error'] != "OK" or 

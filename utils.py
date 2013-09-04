@@ -46,7 +46,7 @@ index = [	{'group':'The Basics', 'topics': [	{'url':"basic_syntax", 'topic_name'
 			{'group':'Values', 'topics': [		{'url':"variables", 'topic_name':"Variables and Types", 'examples':[]},
 												{'url':"constants", 'topic_name':"Constants", 'examples':['constant']},
 												{'url':"strings", 'topic_name':"Strings", 'examples':['strcmp']},
-												{'url':"input_output", 'topic_name':"Input and Output", 'examples':[]}]
+												{'url':"input_output", 'topic_name':"Input and Output", 'examples':['conversation']}]
 			}, 
 			{'group':'Control Flow', 'topics':[ {'url':"conditions", 'topic_name':"If, Else and Conditions", 'examples':['logical_operators', 'strcmp']},
 												{'url':"switch_case", 'topic_name':"Switch-Case Statements", 'examples':[]},

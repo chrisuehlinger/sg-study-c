@@ -8,6 +8,7 @@ import string
 from utils import db
 import logging
 from ideoneclient import IdeoneClient
+from coliruclient import ColiruClient
 import difflib
 from google.appengine.ext import blobstore
 from google.appengine.ext.webapp import blobstore_handlers
@@ -20,13 +21,27 @@ class ExerciseChecker(utils.Model):
 	outputs      = db.ListProperty(db.Text)
 	keywords     = db.ListProperty(unicode)
 
-	def checkWork(self, submission):
+	def submit(self, submission, username="", the_input=""):
+		col_client = ColiruClient()
+		response = col_client.submit(submission, the_input)
+
+		if response['error'] != "OK":
+			client = ideoneclient.IdeoneClient()
+			user = User.query().filter('username = ', username).get()
+			if user and user.ideone_acct:
+				client.change_account(user.ideone_acct)
+
+			response = client.submit(submission, the_input)
+
+		return response
+
+	def checkWork(self, submission, username=""):
 		message = ''
 		passed = True
 		response = dict()
 
 		if "Input/Output" in self.test_methods:
-			test_result = self.ioTest(submission)
+			test_result = self.ioTest(submission, username)
 			if not test_result['passed']:
 				passed = False
 			message = message + test_result['message']
@@ -39,7 +54,7 @@ class ExerciseChecker(utils.Model):
 			message = message + test_result['message']
 
 		if "Randomness Test" in self.test_methods and passed:
-			test_result = self.checkRandom(submission)
+			test_result = self.checkRandom(submission, username)
 			if not test_result['passed']:
 				passed = False
 			message = message + test_result['message']
@@ -52,13 +67,12 @@ class ExerciseChecker(utils.Model):
 		
 		return response
 
-	def ioTest(self, submission):
-		client   = IdeoneClient()
+	def ioTest(self, submission, username=""):
 		passed   = True
 		message  = ""
 		response = dict()
 		for i in self.inputs:
-			response = client.submit(submission, i)
+			response = self.submit(submission, username, the_input=i)
 			expected_output = string.replace(self.outputs[self.inputs.index(i)], '\n', '')
 
 			if (response['error'] != "OK" or 
@@ -90,14 +104,13 @@ class ExerciseChecker(utils.Model):
 				message = "You did not use '%s'" % word
 		return {'passed':passed, 'message':message}
 
-	def checkRandom(self, submission):
-		client = IdeoneClient()
+	def checkRandom(self, submission, username=""):
 		message = ''
 		passed = True
 
-		response = list(client.submit(submission))
+		response = list(self.submit(submission, username=username))
 		for x in xrange(1,3):
-			response.append(client.submit(submission))
+			response.append(self.submit(submission, username=username))
 			for y in xrange(0,x-1):
 				if (not response[x]['output'] or 
 					not response[y]['output'] or 

@@ -6,6 +6,7 @@ import random
 import string
 from exercise.models import Exercise
 import re
+from ideoneclient import IdeoneAccount
 
 warmups = [{ 'username':'chris',
 			 'password':'1234',
@@ -48,6 +49,7 @@ class User(utils.Model):
 	number=db.IntegerProperty()
 
 	exercises_completed=db.ListProperty(db.Key)
+	ideone_acct = db.ReferenceProperty(IdeoneAccount, default=None)
 
 	#Preferences
 	pref_css=db.StringProperty(default="the_new_style")
@@ -64,6 +66,12 @@ class User(utils.Model):
 	def valid_pw(self, name, pw):
 		if make_pw_hash(name,pw,self.password.split(',')[1]) == self.password:
 			return True
+
+	def register_ideone(self, name, pw):
+		acct = IdeoneAccount(user=name, password=pw)
+		acct.put()
+		self.ideone_acct = acct
+		self.put()
 
 	@classmethod
 	def username_free(cls, username):

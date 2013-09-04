@@ -5,13 +5,18 @@
 <html>
 	<head>
 		<title>{{page['topic_name']}} - St. Gabriel's C Study Guide</title>
+
+<!-- Basics -->
 		<link href='/static/stylesheets/{{ stylesheet }}.css' type='text/css' rel='stylesheet' />
 		<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js' type='text/javascript' language='Javascript'></script>
+<!-- CodeMirror -->
 		<script src='/static/js/codemirror-compressed.js' type='text/javascript' language='Javascript'></script>
 		<link href='/static/codemirror/theme/{{ codemirror_theme }}.css' rel='stylesheet' />
 		<meta content='{{ codemirror_theme }}' name='CodeMirrorTheme' />
-<!-- -if codemirror_theme != 'neat' -->
-<!-- %link{rel:"stylesheet", href:"/static/codemirror/theme/neat.css"} -->
+
+<!-- Syntax Highlighting -->
+		<link href='/static/stylesheets/highlight/magula.css' rel='stylesheet' />
+		<script src='/static/js/highlight.pack.js'></script>
 		<script src='/static/js/base.js' type='text/javascript' language='Javascript'></script>
 		{% block scripts %}
 

@@ -39,10 +39,13 @@ class LessonHandler(UserHandler):
 	def user_post(self, *args):
 		submission = self.request.get('code')
 		message = ''
-		client = ideoneclient.IdeoneClient()
-		response = client.submit(submission, self.request.get('input'))
-		if response['error'] != "OK" or int(response['result']) != 15 or response['output'] is None:
-			message = response['error_message']
+		
+		response = Example.submit(submission, self.username, self.request.get('input'))
+
+		if (response['error'] != "OK" or 
+			int(response['result']) != 15 or 
+			response['output'] is None):
+				message = response['error_message']
 
 		response['message'] = message
 

@@ -868,3 +868,6 @@ table.array {
   word-wrap: break-word;
   overflow: hidden;
   max-height: 700px; }
+
+.attribution {
+  font-size: 0.75em; }

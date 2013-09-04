@@ -64,7 +64,8 @@
         type: 'POST',
         data: {
           'action': 'test',
-          'code': myCodeMirror.getValue()
+          'code': myCodeMirror.getValue(),
+          'input': $('#input').val()
         },
         dataType: 'json',
         beforeSend: beforeSubmit,
@@ -80,8 +81,7 @@
         type: 'POST',
         data: {
           'action': 'check',
-          'code': myCodeMirror.getValue(),
-          'input': $('#input').text()
+          'code': myCodeMirror.getValue()
         },
         dataType: 'json',
         beforeSend: beforeSubmit,
@@ -98,12 +98,11 @@
     document.getElementById('input').disabled = true;
     $('#output').hide();
     $('#cmpinfo').hide();
-    return $('#message').text("Submitting...");
+    $('#message').text("Submitting...");
+    return $('.attribution').text("");
   };
 
-  receiveResponse = function(data) {
-    var response;
-    response = data;
+  receiveResponse = function(response) {
     if (response.cmpinfo != null) {
       $('#cmpinfo').show();
       $('#cmpinfo').find('div.code').html(response.cmpinfo);
@@ -115,7 +114,8 @@
     document.getElementById('submit-test').disabled = false;
     document.getElementById('submit-check').disabled = false;
     document.getElementById('input').disabled = false;
-    return $('#message').html(response.message);
+    $('#message').html(response.message);
+    return $('.attribution').html(response.provider);
   };
 
   receiveError = function(jqXHR, textStatus, errorThrown) {

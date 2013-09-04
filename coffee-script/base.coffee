@@ -1,3 +1,13 @@
+# Syntax Highlighting
+hljs.initHighlightingOnLoad()
+
+c_keywords = {
+  'auto', 'break', 'case', 'char', 'const', 'continue', 'default', 'do', 
+  'double', 'else', 'enum', 'extern', 'float', 'for', 'goto', 'if', 'int', 
+  'long', 'register', 'return', 'short', 'signed', 'sizeof', 'static', 'struct', 
+  'switch', 'typedef', 'union', 'unsigned', 'void', 'volatile', 'while'
+  }
+
 class Example
   constructor: (@figure) ->
     @textArea = @figure.getElementsByTagName('textarea')[0]
@@ -7,7 +17,7 @@ class Example
       'lineNumbers':true
       'mode':
         'name':'text/x-csrc'
-        'keywords': {'auto', 'break', 'case', 'char', 'const', 'continue', 'default', 'do', 'double', 'else', 'enum', 'extern', 'float', 'for', 'goto', 'if', 'int', 'long', 'register', 'return', 'short', 'signed', 'sizeof', 'static', 'struct', 'switch', 'typedef', 'union', 'unsigned', 'void', 'volatile', 'while'}
+        'keywords': c_keywords
         'useCPP':true
       'indentUnit':4
       'value': @start_code
@@ -23,7 +33,7 @@ class Example
       e.preventDefault()
       input = ''
       if $(@figure).find('input#std-input')
-        input = $(@figure).find('input#std-input').text()
+        input = $(@figure).find('input#std-input').val()
 
       request = $.ajax 
         url: document.URL
@@ -35,11 +45,6 @@ class Example
       request.done @receiveResponseExample
       request.fail @receiveErrorExample
 
-      # http = new XMLHttpRequest()
-      # http.open "POST", "http://coliru.stacked-crooked.com/compile", false
-      # http.send(JSON.stringify({ "cmd": "cat main.cpp > main.c; gcc-4.8 main.c", "src": "#include<stdio.h>\\nint main() { \\nprintf(\\"Hello World\\"); return 0; }" }))
-      # alert http.response
-
       false
 
     $(@figure).find('input#reset').click (e) =>
@@ -50,6 +55,7 @@ class Example
 
   beforeSubmitExample: =>
     $(@figure).find('#message').text "Submitting..."
+    $(@figure).find('.attribution').text ""
 
     $(@figure).find('#std-output').hide()
     $(@figure).find('#cmpinfo').hide()
@@ -59,6 +65,7 @@ class Example
 
   receiveResponseExample: (response) =>
     $(@figure).find('#message').html response.message 
+    $(@figure).find('.attribution').html response.provider
 
     if response.cmpinfo?
       $(@figure).find('#cmpinfo').show()
@@ -102,21 +109,9 @@ submitSuggestion = ->
         document.getElementById('suggestion-input').disabled = false
         $('#suggestion-input').val "Site Error: #{textStatus} - #{errorThrown}"
 
-sample = (el) ->
-  $(el).addClass 'cm-s-neat'
-  the_code = $(el).find('code').text()
-  the_mode = 
-    'name':'text/x-csrc'
-    'keywords': {'auto', 'break', 'case', 'char', 'const', 'continue', 'default', 'do', 'double', 'else', 'enum', 'extern', 'float', 'for', 'goto', 'if', 'int', 'long', 'register', 'return', 'short', 'signed', 'sizeof', 'static', 'struct', 'switch', 'typedef', 'union', 'unsigned', 'void', 'volatile', 'while'}
-    'useCPP':true
-  # CodeMirror.runMode(the_code, 'text/x-csrc', el)
-
 $(document).ready -> 
   $('figure.example').each ->
     new Example @
-
-  $('pre').each ->
-    sample @
 
   # suggestion box
   $('form#suggestion-box').submit (e) ->

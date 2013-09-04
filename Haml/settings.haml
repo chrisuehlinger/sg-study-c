@@ -43,3 +43,21 @@
 			%br
 			
 			%input{type:'submit', value:'Submit'}
+
+	%section
+		%h2 Ideone Account
+		%form{action:"/settings", method:"POST"}
+			%input{type:'hidden', name:'form_id', value:'ideone'}
+
+			%label Username:
+				%input{name:"ideone_username", type:"text", value:"{{ideone_username}}"}
+			%br
+
+			%label API Password:
+				%input{name:"ideone_password", type:"password", value:"{{ideone_password}}"}
+			%br
+			.error= ideone_error
+
+			%input{type:'submit', value:'Submit'}
+		%p= ideone_message
+

@@ -1,5 +1,3 @@
-# from user import User
-# import user
 from xml.dom import minidom
 import urllib, urllib2
 from google.appengine.api import urlfetch
@@ -30,20 +28,18 @@ resultCodes = {
 '20': "internal error - some problem occurred on ideone.com; try to submit the paste again and if that fails too, then please contact us."
 }
 
+class IdeoneAccount(utils.Model):
+	user=db.StringProperty(required=True)
+	password=db.StringProperty(required=True)
+	remaining=db.IntegerProperty(default=1000)
+	next_update=db.DateTimeProperty()
+
+
 class IdeoneClient(object):
 	credentials = {'user': 'sgstudyingc', 'pass': 'sg1234', 'remaining':1000}
-	_instance = None
-
-	def __new__(cls, *args, **kwargs):
-		if not cls._instance:
-			cls._instance = super(IdeoneClient, cls).__new__(cls, *args, **kwargs)
-		self = cls._instance
-		return cls._instance
 
 	def SOAPRequest(self, operation, input_parameters={}):
 		parameters = dict(self.credentials.items() + input_parameters.items())
-		# for k in parameters.keys():
-		# 	logging.info("Paramenters - " + repr(k) + ": " + repr(parameters[k]))
 
 		request = utils.render_str("soap/" + operation + ".xml", parameters)
 		response = None
@@ -73,8 +69,24 @@ class IdeoneClient(object):
 		logging.error(errorString)
 		return {'error':errorCode, 'error_message':errorString}
 
+	def change_account(self, account):
+		self.credentials = {'user':account.user,
+							'pass':account.password,
+							'remaining':account.remaining}
+
+	def test_account(self, account):
+		self.credentials = {'user':account.user,
+							'pass':account.password,
+							'remaining':account.remaining}
+
+		test = self.SOAPRequest("testFunction")
+
+		[logging.info("Test:" + k + " " + test[k]) for k in test.keys()]
+
+		if test['error'] and test['error'] == 'OK':
+			return True
+
 	def submit(self, program, the_input=""):
-		#self.SOAPRequest("testFunction")
 		parameters = {	'code': program,
 						'input':the_input}
 		response = self.SOAPRequest("createSubmission", parameters)
@@ -104,4 +116,5 @@ class IdeoneClient(object):
 		for k in response.keys():
 			logging.info("Response - " + k + ": " + repr(response[k]))
 
+		response['provider'] = 'Powered by <a href="http://ideone.com">www.ideone.com</a> &copy; by <a href="http://sphere-research.com"> Sphere Research Labs'
 		return response
